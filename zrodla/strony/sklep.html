@@ -1,0 +1,24 @@
+<!--META
+{"title":"Sklep","description":"Wszystkie bransoletki SOLUM: kamień naturalny, bursztyn bałtycki, drewno, skóra garbowana roślinnie, len i jedwab. Robione ręcznie w Polsce.","active":"sklep.html","scripts":["shop"],"bodyClass":"page-shop"}
+-->
+<div class="wrap">
+  <header class="page-top">
+    <h1 class="h-page">Wszystkie bransoletki</h1>
+    <p>Dwanaście modeli, każdy w kilku wariantach. Wybierz materiał, a resztę dopasujesz na stronie bransoletki.</p>
+  </header>
+  <div class="filters">
+    <div class="chips" role="group" aria-label="Filtruj po materiale">{{filters}}</div>
+    <div class="sort">
+      <span class="result-note" data-result-note role="status"></span>
+      <label for="sort">Sortuj</label>
+      <select id="sort" data-sort>
+        <option value="">Polecane</option>
+        <option value="asc">Cena: od najniższej</option>
+        <option value="desc">Cena: od najwyższej</option>
+      </select>
+    </div>
+  </div>
+  <div class="grid-cards" data-catalog>
+{{cards:all}}
+  </div>
+</div>

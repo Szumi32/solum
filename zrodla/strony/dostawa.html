@@ -1,0 +1,34 @@
+<!--META
+{"title":"Dostawa i płatności","description":"Sposoby i koszty dostawy w sklepie SOLUM: InPost, Orlen Paczka, DPD, odbiór w pracowni. Darmowa dostawa od 400 zł. Płatności BLIK, Przelewy24, karta, przelew.","scripts":[],"bodyClass":"page-text"}
+-->
+<div class="wrap">
+  <header class="page-top">
+    <h1 class="h-page">Dostawa i płatności</h1>
+    <p>Bransoletki robimy ręcznie po złożeniu zamówienia i nadajemy je w {{dispatchDays}} dni robocze. Do tego dochodzi czas dostawy wybranego przewoźnika.</p>
+  </header>
+  <section class="mat-section">
+    <h2 class="h-section" style="margin-bottom:20px">Dostawa na terenie Polski</h2>
+    {{table:shipping}}
+    <p class="form-note" style="margin-top:12px">Próg darmowej dostawy liczymy od wartości produktów po rabacie, bez kosztu opakowania na prezent.</p>
+  </section>
+  <section class="mat-section">
+    <div class="two-col">
+      <h2 class="h-section">Płatności</h2>
+      <div>
+        {{list:payments}}
+        <p class="form-note" style="margin-top:12px">Przy przelewie tradycyjnym zaczynamy pracę po zaksięgowaniu wpłaty. Na wpłatę czekamy 5 dni roboczych, a potem anulujemy zamówienie.</p>
+      </div>
+    </div>
+  </section>
+  <section class="mat-section">
+    <div class="two-col">
+      <h2 class="h-section">Dobrze wiedzieć</h2>
+      <div class="acc">
+        <details open><summary>Jak długo czeka się na zamówienie?</summary><p>Standardowo około 4–5 dni roboczych: {{dispatchDays}} dni na wykonanie i 1–2 dni na dostawę. Przed świętami może to potrwać dłużej i napiszemy o tym na stronie głównej.</p></details>
+        <details><summary>Czy wysyłacie za granicę?</summary><p>Tak, ale wycena jest indywidualna. <a href="kontakt.html">Napisz do nas</a>, podając kraj i listę produktów.</p></details>
+        <details><summary>Czy dostanę fakturę?</summary><p>Tak. Zaznacz fakturę podczas składania zamówienia i podaj NIP. Paragon wysyłamy w formie elektronicznej.</p></details>
+        <details><summary>Paczka dotarła uszkodzona. Co teraz?</summary><p>Spisz z kurierem protokół szkody, jeśli to możliwe, i <a href="kontakt.html">napisz do nas</a>. Brak protokołu nie odbiera Ci prawa do reklamacji.</p></details>
+      </div>
+    </div>
+  </section>
+</div>

@@ -1,0 +1,273 @@
+[
+  {
+    "slug": "lawica",
+    "name": "Ławica",
+    "category": "kamien",
+    "price": 420,
+    "featured": 1,
+    "tagline": "Krzemień pasiasty z Gór Świętokrzyskich",
+    "lead": "Każdy koralik ma własny układ pasm, bo krzemień pasiasty nie powtarza wzoru. Występuje tylko w Polsce, a my nawlekamy go na grafitowy jedwab.",
+    "story": [
+      "Krzemień pasiasty wydobywa się w okolicach Ożarowa i Sandomierza. Pasma szarości, grafitu i kości słoniowej układały się w nim przez miliony lat.",
+      "Dobieramy koraliki ręcznie, tak żeby jasne i ciemne pasma rozkładały się równo na całym obwodzie. Dwie bransoletki Ławica nigdy nie będą takie same."
+    ],
+    "materials": [["Koraliki", "krzemień pasiasty, polerowany"], ["Nić", "jedwab, grafitowy"], ["Zapięcie", "przesuwny węzeł z tej samej nici"]],
+    "stone": "krzemien",
+    "closure": "knot",
+    "weight": "ok. 16 g",
+    "variantLabel": "Średnica koralika",
+    "variants": [
+      {"id": "8mm", "label": "8 mm", "swatchText": "8", "model": {"type": "beads", "mats": ["krzemien"], "d": 0.8, "cord": "silk_grafit"}},
+      {"id": "6mm", "label": "6 mm", "swatchText": "6", "priceDelta": -60, "model": {"type": "beads", "mats": ["krzemien"], "d": 0.6, "cord": "silk_grafit"}},
+      {"id": "10mm", "label": "10 mm", "swatchText": "10", "priceDelta": 90, "model": {"type": "beads", "mats": ["krzemien"], "d": 1.0, "cord": "silk_grafit"}}
+    ]
+  },
+  {
+    "slug": "pasmo",
+    "name": "Pasmo",
+    "category": "kamien",
+    "price": 340,
+    "featured": 2,
+    "tagline": "Jeden kamień na całym obwodzie",
+    "lead": "Najprostsza bransoletka w kolekcji: koraliki 8 mm z jednego kamienia, jedwabna nić i przesuwny węzeł. Wybierz kamień, który lubisz nosić.",
+    "story": [
+      "Pasmo powstało do codziennego noszenia. Nie ma w nim metalowych elementów, więc nie dzwoni o klawiaturę i nie drapie zegarka.",
+      "Kamienie kupujemy jako surowe, niebarwione partie i sortujemy je ręcznie pod kątem koloru. Naturalne różnice między koralikami zostają, bo to one odróżniają kamień od szkła."
+    ],
+    "materials": [["Koraliki", "wybrany kamień naturalny, polerowany"], ["Nić", "jedwab"], ["Zapięcie", "przesuwny węzeł z tej samej nici"]],
+    "closure": "knot",
+    "weight": "ok. 15 g",
+    "variantLabel": "Kamień",
+    "variants": [
+      {"id": "lapis", "label": "Lapis lazuli", "stone": "lapis", "model": {"type": "beads", "mats": ["lapis"], "d": 0.8, "cord": "silk_grafit"}},
+      {"id": "nefryt", "label": "Nefryt", "stone": "nefryt", "model": {"type": "beads", "mats": ["nefryt"], "d": 0.8, "cord": "silk_mech"}},
+      {"id": "obsydian", "label": "Obsydian", "stone": "obsydian", "model": {"type": "beads", "mats": ["obsydian"], "d": 0.8, "cord": "silk_grafit"}},
+      {"id": "tygrysie-oko", "label": "Tygrysie oko", "stone": "tygrysie_oko", "model": {"type": "beads", "mats": ["tygrysie_oko"], "d": 0.8, "cord": "silk_glina"}},
+      {"id": "kwarc", "label": "Kwarc różowy", "stone": "kwarc", "model": {"type": "beads", "mats": ["kwarc"], "d": 0.8, "cord": "silk_piasek"}},
+      {"id": "amazonit", "label": "Amazonit", "stone": "amazonit", "model": {"type": "beads", "mats": ["amazonit"], "d": 0.8, "cord": "silk_piasek"}}
+    ]
+  },
+  {
+    "slug": "okruch",
+    "name": "Okruch",
+    "category": "bursztyn",
+    "price": 590,
+    "featured": 3,
+    "tagline": "Bursztyn bałtycki w nieregularnych okruchach",
+    "lead": "Okruchy bursztynu zachowują kształt, jaki nadało im morze. Szlifujemy je tylko tyle, żeby były gładkie w dotyku, i nawlekamy na jedwab.",
+    "story": [
+      "Bursztyn jest ciepły i lekki, więc bransoletka prawie nie waży. Pod światło widać w nim chmurki i drobne wrostki, które świadczą o naturalnym pochodzeniu.",
+      "Nie podgrzewamy i nie prasujemy surowca. Kolor koniaku, miodu i mleka pochodzi z samej żywicy."
+    ],
+    "materials": [["Okruchy", "bursztyn bałtycki, szlifowany ręcznie"], ["Nić", "jedwab, piaskowy"], ["Zapięcie", "przesuwny węzeł z tej samej nici"]],
+    "stone": "bursztyn",
+    "closure": "knot",
+    "weight": "ok. 8 g",
+    "variantLabel": "Kolor bursztynu",
+    "variants": [
+      {"id": "koniak", "label": "Koniak", "model": {"type": "beads", "mats": ["bursztyn_koniak"], "d": 1.05, "shape": "nugget", "cord": "silk_piasek"}},
+      {"id": "miod", "label": "Miód", "model": {"type": "beads", "mats": ["bursztyn_miod"], "d": 1.05, "shape": "nugget", "cord": "silk_piasek"}},
+      {"id": "krolewski", "label": "Mleczny", "priceDelta": 80, "model": {"type": "beads", "mats": ["bursztyn_krolewski"], "d": 1.05, "shape": "nugget", "cord": "silk_piasek"}}
+    ]
+  },
+  {
+    "slug": "sloje",
+    "name": "Słoje",
+    "category": "drewno",
+    "price": 290,
+    "featured": 4,
+    "tagline": "Toczone koraliki z litego drewna",
+    "lead": "Koraliki 10 mm toczone z jednego kawałka drewna i wykańczane olejem lnianym. Lekkie, ciepłe w dotyku i z czasem coraz ładniejsze.",
+    "story": [
+      "Dąb bagienny przeleżał w ziemi setki lat i naturalnie ściemniał. Oliwka ma żywe, ciemne żyłki, a orzech równy, czekoladowy rysunek słojów.",
+      "Drewno nie jest lakierowane. Olej wnika w pory, więc bransoletka nabiera głębszego koloru wraz z noszeniem."
+    ],
+    "materials": [["Koraliki", "lite drewno, olej lniany"], ["Nić", "len naturalny, woskowany woskiem pszczelim"], ["Zapięcie", "przesuwny węzeł z tej samej nici"]],
+    "closure": "knot",
+    "wood": true,
+    "weight": "ok. 7 g",
+    "variantLabel": "Drewno",
+    "variants": [
+      {"id": "dab-bagienny", "label": "Dąb bagienny", "priceDelta": 70, "woodType": "dab_bagienny", "model": {"type": "beads", "mats": ["dab_bagienny"], "d": 1.0, "cord": "linen"}},
+      {"id": "oliwka", "label": "Oliwka", "woodType": "oliwka", "model": {"type": "beads", "mats": ["oliwka"], "d": 1.0, "cord": "linen"}},
+      {"id": "orzech", "label": "Orzech", "woodType": "orzech", "model": {"type": "beads", "mats": ["orzech"], "d": 1.0, "cord": "linen"}}
+    ]
+  },
+  {
+    "slug": "poklad",
+    "name": "Pokład",
+    "category": "kamien",
+    "price": 360,
+    "featured": 5,
+    "tagline": "Drewno i kamień w równym rytmie",
+    "lead": "Trzy koraliki drewna, jeden kamienia. Powtarzalny układ daje bransoletce spokojny rytm, a połączenie dwóch materiałów dobrze wygląda obok zegarka.",
+    "story": [
+      "Pokład to warstwa skały w złożu. W tej bransoletce warstwy tworzą koraliki: matowe drewno przerywane polerowanym kamieniem.",
+      "Pary materiałów dobieramy tak, żeby się uzupełniały: ciemny dąb z krzemieniem, jasna oliwka z amazonitem, orzech z tygrysim okiem."
+    ],
+    "materials": [["Koraliki", "lite drewno i kamień naturalny"], ["Nić", "len naturalny, woskowany"], ["Zapięcie", "przesuwny węzeł z tej samej nici"]],
+    "closure": "knot",
+    "weight": "ok. 11 g",
+    "variantLabel": "Zestawienie",
+    "variants": [
+      {"id": "dab-krzemien", "label": "Dąb bagienny i krzemień", "stone": "krzemien", "woodType": "dab_bagienny", "model": {"type": "beads", "mats": ["dab_bagienny", "dab_bagienny", "dab_bagienny", "krzemien"], "d": 0.8, "cord": "linen"}},
+      {"id": "oliwka-amazonit", "label": "Oliwka i amazonit", "stone": "amazonit", "woodType": "oliwka", "model": {"type": "beads", "mats": ["oliwka", "oliwka", "oliwka", "amazonit"], "d": 0.8, "cord": "linen"}},
+      {"id": "orzech-tygrys", "label": "Orzech i tygrysie oko", "stone": "tygrysie_oko", "woodType": "orzech", "model": {"type": "beads", "mats": ["orzech", "orzech", "orzech", "tygrysie_oko"], "d": 0.8, "cord": "linen"}}
+    ]
+  },
+  {
+    "slug": "morena",
+    "name": "Morena",
+    "category": "kamien",
+    "price": 480,
+    "featured": 6,
+    "tagline": "Duże otoczaki, każdy inny",
+    "lead": "Kamienie o nieregularnym kształcie, obtaczane w bębnie przez kilka tygodni. Najbardziej wyrazista bransoletka w kolekcji, ale wciąż lekka na nadgarstku.",
+    "story": [
+      "Morena to materiał niesiony przez lodowiec i odkładany w przypadkowym porządku. Tak właśnie układamy otoczaki: od największych po mniejsze, bez symetrii.",
+      "Kamienie nie są cięte. Kształt nadaje im obróbka w bębnie, a my wiercimy otwór i dobieramy kolejność."
+    ],
+    "materials": [["Otoczaki", "kamień naturalny, 12 do 16 mm"], ["Nić", "gruby len, woskowany"], ["Zapięcie", "przesuwny węzeł z tej samej nici"]],
+    "closure": "knot",
+    "weight": "ok. 28 g",
+    "variantLabel": "Kamień",
+    "variants": [
+      {"id": "krzemien", "label": "Krzemień pasiasty", "stone": "krzemien", "model": {"type": "beads", "mats": ["krzemien"], "d": 1.4, "shape": "pebble", "cord": "linen"}},
+      {"id": "obsydian", "label": "Obsydian", "stone": "obsydian", "model": {"type": "beads", "mats": ["obsydian"], "d": 1.4, "shape": "pebble", "cord": "linen"}},
+      {"id": "amazonit", "label": "Amazonit", "stone": "amazonit", "model": {"type": "beads", "mats": ["amazonit"], "d": 1.4, "shape": "pebble", "cord": "linen"}}
+    ]
+  },
+  {
+    "slug": "uskok",
+    "name": "Uskok",
+    "category": "kamien",
+    "price": 390,
+    "featured": 7,
+    "tagline": "Połowa kamień, połowa pleciony len",
+    "lead": "Bransoletka przełamana w połowie obwodu: z jednej strony rząd koralików, z drugiej ręcznie pleciony len. Dobrze wygląda z każdej strony nadgarstka.",
+    "story": [
+      "Uskok to miejsce, w którym warstwy skały przesuwają się względem siebie. Tutaj przejście następuje między kamieniem a plecionką.",
+      "Plecionkę wykonujemy trójsplotem z woskowanego lnu. Z czasem mięknie i dopasowuje się do ręki."
+    ],
+    "materials": [["Koraliki", "kamień naturalny, polerowany"], ["Plecionka", "len naturalny, woskowany"], ["Zapięcie", "przesuwny węzeł lniany"]],
+    "closure": "knot",
+    "weight": "ok. 10 g",
+    "variantLabel": "Kamień",
+    "variants": [
+      {"id": "tygrysie-oko", "label": "Tygrysie oko", "stone": "tygrysie_oko", "model": {"type": "half", "mats": ["tygrysie_oko"], "d": 0.7, "cord": "linen"}},
+      {"id": "obsydian", "label": "Obsydian", "stone": "obsydian", "model": {"type": "half", "mats": ["obsydian"], "d": 0.7, "cord": "linen"}},
+      {"id": "kwarc", "label": "Kwarc różowy", "stone": "kwarc", "model": {"type": "half", "mats": ["kwarc"], "d": 0.7, "cord": "linen"}}
+    ]
+  },
+  {
+    "slug": "watek",
+    "name": "Wątek",
+    "category": "wlokno",
+    "price": 189,
+    "featured": 8,
+    "tagline": "Cienki jedwab i drobne kamienie",
+    "lead": "Najdelikatniejsza bransoletka SOLUM: jedwabna nić barwiona roślinnie i pięć kamieni o średnicy 4 mm. Noś ją osobno albo w zestawie z innymi.",
+    "story": [
+      "Jedwab barwimy korą, łupinami orzecha i liśćmi, dlatego odcienie są stonowane i każda partia różni się minimalnie.",
+      "Pięć drobnych kamieni rozkładamy nierówno, żeby wyglądały jak wątki przeplatające osnowę. Waży tyle, że łatwo zapomnieć o jej noszeniu."
+    ],
+    "materials": [["Nić", "jedwab barwiony roślinnie"], ["Kamienie", "kamień naturalny, 4 mm"], ["Zapięcie", "przesuwny węzeł z tej samej nici"]],
+    "closure": "knot",
+    "weight": "ok. 2 g",
+    "variantLabel": "Kolor nici",
+    "variants": [
+      {"id": "glina", "label": "Glina z bursztynem", "stone": "bursztyn", "model": {"type": "strand", "mats": ["bursztyn_miod"], "d": 0.42, "cord": "silk_glina_thick", "count": 5}},
+      {"id": "mech", "label": "Mech z nefrytem", "stone": "nefryt", "model": {"type": "strand", "mats": ["nefryt"], "d": 0.42, "cord": "silk_mech_thick", "count": 5}},
+      {"id": "grafit", "label": "Grafit z krzemieniem", "stone": "krzemien", "model": {"type": "strand", "mats": ["krzemien"], "d": 0.42, "cord": "silk_grafit_thick", "count": 5}}
+    ]
+  },
+  {
+    "slug": "osnowa",
+    "name": "Osnowa",
+    "category": "wlokno",
+    "price": 249,
+    "featured": 9,
+    "tagline": "Lniana plecionka z jednym kamieniem",
+    "lead": "Ręcznie pleciony len z pojedynczym kamieniem 12 mm. Prosta forma, w której najwięcej mówi sam materiał.",
+    "story": [
+      "Plecionka powstaje z trzech pasm woskowanego lnu. Wosk pszczeli chroni włókno i nadaje mu delikatny połysk.",
+      "Jeden kamień to jedna decyzja: wybierz lapis, bursztyn albo obsydian, a resztę pracy wykona len."
+    ],
+    "materials": [["Plecionka", "len naturalny, woskowany"], ["Kamień", "kamień naturalny lub bursztyn, 12 mm"], ["Zapięcie", "przesuwny węzeł lniany"]],
+    "closure": "knot",
+    "weight": "ok. 6 g",
+    "variantLabel": "Kamień",
+    "variants": [
+      {"id": "lapis", "label": "Lapis lazuli", "stone": "lapis", "model": {"type": "braid_stone", "mats": ["lapis"], "d": 1.2, "cord": "linen"}},
+      {"id": "bursztyn", "label": "Bursztyn", "stone": "bursztyn", "model": {"type": "braid_stone", "mats": ["bursztyn_koniak"], "d": 1.2, "cord": "linen"}},
+      {"id": "obsydian", "label": "Obsydian", "stone": "obsydian", "model": {"type": "braid_stone", "mats": ["obsydian"], "d": 1.2, "cord": "linen"}}
+    ]
+  },
+  {
+    "slug": "rzemien",
+    "name": "Rzemień",
+    "category": "skora",
+    "price": 380,
+    "featured": 10,
+    "tagline": "Skóra licowa garbowana roślinnie",
+    "lead": "Szeroki pas skóry garbowanej korą, szyty ręcznie lnianą nicią i zapinany na drewniany kołek. Bez nitów i bez metalu.",
+    "story": [
+      "Skóra garbowana roślinnie jest na początku sztywna, a po kilku tygodniach układa się na nadgarstku. Ciemnieje od słońca i dotyku, więc każda sztuka starzeje się inaczej.",
+      "Szyjemy ściegiem siodlarskim, dwiema igłami naraz. Jeśli jedna nić kiedyś pęknie, szew się nie rozejdzie."
+    ],
+    "materials": [["Pas", "skóra licowa garbowana roślinnie, 12 mm"], ["Szew", "len woskowany, ścieg siodlarski"], ["Zapięcie", "kołek z drewna oliwnego"]],
+    "closure": "toggle",
+    "weight": "ok. 12 g",
+    "variantLabel": "Kolor skóry",
+    "variants": [
+      {"id": "naturalna", "label": "Naturalna", "swatchColor": "#c8a06f", "model": {"type": "leather_band", "tone": "#b98d58"}},
+      {"id": "koniak", "label": "Koniak", "swatchColor": "#8a4f23", "model": {"type": "leather_band", "tone": "#71451f"}},
+      {"id": "ciemna", "label": "Ciemny brąz", "swatchColor": "#3e2a1d", "model": {"type": "leather_band", "tone": "#35221a"}}
+    ]
+  },
+  {
+    "slug": "wezel",
+    "name": "Węzeł",
+    "category": "skora",
+    "price": 340,
+    "featured": 11,
+    "tagline": "Pleciona skóra zamykana drewnem",
+    "lead": "Okrągła plecionka z trzech rzemieni, zamykana toczonym koralikiem z orzecha. Miękka od pierwszego założenia.",
+    "story": [
+      "Rzemienie tniemy z tej samej skóry garbowanej roślinnie co pasy Rzemień, ale cieńszej i bardziej elastycznej.",
+      "Plecionka nie ma kleju. Jej końce trzyma ściśle zawiązany węzeł, który można poprawić samodzielnie."
+    ],
+    "materials": [["Plecionka", "rzemień ze skóry garbowanej roślinnie"], ["Zapięcie", "koralik z orzecha i pętla ze skóry"]],
+    "closure": "toggle",
+    "weight": "ok. 9 g",
+    "variantLabel": "Kolor skóry",
+    "variants": [
+      {"id": "koniak", "label": "Koniak", "swatchColor": "#8a4f23", "model": {"type": "leather_braid", "tone": "#71451f"}},
+      {"id": "ciemna", "label": "Ciemny brąz", "swatchColor": "#3e2a1d", "model": {"type": "leather_braid", "tone": "#35221a"}}
+    ]
+  },
+  {
+    "slug": "zrab",
+    "name": "Zrąb",
+    "category": "drewno",
+    "price": 690,
+    "featured": 12,
+    "tagline": "Sztywna obręcz z drewna giętego parą",
+    "lead": "Obręcz z jednego pasa drewna, gięta nad parą i wykańczana ręcznie. Bez spoin widocznych na zewnątrz, bez zapięcia, zakładana przez dłoń.",
+    "story": [
+      "Pas drewna moczymy i gniemy nad parą, a potem suszymy na formie przez dwa tygodnie. Dzięki temu rysunek słojów biegnie wzdłuż całego obwodu.",
+      "Obręcz szlifujemy ręcznie do gradacji 2000 i olejujemy pięciokrotnie. W dotyku przypomina polerowany kamień, ale jest kilka razy lżejsza."
+    ],
+    "materials": [["Obręcz", "lite drewno gięte parą"], ["Wykończenie", "olej lniany i wosk pszczeli"], ["Zapięcie", "brak, obręcz zakładana przez dłoń"]],
+    "closure": "none",
+    "wood": true,
+    "sizes": "bangle",
+    "weight": "ok. 22 g",
+    "variantLabel": "Drewno",
+    "variants": [
+      {"id": "orzech", "label": "Orzech", "woodType": "orzech", "model": {"type": "bangle", "mat": "giety_orzech"}},
+      {"id": "oliwka", "label": "Oliwka", "woodType": "oliwka", "priceDelta": 90, "model": {"type": "bangle", "mat": "giety_oliwka"}},
+      {"id": "dab", "label": "Dąb", "woodType": "dab", "model": {"type": "bangle", "mat": "giety_dab"}}
+    ]
+  }
+]

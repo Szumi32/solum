@@ -1,0 +1,38 @@
+<!--META
+{"title":"Kontakt","description":"Skontaktuj się z pracownią SOLUM: pytania o zamówienia, bransoletki na miarę, współpraca.","active":"kontakt.html","scripts":[],"bodyClass":"page-contact"}
+-->
+<div class="wrap">
+  <header class="page-top">
+    <h1 class="h-page">Kontakt</h1>
+    <p>Pytanie o rozmiar, zamówienie na miarę albo naprawa? Odpowiadamy w ciągu jednego dnia roboczego.</p>
+  </header>
+  <div class="contact-grid">
+    <div class="contact-cards">
+      <div><h2>E-mail</h2><p><a href="mailto:{{shop.email}}">{{shop.email}}</a></p></div>
+      <div><h2>Telefon</h2><p><a href="tel:{{shop.phoneHref}}">{{shop.phone}}</a></p><p class="form-note">{{shop.hours}}</p></div>
+      <div><h2>Pracownia</h2><p>{{shop.address}}<br>{{shop.city}}</p><p class="form-note">Odbiór i wizyty po wcześniejszym umówieniu.</p></div>
+      <div><h2>Dane firmy</h2><p class="form-note">{{shop.legalName}}<br>NIP {{shop.nip}}, REGON {{shop.regon}}</p></div>
+    </div>
+    <form data-contact-form novalidate class="form-sec" style="border:0;padding:0">
+      <h2 class="h-sub">Napisz do nas</h2>
+      <div class="fields">
+        <div class="field"><label for="c-name">Imię</label><input id="c-name" name="name" type="text" autocomplete="given-name" required></div>
+        <div class="field"><label for="c-email">E-mail</label><input id="c-email" name="email" type="email" autocomplete="email" required></div>
+        <div class="field full">
+          <label for="c-topic">Temat</label>
+          <select id="c-topic" name="topic">
+            <option>Pytanie o bransoletkę</option>
+            <option>Moje zamówienie</option>
+            <option>Bransoletka na miarę</option>
+            <option>Naprawa, zwrot lub reklamacja</option>
+            <option>Inny temat</option>
+          </select>
+        </div>
+        <div class="field full"><label for="c-msg">Wiadomość</label><textarea id="c-msg" name="message" required></textarea></div>
+        <div class="field full"><label class="consent" for="c-ok"><input id="c-ok" name="ok" type="checkbox" required><span>Zgadzam się na przetwarzanie moich danych w celu odpowiedzi na wiadomość, zgodnie z <a href="prywatnosc.html">polityką prywatności</a>.</span></label></div>
+      </div>
+      <div><button class="btn btn-ink" type="submit">Wyślij wiadomość</button></div>
+      <p class="demo-note" data-contact-status role="status" hidden></p>
+    </form>
+  </div>
+</div>

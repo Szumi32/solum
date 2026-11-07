@@ -1,0 +1,67 @@
+<!--META
+{"title":"Zamówienie","description":"Dane do wysyłki, dostawa i płatność.","head":"<meta name=\"robots\" content=\"noindex\">","scripts":["checkout"],"bodyClass":"page-checkout"}
+-->
+<div class="wrap">
+  <header class="page-top"><h1 class="h-page">Zamówienie</h1></header>
+  <div class="empty" data-checkout-empty hidden>
+    <p>Koszyk jest pusty, więc nie ma czego zamawiać.</p>
+    <a class="btn" href="sklep.html">Zobacz bransoletki</a>
+  </div>
+  <div class="cart-grid" data-checkout-grid>
+    <form data-checkout novalidate>
+      <p class="demo-note" data-demo-note hidden>To wersja demonstracyjna sklepu. Płatność jest symulowana, zamówienie nie trafi do realizacji i nie pobierzemy żadnych pieniędzy.</p>
+
+      <section class="form-sec">
+        <h2>Dane kontaktowe</h2>
+        <div class="fields">
+          <div class="field"><label for="email">E-mail</label><input id="email" name="email" type="email" autocomplete="email" required></div>
+          <div class="field"><label for="phone">Telefon</label><input id="phone" name="phone" type="tel" autocomplete="tel" required></div>
+          <div class="field"><label for="firstName">Imię</label><input id="firstName" name="firstName" type="text" autocomplete="given-name" required></div>
+          <div class="field"><label for="lastName">Nazwisko</label><input id="lastName" name="lastName" type="text" autocomplete="family-name" required></div>
+        </div>
+      </section>
+
+      <section class="form-sec">
+        <h2>Dostawa</h2>
+        <fieldset><legend class="form-note" style="margin-bottom:10px">Dostawa na terenie Polski. Zamówienie zagraniczne? <a href="kontakt.html">Napisz do nas</a>.</legend>
+          <div class="radio-cards" data-shipping-list></div>
+        </fieldset>
+        <div class="fields" data-locker hidden>
+          <div class="field full">
+            <label for="locker" data-locker-label>Kod paczkomatu</label>
+            <input id="locker" name="locker" type="text" autocomplete="off" placeholder="np. KRA01M">
+            <p class="form-note"><a href="https://inpost.pl/znajdz-paczkomat" target="_blank" rel="noopener">Znajdź paczkomat na mapie</a></p>
+          </div>
+        </div>
+        <div class="fields" data-address>
+          <div class="field full"><label for="street">Ulica i numer</label><input id="street" name="street" type="text" autocomplete="street-address"></div>
+          <div class="field"><label for="postal">Kod pocztowy</label><input id="postal" name="postal" type="text" inputmode="numeric" autocomplete="postal-code" placeholder="00-000"></div>
+          <div class="field"><label for="city">Miejscowość</label><input id="city" name="city" type="text" autocomplete="address-level2"></div>
+        </div>
+        <p class="form-note" data-pickup hidden>Pracownia: {{shop.address}}, {{shop.city}}. Napiszemy, gdy zamówienie będzie gotowe do odbioru.</p>
+        <label class="consent" for="invoice"><input id="invoice" name="invoice" type="checkbox"><span>Chcę fakturę na firmę</span></label>
+        <div class="fields" data-invoice hidden>
+          <div class="field"><label for="company">Nazwa firmy</label><input id="company" name="company" type="text" autocomplete="organization"></div>
+          <div class="field"><label for="nip">NIP</label><input id="nip" name="nip" type="text" inputmode="numeric"></div>
+        </div>
+      </section>
+
+      <section class="form-sec">
+        <h2>Płatność</h2>
+        <div class="radio-cards" data-payment-list></div>
+      </section>
+
+      <section class="form-sec">
+        <h2>Uwagi i zgody</h2>
+        <div class="field"><label for="note">Uwagi do zamówienia <span class="opt-tag">(opcjonalnie)</span></label><textarea id="note" name="note" placeholder="Na przykład: prezent, proszę bez paragonu w paczce"></textarea></div>
+        <div class="consent-group">
+          <div class="field"><label class="consent" for="terms"><input id="terms" name="terms" type="checkbox" required><span>Znam i akceptuję <a href="regulamin.html" target="_blank" rel="noopener">regulamin</a> oraz <a href="prywatnosc.html" target="_blank" rel="noopener">politykę prywatności</a>.</span></label></div>
+          <label class="consent" for="marketing"><input id="marketing" name="marketing" type="checkbox"><span>Chcę dostawać newsletter o nowych partiach kamieni (opcjonalnie).</span></label>
+        </div>
+        <button class="btn btn-ink btn-wide" type="submit">Zamawiam z obowiązkiem zapłaty</button>
+        <p class="form-note">Składając zamówienie, zawierasz umowę sprzedaży. Masz prawo odstąpić od niej w ciągu 14 dni, a my wydłużamy ten czas do {{returnDays}} dni. Szczegóły znajdziesz na stronie <a href="zwroty.html" target="_blank" rel="noopener">zwroty i reklamacje</a>.</p>
+      </section>
+    </form>
+    <aside class="summary" data-checkout-sum></aside>
+  </div>
+</div>

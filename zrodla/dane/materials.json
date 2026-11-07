@@ -1,0 +1,71 @@
+{
+  "stones": {
+    "krzemien": {
+      "name": "Krzemień pasiasty",
+      "origin": "Góry Świętokrzyskie, Polska",
+      "mohs": 7,
+      "mohsNote": "Twardy, odporny na zarysowania",
+      "text": "Polski kamień, który nie występuje nigdzie indziej na świecie w takiej postaci. Powstawał w jurajskim morzu, a ludzie wydobywali go już w neolicie."
+    },
+    "lapis": {
+      "name": "Lapis lazuli",
+      "origin": "Główne złoża: Afganistan",
+      "mohs": 5.5,
+      "mohsNote": "Średnio twardy, unikaj uderzeń",
+      "text": "Głęboki błękit z drobinami pirytu, które błyszczą jak złoto. Naturalne jasne przebarwienia to kalcyt i świadczą o tym, że kamień nie był barwiony."
+    },
+    "nefryt": {
+      "name": "Nefryt",
+      "origin": "Główne złoża: Kanada, Syberia",
+      "mohs": 6.5,
+      "mohsNote": "Bardzo wytrzymały na pęknięcia",
+      "text": "Jedna z dwóch odmian jadeitu w szerokim znaczeniu. Splątane włókna mineralne sprawiają, że trudno go rozłupać, a polerowany ma woskowy połysk."
+    },
+    "obsydian": {
+      "name": "Obsydian",
+      "origin": "Główne złoża: Meksyk, Armenia",
+      "mohs": 5.5,
+      "mohsNote": "Średnio twardy, kruchy przy uderzeniu",
+      "text": "Szkło wulkaniczne, które powstaje podczas gwałtownego stygnięcia lawy. Mocno odbija światło i po wypolerowaniu wygląda jak czarne lustro."
+    },
+    "tygrysie_oko": {
+      "name": "Tygrysie oko",
+      "origin": "Główne złoża: RPA, Australia",
+      "mohs": 7,
+      "mohsNote": "Twardy, odporny na zarysowania",
+      "text": "Kwarc z włóknistą strukturą, przez którą złote pasma zmieniają jasność wraz z ruchem ręki. Ten efekt nazywa się szatoyancją."
+    },
+    "kwarc": {
+      "name": "Kwarc różowy",
+      "origin": "Główne złoża: Madagaskar, Brazylia",
+      "mohs": 7,
+      "mohsNote": "Twardy, kolor może blaknąć na silnym słońcu",
+      "text": "Mleczny, delikatnie różowy kwarc. Lekkie zamglenie jest jego naturalną cechą, a kolor bywa inny w każdym koraliku."
+    },
+    "amazonit": {
+      "name": "Amazonit",
+      "origin": "Główne złoża: Peru, Madagaskar",
+      "mohs": 6.5,
+      "mohsNote": "Średnio twardy, unikaj uderzeń",
+      "text": "Zielono-błękitny skaleń z jasnymi smugami. Wzór układa się w równoległe pasma, co widać przy bliższym oglądaniu."
+    },
+    "bursztyn": {
+      "name": "Bursztyn bałtycki",
+      "origin": "Wybrzeże Morza Bałtyckiego",
+      "mohs": 2.5,
+      "mohsNote": "Miękki i lekki, chroń przed zarysowaniami",
+      "text": "Skamieniała żywica sprzed około 40 milionów lat. Jest ciepła w dotyku i tak lekka, że unosi się w słonej wodzie."
+    }
+  },
+  "woods": {
+    "dab_bagienny": {"name": "Dąb bagienny", "origin": "Doliny polskich rzek", "text": "Pnie dębów, które setki lat leżały w mule i naturalnie ściemniały bez żadnej chemii."},
+    "oliwka": {"name": "Drewno oliwne", "origin": "Basen Morza Śródziemnego", "text": "Gęste i tłuste drewno z charakterystycznymi ciemnymi żyłkami. Pozyskiwane z drzew, które już nie owocują."},
+    "orzech": {"name": "Orzech włoski", "origin": "Europa", "text": "Równy, czekoladowy rysunek słojów. Twarde drewno, które pięknie przyjmuje olej."},
+    "dab": {"name": "Dąb", "origin": "Polska", "text": "Jasne, miodowe drewno z wyraźnym rysunkiem. Dobrze znosi gięcie w parze i ciemnieje z czasem."}
+  },
+  "fibers": {
+    "len": {"name": "Len", "origin": "Europa", "text": "Mocne włókno roślinne, które woskujemy woskiem pszczelim. Z noszeniem mięknie i nabiera połysku."},
+    "jedwab": {"name": "Jedwab", "origin": "Naturalny, barwiony roślinnie", "text": "Cienka i wyjątkowo wytrzymała nić. Barwimy ją korą, łupinami orzecha i liśćmi."},
+    "skora": {"name": "Skóra garbowana roślinnie", "origin": "Garbarnie europejskie", "text": "Garbowana korą drzew, bez soli chromu. Na początku sztywna, z czasem układa się na ręce i ciemnieje."}
+  }
+}
