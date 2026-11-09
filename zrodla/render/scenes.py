@@ -1,4 +1,4 @@
-"""Ujecia sklepu: hero strony glownej, kafelki materialow i martwa natura pracowni.
+"""Ujecia sklepu: hero strony glownej, kafelki serii i stol pracowni.
 
 Uzycie: blender -b -P scenes.py -- --out <folder> [--only nazwa,...] [--samples 160] [--scale 1.0]
 """
@@ -16,20 +16,18 @@ sys.path.append(str(Path(__file__).resolve().parent))
 import bracelets as b  # noqa: E402
 
 
-def find_variant(products, slug, vid):
+def find_model(products, slug):
     for p in products:
         if p["slug"] == slug:
-            for v in p["variants"]:
-                if v["id"] == vid:
-                    return v["model"]
-    raise KeyError(f"{slug}:{vid}")
+            return p["variants"][0]["model"]
+    raise KeyError(slug)
 
 
-def place(coll, products, slug, vid, x, y, rot, seed):
-    """Buduje bransoletke w osobnej kolekcji i przesuwa ja na miejsce."""
-    sub = bpy.data.collections.new(f"{slug}-{vid}")
+def place(coll, products, slug, x, y, rot, seed):
+    """Buduje produkt w osobnej kolekcji i przesuwa go na miejsce."""
+    sub = bpy.data.collections.new(slug)
     coll.children.link(sub)
-    spec = find_variant(products, slug, vid)
+    spec = find_model(products, slug)
     info = b.BUILDERS[spec["type"]](sub, spec, seed)
     T = Matrix.Translation((x, y, 0)) @ Matrix.Rotation(math.radians(rot), 4, "Z")
     for ob in sub.objects:
@@ -41,92 +39,86 @@ def poisson(rng, w, h, radii):
     """Luzno rozsypane koraliki bez kolizji. Zwraca [(x, y, r), ...]."""
     out = []
     for r in radii:
-        for _ in range(500):
+        for _ in range(600):
             x, y = rng.uniform(-w / 2, w / 2), rng.uniform(-h / 2, h / 2)
-            if all((x - a) ** 2 + (y - c) ** 2 > (r + e + 0.06) ** 2 for a, c, e in out):
+            if all((x - a) ** 2 + (y - c) ** 2 > (r + e + 0.05) ** 2 for a, c, e in out):
                 out.append((x, y, r))
                 break
     return out
 
 
-def scatter(coll, seed, mats, count, w, h, rmin, rmax, shape="round"):
+def scatter(coll, seed, mats, count, w, h, rmin, rmax, shape, balls=0):
     rng = random.Random(seed)
-    radii = sorted((rng.uniform(rmin, rmax) for _ in range(count)), reverse=True)
-    for i, (x, y, r) in enumerate(poisson(rng, w, h, radii)):
-        mat = b.stone_mat(mats[i % len(mats)], rng.randrange(3))
-        mesh = b.bead_mesh(shape, i % 5 if shape != "round" else i % 3)
-        rot = Matrix.Rotation(rng.uniform(0, 6.28), 4, Vector((rng.gauss(0, 1), rng.gauss(0, 1), rng.gauss(0, 0.4))).normalized())
-        if mats[i % len(mats)] in b.LAYERED and shape == "round":
-            rot = b.layered_rot(rng)
-        if shape != "round":
-            rot = Matrix.Rotation(rng.uniform(0, 6.28), 4, "Z")
-        lift = r * (0.82 if shape != "round" else 1.0)
-        ob = b.obj_from_mesh(mesh, coll, mat, Matrix.Translation((x, y, lift)) @ rot @ Matrix.Scale(r, 4))
-        ob.name = f"loose_{i}"
+    radii = [rng.uniform(rmin, rmax) for _ in range(count)] + [0.1] * balls
+    radii.sort(reverse=True)
+    G = b.gold()
+    k = 0
+    for x, y, r in poisson(rng, w, h, radii):
+        if r == 0.1:
+            b.obj_from_mesh(b.bead_mesh("round", 0), coll, G, Matrix.Translation((x, y, r)) @ Matrix.Scale(r, 4))
+            continue
+        mat = b.stone_mat(mats[k % len(mats)], rng.randrange(3))
+        k += 1
+        axis = Vector((rng.gauss(0, 1), rng.gauss(0, 1), rng.gauss(0, 0.45))).normalized()
+        rot = axis.to_track_quat("Z", "Y").to_matrix().to_4x4() @ Matrix.Rotation(rng.uniform(0, 6.28), 4, "Z")
+        lift = r * (1.0 if shape != "kostka" else 1.15)
+        b.obj_from_mesh(b.facet_mesh(shape, k % 4), coll, mat, Matrix.Translation((x, y, lift)) @ rot @ Matrix.Scale(r, 4))
 
 
-def coil(coll, cord_key, cx, cy, turns=7, r0=0.35, pitch=0.105):
-    """Plaska cewka sznurka."""
-    _, tr = b.CORD_COLORS[cord_key]
-    pts = []
-    N = int(turns * 40)
-    for i in range(N + 1):
-        a = i / 40 * 2 * math.pi
-        rr = r0 + pitch * a / (2 * math.pi)
-        pts.append(Vector((cx + rr * math.cos(a), cy + rr * math.sin(a), tr)))
-    return pts
+def tile(sc, cam, dist=1.0):
+    sc.render.resolution_x, sc.render.resolution_y = 1100, 1375
+    tgt = Vector((0, 0, 0.3))
+    b.aim(cam, tgt + Vector((-1, -9.5, 16.5)) * dist, tgt, 85, fstop=4.5, focus=tgt + Vector((0, -0.5, 0.2)))
 
 
 def scene_hero(coll, cam, products, sc):
-    place(coll, products, "okruch", "koniak", -3.7, -1.7, 150, 21)
-    place(coll, products, "lawica", "8mm", 4.2, -0.5, -28, 7)
-    place(coll, products, "rzemien", "naturalna", -0.4, 7.4, -40, 12)
+    place(coll, products, "blue-amazonit", -3.4, -1.7, -100, 21)
+    place(coll, products, "tygrysie-oko", 4.0, -1.2, 0, 7)
+    place(coll, products, "brelok-rose-quartz", 0.6, 6.6, 76, 12)
     sc.render.resolution_x, sc.render.resolution_y = 1800, 1400
-    tgt = Vector((0.75, 0.7, 0.2))
-    b.aim(cam, tgt + Vector((-2.2, -22.8, 19.6)), tgt, 66, fstop=6.3, focus=Vector((-1.8, -3.2, 0.4)))
+    tgt = Vector((0.5, 1.1, 0.2))
+    b.aim(cam, tgt + Vector((-2.2, -22.8, 19.6)), tgt, 66, fstop=6.3, focus=Vector((-2.0, -3.4, 0.4)))
 
 
-def scene_kamien(coll, cam, products, sc):
-    scatter(coll, 5, ["lapis", "krzemien", "nefryt", "amazonit", "obsydian", "kwarc", "tygrysie_oko", "krzemien"], 130, 10.5, 13, 0.3, 0.55)
+def scene_fasetowane(coll, cam, products, sc):
+    scatter(coll, 5, ["amazonit_nieb", "turmalin_rozowy", "sloneczny", "lapis", "amazonit_nieb"], 120, 10.5, 13, 0.4, 0.5, "rondel", balls=110)
+    tile(sc, cam)
+
+
+def scene_drobne(coll, cam, products, sc):
+    scatter(coll, 11, ["tygrysie_oko", "chryzokola", "turmalin", "obsydian", "ksiezycowy"], 260, 7.5, 9.5, 0.22, 0.27, "kulka", balls=40)
+    tile(sc, cam, 0.68)
+
+
+def scene_kostki(coll, cam, products, sc):
+    scatter(coll, 17, ["kalcyt", "kwarc_dymny", "ametyst_jasny", "akwamaryn", "labradoryt"], 180, 10.5, 13, 0.28, 0.33, "kostka")
+    tile(sc, cam)
+
+
+def scene_zawieszki(coll, cam, products, sc):
+    info = place(coll, products, "rubin-w-zoisycie", -1.8, 0.0, 0, 31)
+    place(coll, products, "onyks-hamsa", -3.4, -6.6, 12, 33)
     sc.render.resolution_x, sc.render.resolution_y = 1100, 1375
-    tgt = Vector((0, 0, 0.3))
-    b.aim(cam, tgt + Vector((-1, -9.5, 16.5)), tgt, 85, fstop=4.5, focus=tgt + Vector((0, -0.5, 0.2)))
+    tgt = Vector((0.9, -2.1, 0.2))
+    b.aim(cam, tgt + Vector((1.2, -8.4, 13)), tgt, 85, fstop=6.3, focus=tgt + Vector((0.4, 0.6, 0.1)))
 
 
-def scene_bursztyn(coll, cam, products, sc):
-    scatter(coll, 11, ["bursztyn_koniak", "bursztyn_miod", "bursztyn_krolewski", "bursztyn_koniak", "bursztyn_miod"], 90, 10.5, 13, 0.4, 0.68, shape="nugget")
+def scene_breloki(coll, cam, products, sc):
+    place(coll, products, "brelok-tygrysie-oko", -3.2, 0.2, -4, 41)
+    place(coll, products, "brelok-rose-quartz", 0.2, -0.6, 6, 42)
+    place(coll, products, "brelok-ametyst", 3.6, 0.4, 2, 43)
     sc.render.resolution_x, sc.render.resolution_y = 1100, 1375
-    tgt = Vector((0, 0, 0.3))
-    b.aim(cam, tgt + Vector((-1, -9.5, 16.5)), tgt, 85, fstop=4.5, focus=tgt + Vector((0, -0.5, 0.2)))
-
-
-def scene_drewno(coll, cam, products, sc):
-    scatter(coll, 17, ["dab_bagienny", "oliwka", "orzech", "oliwka", "orzech"], 120, 10.5, 13, 0.32, 0.56)
-    sc.render.resolution_x, sc.render.resolution_y = 1100, 1375
-    tgt = Vector((0, 0, 0.3))
-    b.aim(cam, tgt + Vector((-1, -9.5, 16.5)), tgt, 85, fstop=4.5, focus=tgt + Vector((0, -0.5, 0.2)))
-
-
-def scene_skora(coll, cam, products, sc):
-    place(coll, products, "rzemien", "koniak", -1.6, 2.0, 30, 31)
-    place(coll, products, "wezel", "ciemna", 2.6, -3.0, 120, 33)
-    pts = coil(coll, "linen", -3.3, -4.0, turns=9, r0=0.28)
-    b.obj_from_mesh(b.tube_mesh("len", pts, b.CORD_COLORS["linen"][1], sides=8, uv_scale=2.0), coll, b.cord_mat("linen"))
-    sc.render.resolution_x, sc.render.resolution_y = 1100, 1375
-    tgt = Vector((0, -0.8, 0.3))
-    b.aim(cam, tgt + Vector((-1.5, -13, 22)), tgt, 85, fstop=5.6, focus=tgt + Vector((0, -1.2, 0.3)))
+    tgt = Vector((0.2, 0.2, 0.3))
+    b.aim(cam, tgt + Vector((-0.8, -13.8, 27.5)), tgt, 85, fstop=8)
 
 
 def scene_pracownia(coll, cam, products, sc):
-    """Bransoletka w trakcie nawlekania: cewka lnu, nic z koralikami i rozsypane kamienie."""
+    """Bransoletka w trakcie nawlekania: nic, nawleczone rondle i rozsypane koraliki."""
     rng = random.Random(4)
-    cord = "linen"
-    r = b.CORD_COLORS[cord][1]
-    cx, cy = -6.1, 1.8
-    pts = coil(coll, cord, cx, cy, turns=11, r0=0.3, pitch=0.106)
-    last = pts[-1]
-    # wyjscie z cewki w strone kadru
-    ctrl = [last, Vector((-2.9, 2.2, r)), Vector((-0.8, 0.2, r)), Vector((2.0, -0.4, r)), Vector((4.3, 0.7, r)), Vector((6.4, 0.1, r))]
+    G = b.gold()
+    thread = b.metal_mat("nic", "#3a3631", 0.5)
+    w = 0.9
+    ctrl = [Vector((-9.5, 1.9, w / 2)), Vector((-5.5, 2.4, w / 2)), Vector((-1.8, 0.3, w / 2)), Vector((2.0, -0.4, w / 2)), Vector((5.0, 0.9, w / 2)), Vector((7.4, 0.2, w / 2))]
     path = []
     for i in range(len(ctrl) - 1):
         p0 = ctrl[max(i - 1, 0)]
@@ -136,28 +128,30 @@ def scene_pracownia(coll, cam, products, sc):
             t = k / 30
             path.append(0.5 * ((2 * p1) + (-p0 + p2) * t + (2 * p0 - 5 * p1 + 4 * p2 - p3) * t * t + (-p0 + 3 * p1 - 3 * p2 + p3) * t ** 3))
     path.append(ctrl[-1])
-    b.obj_from_mesh(b.tube_mesh("len", pts + path, r, sides=8, uv_scale=2.0), coll, b.cord_mat(cord))
-    # koraliki juz nawleczone, od prawego konca
-    d = 0.8
-    s = 0.0
-    lengths = [0.0]
-    for i in range(1, len(path)):
-        lengths.append(lengths[-1] + (path[i] - path[i - 1]).length)
-    total = lengths[-1]
-    placed = 0
-    while placed < 9:
-        target = total - 1.2 - placed * (d + 0.02)
-        i = min(range(len(lengths)), key=lambda q: abs(lengths[q] - target))
+    b.obj_from_mesh(b.tube_mesh("nic", path, 0.02, sides=6), coll, thread)
+    acc = [0.0]
+    for a, c in zip(path, path[1:]):
+        acc.append(acc[-1] + (c - a).length)
+    pitch = w * 0.66 + 0.19
+    for n in range(13):
+        target = acc[-1] - 0.9 - n * pitch
+        i = min(range(len(acc)), key=lambda q: abs(acc[q] - target))
         p = path[i]
         tang = path[min(i + 1, len(path) - 1)] - path[max(i - 1, 0)]
-        m = b.aligned(Vector((p.x, p.y, d / 2)), tang, d / 2, 0, rng, free=True, layered=True)
-        b.obj_from_mesh(b.bead_mesh("round", placed % 3), coll, b.stone_mat("krzemien", rng.randrange(3)), m)
-        placed += 1
-    # rozsypane kamienie czekajace na nawleczenie
-    loose = [(-1.2, -3.6), (0.3, -4.7), (1.6, -3.2), (3.1, -4.3), (-2.8, -4.9), (4.6, -3.0), (2.4, -5.6), (-0.6, -6.1), (5.6, -5.0), (-3.9, -2.8), (6.8, -3.4)]
-    for i, (x, y) in enumerate(loose):
-        m = b.aligned(Vector((x, y, d / 2)), Vector((1, 0, 0)), d / 2, 0, rng, layered=True)
-        b.obj_from_mesh(b.bead_mesh("round", i % 3), coll, b.stone_mat("krzemien", rng.randrange(3)), m)
+        m = b.aligned(Vector((p.x, p.y, w / 2)), tang, w / 2, rng.uniform(0, 6.28), rng)
+        b.obj_from_mesh(b.facet_mesh("rondel", n % 5), coll, b.stone_mat("amazonit_nieb", rng.randrange(3)), m)
+        j = min(range(len(acc)), key=lambda q: abs(acc[q] - (target - pitch / 2)))
+        q = path[j]
+        b.obj_from_mesh(b.bead_mesh("round", 0), coll, G, Matrix.Translation((q.x, q.y, w / 2)) @ Matrix.Scale(0.105, 4))
+    loose = poisson(rng, 17, 5.2, [0.45] * 16 + [0.1] * 34)
+    for k, (x, y, r) in enumerate(loose):
+        y2 = y - 4.3
+        if r == 0.1:
+            b.obj_from_mesh(b.bead_mesh("round", 0), coll, G, Matrix.Translation((x, y2, r)) @ Matrix.Scale(r, 4))
+        else:
+            axis = Vector((rng.gauss(0, 1), rng.gauss(0, 1), rng.gauss(0, 0.4))).normalized()
+            rot = axis.to_track_quat("Z", "Y").to_matrix().to_4x4()
+            b.obj_from_mesh(b.facet_mesh("rondel", k % 5), coll, b.stone_mat("amazonit_nieb", rng.randrange(3)), Matrix.Translation((x, y2, r)) @ rot @ Matrix.Scale(r, 4))
     sc.render.resolution_x, sc.render.resolution_y = 1800, 1100
     tgt = Vector((0.1, -1.0, 0.2))
     b.aim(cam, tgt + Vector((0.5, -17, 21)), tgt, 62, fstop=7.1, focus=tgt + Vector((1.0, 0.6, 0.2)))
@@ -165,10 +159,11 @@ def scene_pracownia(coll, cam, products, sc):
 
 SCENES = {
     "dom-hero": scene_hero,
-    "kamien": scene_kamien,
-    "bursztyn": scene_bursztyn,
-    "drewno": scene_drewno,
-    "skora": scene_skora,
+    "fasetowane": scene_fasetowane,
+    "drobne": scene_drobne,
+    "kostki": scene_kostki,
+    "zawieszki": scene_zawieszki,
+    "breloki": scene_breloki,
     "pracownia": scene_pracownia,
 }
 
@@ -181,7 +176,7 @@ def main():
     ap.add_argument("--samples", type=int, default=160)
     ap.add_argument("--scale", type=float, default=1.0)
     args = ap.parse_args(argv)
-    out = Path(args.out)
+    out = Path(args.out).resolve()
     out.mkdir(parents=True, exist_ok=True)
     products = json.loads(b.DATA.read_text(encoding="utf-8"))
     sc, cam = b.setup_scene(args.samples, args.scale)

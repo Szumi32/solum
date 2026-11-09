@@ -31,20 +31,23 @@ Dopóki `"demo": true` w `config.json`, klient widzi informację, że płatnoś�
 
 ## 3. Treści do potwierdzenia przez właściciela
 
-Te teksty są propozycją i opisują obietnice wobec klienta. Właściciel musi potwierdzić, że są prawdziwe, albo je zmienić:
+Katalog powstał na podstawie zdjęć ze stoiska. Właściciel musi potwierdzić poniższe rzeczy albo je poprawić:
 
-- **Cechy materiałów:** kamienie niebarwione, bursztyn niepodgrzewany i nieprasowany, skóra bez soli chromu, jedwab barwiony roślinnie, wosk pszczeli, olej lniany.
-- **Hasło „100% naturalne”:** obowiązuje tylko wtedy, gdy naprawdę nie ma metalu, plastiku, gumki ani kleju syntetycznego. Nieprawdziwe hasło może zostać uznane za wprowadzanie w błąd.
-- **Pochodzenie:** krzemień z Gór Świętokrzyskich, dąb bagienny z dolin polskich rzek. Przy pozostałych kamieniach podane są typowe złoża, a nie potwierdzone źródło partii.
-- **Sposób pracy:** opis pracowni, dobór pod lupą, ścieg siodlarski, gięcie drewna parą, suszenie przez dwa tygodnie, szlif do gradacji 2000.
-- **Warunki:** nadanie w 3 dni robocze, 30 dni na zwrot, 2 lata bezpłatnych napraw (wartości w `config.json`).
-- **Ceny i koszty dostawy:** wszystkie są przykładowe. Sprawdź też ceny przewoźników.
+- **Pewne, odczytane z metek:** Sunstone, Pink Turmalin, Blue Amazonit po 89 zł; Chrysocolla, Tygrysie oko po 39 zł; breloki po 25 zł (Rose Quartz, Agat) i 19 zł.
+- **Nazwy przyjęte po wyglądzie:** Lapis lazuli, Turmalin, Onyks, Kamień księżycowy, Kalcyt miodowy, Kwarc dymny, Ametyst, Akwamaryn, Labradoryt, Rubin w zoisycie, a także breloki Ametyst, Tygrysie oko, Jaspis, Serpentyn i koralikowe.
+- **Ceny przykładowe:** seria kostek i seria z zawieszką (89 zł) oraz Lapis lazuli nie miały widocznych metek. Drobne bransoletki bez metki (Turmalin, Onyks, Kamień księżycowy) mają cenę 39 zł, jak reszta tego stojaka.
+- **Materiał złotych elementów:** strona pisze ogólnie „złote elementy”. Trzeba podać, czy to stal, mosiądz czy srebro, zwłaszcza dla osób z alergią.
+- **Sposób zapinania:** serie drobna i kostki opisano jako rozciągliwe, bo na zdjęciach nie widać zapięcia. Zakresy obwodu to szacunki.
+- **Ręczne wykonanie:** strona mówi o ręcznym składaniu w pracowni. Na metkach breloków jest czerwona pieczątka innej nazwy, więc jeśli część towaru pochodzi od dostawcy, trzeba zmienić te teksty.
+- **Obietnice:** nadanie w 3 dni robocze, 30 dni na zwrot, 2 lata bezpłatnych napraw (wartości w `config.json`).
+- **Pochodzenie kamieni:** podane są typowe złoża, a nie potwierdzone źródło partii.
+- **Dostawa:** próg darmowej dostawy obniżyłem do 150 zł, bo poprzednie 400 zł nie pasowało do cen. Sprawdź też stawki przewoźników.
 - **Kod rabatowy:** `WITAJ10` to przykład. Usuń go lub zmień.
 - **Waga produktów:** wartości są szacunkowe.
 
 ## 4. Zdjęcia
 
-Wszystkie obrazy to rendery 3D. Do czasu wykonania prawdziwych zdjęć warto je tak oznaczać, bo produkt nie może wyglądać inaczej niż to, co klient dostanie. Nazwy plików do podmiany opisuje `README.md`. Strona nie zawiera opinii klientów, bo żadnych jeszcze nie ma i nie wolno ich wymyślać.
+Wszystkie obrazy to rendery 3D przygotowane na podstawie zdjęć ze stoiska, bo te mają zbyt niską rozdzielczość i widać na nich metki. Do czasu wykonania prawdziwych zdjęć strona informuje o tym w pytaniach i odpowiedziach. Nazwy plików do podmiany opisuje `README.md`. Strona nie zawiera opinii klientów, bo żadnych jeszcze nie ma i nie wolno ich wymyślać.
 
 ## 5. Sprawy prawne
 

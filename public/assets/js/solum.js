@@ -35,7 +35,7 @@
     return p.variants.filter(function (v) { return v.id === id; })[0] || p.variants[0];
   }
   function sizeInfo(p, id) {
-    var list = cfg.sizes[p.sizes === "bangle" ? "bangle" : "adjustable"];
+    var list = cfg.sizes[p.sizes];
     return list.filter(function (s) { return s.id === id; })[0] || list[0];
   }
   function unitPrice(p, v) {
@@ -133,7 +133,7 @@
         '<button type="button" class="line-remove" data-remove="' + l.index + '">Usuń</button></div>';
     return '<div class="line"><a href="' + l.url + '"><img src="' + l.image + '" alt="" width="600" height="750" loading="lazy"></a>' +
       '<div class="line-info"><a class="line-name" href="' + l.url + '">' + esc(l.name) + "</a>" +
-      '<span class="line-meta">' + esc(l.variantLabel) + ", rozmiar " + esc(l.sizeLabel) + "</span>" + ctrl + "</div>" +
+      '<span class="line-meta">' + esc(l.variantLabel) + ", " + esc(l.sizeLabel) + "</span>" + ctrl + "</div>" +
       '<div class="line-price">' + zl(l.total) + "</div></div>";
   }
 
@@ -303,26 +303,6 @@
       });
     }
 
-    /* Dobor rozmiaru */
-    document.querySelectorAll("[data-size-calc]").forEach(bindSizeCalc);
-  }
-
-  function bindSizeCalc(root) {
-    var input = root.querySelector("input");
-    var out = root.querySelector("[data-calc-out]");
-    var list = cfg.sizes[root.getAttribute("data-size-calc") || "adjustable"];
-    function run() {
-      var v = parseFloat(String(input.value).replace(",", "."));
-      if (!v) { out.textContent = "Wpisz obwód w centymetrach."; return; }
-      var hit = list.filter(function (s) { return v >= s.min && v < s.max; })[0];
-      if (!hit && v === list[list.length - 1].max) hit = list[list.length - 1];
-      if (hit) {
-        out.innerHTML = "Polecamy rozmiar <strong>" + esc(hit.label) + "</strong> (" + esc(hit.note) + ").";
-      } else {
-        out.textContent = "Ten obwód wykracza poza standardowe rozmiary. Napisz do nas, a zrobimy bransoletkę na miarę.";
-      }
-    }
-    input.addEventListener("input", run);
   }
 
   /* ---------- start ---------- */
@@ -352,7 +332,6 @@
     data: D, cfg: cfg, Cart: Cart, zl: zl, esc: esc, product: product, variant: variant, sizeInfo: sizeInfo, unitPrice: unitPrice,
     toast: toast, setError: setError, EMAIL: EMAIL, store: store, openDialog: openDialog, closeDialog: closeDialog,
     openDrawer: function () { openDialog(drawer); }, lineHtml: lineHtml, handleLineClick: handleLineClick, freeMeter: freeMeter,
-    bindSizeCalc: bindSizeCalc,
   };
 
   if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", init);

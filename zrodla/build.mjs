@@ -23,14 +23,15 @@ const fromPrice = (p) => Math.min(...p.variants.map((v) => p.price + (v.priceDel
 const hasRange = (p) => new Set(p.variants.map((v) => v.priceDelta || 0)).size > 1;
 const priceLabel = (p) => (hasRange(p) ? `od ${zl(fromPrice(p))}` : zl(fromPrice(p)));
 
+const kind = (p) => (p.category === "breloki" ? "Brelok" : "Bransoletka");
 const SHOTS = ["hero", "macro", "detail", "top"];
-const SHOT_ALT = { hero: "widok z boku", macro: "zbliżenie na materiał", detail: "zbliżenie na zapięcie", top: "widok z góry" };
+const SHOT_ALT = { hero: "widok z boku", macro: "zbliżenie na materiał", detail: "zbliżenie na detal", top: "widok z góry" };
 const imgBase = (slug, vid, shot) => `assets/img/p/${slug}/${vid}-${shot}`;
 const srcset = (base) => `${base}-600.webp 600w, ${base}-1200.webp 1200w`;
 
 function productImg(p, v, shot, { sizes, cls = "", eager = false, alt } = {}) {
   const base = imgBase(p.slug, v.id, shot);
-  const text = alt ?? `Bransoletka ${p.name}, ${v.label}, ${SHOT_ALT[shot]}`;
+  const text = alt ?? `${kind(p)} ${p.name}, ${SHOT_ALT[shot]}`;
   return `<img class="${cls}" src="${base}-1200.webp" srcset="${srcset(base)}" sizes="${sizes}" width="1200" height="1500" alt="${esc(text)}"${eager ? ' fetchpriority="high"' : ' loading="lazy"'} decoding="async">`;
 }
 
@@ -41,17 +42,17 @@ function sceneImg(name, alt, w, h, sizes, eager = false) {
 
 function card(p, { sizes = "(min-width: 1000px) 24vw, (min-width: 640px) 32vw, 48vw", named = true } = {}) {
   const v = p.variants[0];
-  const count = p.variants.length;
-  return `<article class="card" data-category="${p.category}" data-price="${fromPrice(p)}" data-order="${p.featured}" data-materials="${esc(p.variants.map((x) => x.stone || x.woodType || "").join(" "))}">
+  const line = config.categories.find((c) => c.id === p.category).name;
+  return `<article class="card" data-category="${p.category}" data-price="${fromPrice(p)}" data-order="${p.featured}">
   <a href="produkt-${p.slug}.html" class="card-link">
     <div class="card-media"${named ? ` style="view-transition-name: p-${p.slug}"` : ""}>
-      ${productImg(p, v, "hero", { sizes, alt: `Bransoletka ${p.name}` })}
+      ${productImg(p, v, "hero", { sizes, alt: `${kind(p)} ${p.name}` })}
       ${productImg(p, v, "macro", { sizes, cls: "card-alt", alt: "" })}
     </div>
     <div class="card-body">
       <h3 class="card-title">${esc(p.name)}</h3>
       <p class="card-sub">${esc(p.tagline)}</p>
-      <p class="card-meta"><span class="price">${priceLabel(p)}</span><span class="card-count">${count} ${count === 1 ? "wariant" : count < 5 ? "warianty" : "wariantów"}</span></p>
+      <p class="card-meta"><span class="price">${priceLabel(p)}</span><span class="card-count">${esc(line)}</span></p>
     </div>
   </a>
 </article>`;
@@ -64,7 +65,7 @@ const cards = (slugs, opts) => slugs.map((s) => card(bySlug(s), opts)).join("\n"
 
 const NAV = [
   ["sklep.html", "Sklep"],
-  ["materialy.html", "Materiały"],
+  ["materialy.html", "Kamienie"],
   ["pracownia.html", "Pracownia"],
   ["kontakt.html", "Kontakt"],
 ];
@@ -72,7 +73,7 @@ const NAV = [
 function header(active) {
   const links = NAV.map(([h, t]) => `<a href="${h}"${h === active ? ' aria-current="page"' : ""}>${t}</a>`).join("");
   return `<a class="skip" href="#tresc">Przejdź do treści</a>
-<p class="topbar">Darmowa dostawa od ${zl(config.freeShippingFrom)} · Każdą bransoletkę robimy ręcznie i nadajemy w ${config.dispatchDays} dni robocze</p>
+<p class="topbar">Darmowa dostawa od ${zl(config.freeShippingFrom)} · Każdą sztukę składamy ręcznie i nadajemy w ${config.dispatchDays} dni robocze</p>
 <header class="site-head">
   <div class="site-head-in">
     <a class="logo" href="index.html" aria-label="SOLUM, strona główna">${logo}</a>
@@ -107,9 +108,9 @@ function footer() {
   <div class="foot-cols">
     <div class="foot-brand">
       <a class="logo" href="index.html" aria-label="SOLUM, strona główna">${logo}</a>
-      <p class="muted">Ręcznie robione bransoletki z kamienia, bursztynu, drewna, skóry, lnu i jedwabiu.</p>
+      <p class="muted">Bransoletki i breloki z kamieni naturalnych, składane ręcznie.</p>
     </div>
-    <nav aria-label="Sklep"><h3>Sklep</h3><ul><li><a href="sklep.html">Wszystkie bransoletki</a></li>${cats}</ul></nav>
+    <nav aria-label="Sklep"><h3>Sklep</h3><ul><li><a href="sklep.html">Cała kolekcja</a></li>${cats}</ul></nav>
     <nav aria-label="Pomoc"><h3>Pomoc</h3><ul>
       <li><a href="dostawa.html">Dostawa i płatności</a></li>
       <li><a href="zwroty.html">Zwroty i reklamacje</a></li>
@@ -144,7 +145,7 @@ function assetVersion() {
 function layout({ title, description, body, active = "", bodyClass = "", scripts = [], head = "" }) {
   const v = assetVersion();
   const scr = scripts.map((s) => `<script src="assets/js/${s}.js?v=${v}" defer></script>`).join("\n");
-  const full = title === "SOLUM" ? "SOLUM, ręcznie robione bransoletki z naturalnych materiałów" : `${title} | SOLUM`;
+  const full = title === "SOLUM" ? "SOLUM, bransoletki i breloki z kamieni naturalnych" : `${title} | SOLUM`;
   const site = config.siteUrl ? `<meta property="og:url" content="${esc(config.siteUrl)}">` : "";
   return `<!doctype html>
 <html lang="pl">
@@ -206,24 +207,8 @@ writeFileSync(
 // ------------------------------------------------------------------ produkt
 
 function materialBlocks(p) {
-  const blocks = [];
-  const seen = new Set();
-  const add = (m) => {
-    if (m && !seen.has(m.name)) {
-      seen.add(m.name);
-      blocks.push(m);
-    }
-  };
-  for (const v of p.variants) {
-    const stone = v.stone || p.stone;
-    if (stone) add(materials.stones[stone]);
-    const wood = v.woodType;
-    if (wood) add(materials.woods[wood]);
-  }
-  if (p.category === "skora") add(materials.fibers.skora);
-  const opisy = JSON.stringify(p.materials).toLowerCase();
-  if (/\blen\b|lniana|lnian/.test(opisy) && p.category !== "skora") add(materials.fibers.len);
-  if (opisy.includes("jedwab")) add(materials.fibers.jedwab);
+  const blocks = [materials.stones[p.stone]];
+  if (p.category === "fasetowane" || p.category === "drobne" || p.category === "zawieszki") blocks.push(materials.metal);
   return blocks;
 }
 
@@ -237,26 +222,14 @@ function mohsScale(m) {
 
 function productPage(p) {
   const v0 = p.variants[0];
-  const sizeList = config.sizes[p.sizes === "bangle" ? "bangle" : "adjustable"];
-  const defaultSize = sizeList[1];
-  const variantInputs = p.variants
-    .map((v, i) => {
-      const price = p.price + (v.priceDelta || 0);
-      const swatch = v.swatchText
-        ? `<span class="swatch swatch-text">${esc(v.swatchText)}</span>`
-        : `<span class="swatch"><img src="assets/img/p/${p.slug}/${v.id}-swatch.webp" width="96" height="96" alt="" loading="lazy"></span>`;
-      return `<label class="variant-opt">
-        <input type="radio" name="variant" value="${v.id}" data-price="${price}"${i === 0 ? " checked" : ""}>
-        ${swatch}<span class="variant-name">${esc(v.label)}</span>
-      </label>`;
-    })
-    .join("\n");
-  const sizeInputs = sizeList
+  const size = config.sizes[p.sizes][0];
+  const obj = p.category === "breloki" ? "tym breloku" : "tej bransoletce";
+  const siblings = products
+    .filter((x) => x.category === p.category)
     .map(
-      (s) => `<label class="size-opt" title="${esc(s.note)}">
-        <input type="radio" name="size" value="${s.id}"${s.id === defaultSize.id ? " checked" : ""}>
-        <span>${esc(s.label)}</span>
-      </label>`,
+      (x) => `<a class="variant-opt" href="produkt-${x.slug}.html" title="${esc(x.name)}"${x.slug === p.slug ? ' aria-current="page"' : ""}>
+        <span class="swatch"><img src="assets/img/p/${x.slug}/${x.variants[0].id}-swatch.webp" width="96" height="96" alt="" loading="lazy"></span><span class="variant-name">${esc(x.name)}</span>
+      </a>`,
     )
     .join("\n");
   const gallery = SHOTS.map((shot, i) => {
@@ -314,25 +287,22 @@ function productPage(p) {
         <p class="buy-price"><span data-price>${zl(p.price + (v0.priceDelta || 0))}</span> <span class="muted buy-vat">z VAT</span></p>
         <p class="buy-lead">${esc(p.lead)}</p>
         <form data-buy-form>
-          <fieldset class="opt">
-            <legend>${esc(p.variantLabel)}: <strong data-variant-label>${esc(v0.label)}</strong></legend>
-            <div class="variant-list">${variantInputs}</div>
-          </fieldset>
-          <fieldset class="opt">
-            <legend>Rozmiar: <strong data-size-note>${esc(defaultSize.note)}</strong></legend>
-            <div class="size-list">${sizeInputs}</div>
-            <button class="link-btn" type="button" data-size-guide>Jak zmierzyć rękę?</button>
-          </fieldset>
+          <input type="hidden" name="variant" value="${v0.id}">
+          <input type="hidden" name="size" value="${size.id}">
+          <div class="opt">
+            <p class="opt-label">${esc(p.variantLabel)}: <strong>${esc(p.name)}</strong></p>
+            <div class="variant-list">${siblings}</div>
+          </div>
           <button class="btn btn-ink btn-wide" type="submit">Dodaj do koszyka</button>
         </form>
         <ul class="buy-notes">
-          <li>Nadamy do <strong data-dispatch></strong>. Robimy ją ręcznie po złożeniu zamówienia.</li>
+          <li>Nadamy do <strong data-dispatch></strong>. Składamy ręcznie po złożeniu zamówienia.</li>
           <li>Dostawa od 11 zł, darmowa od ${zl(config.freeShippingFrom)}.</li>
-          <li>${config.returnDays} dni na zwrot i ${config.repairYears} lata bezpłatnych napraw zapięcia.</li>
+          <li>${config.returnDays} dni na zwrot i ${config.repairYears} lata bezpłatnych napraw.</li>
         </ul>
         <div class="acc">
-          <details open><summary>Z czego jest zrobiona</summary><table class="spec"><tbody>${rows}<tr><th scope="row">Waga</th><td>${esc(p.weight)}</td></tr></tbody></table></details>
-          <details><summary>Pielęgnacja</summary><p>Zdejmuj bransoletkę do kąpieli, sprzątania i ćwiczeń. Przecieraj suchą, miękką ściereczką i przechowuj osobno. Więcej w <a href="pielegnacja.html">poradniku pielęgnacji</a>.</p></details>
+          <details open><summary>Materiały i wymiary</summary><table class="spec"><tbody>${rows}<tr><th scope="row">Rozmiar</th><td>${esc(size.label)}: ${esc(size.note)}</td></tr><tr><th scope="row">Waga</th><td>${esc(p.weight)}</td></tr></tbody></table></details>
+          <details><summary>Pielęgnacja</summary><p>Chroń kamień przed wodą, kosmetykami i uderzeniami. Przecieraj suchą, miękką ściereczką i przechowuj osobno. Więcej w <a href="pielegnacja.html">poradniku pielęgnacji</a>.</p></details>
           <details><summary>Dostawa i zwroty</summary><p>Wysyłamy InPostem, Orlen Paczką i DPD. Możesz też odebrać zamówienie w pracowni. Szczegóły znajdziesz na stronach <a href="dostawa.html">dostawa i płatności</a> oraz <a href="zwroty.html">zwroty i reklamacje</a>.</p></details>
           <details><summary>Dane producenta</summary><p>${esc(s.legalName)}, ${esc(s.address)}, ${esc(s.city)}. Kontakt: <a href="mailto:${s.email}">${s.email}</a>.</p></details>
         </div>
@@ -340,15 +310,15 @@ function productPage(p) {
     </div>
   </div>
   <section class="pdp-story">
-    <h2 class="h-section">O tej bransoletce</h2>
+    <h2 class="h-section">O ${obj}</h2>
     <div class="story-cols">${p.story.map((t) => `<p>${esc(t)}</p>`).join("")}</div>
   </section>
   <section class="pdp-mats">
     <h2 class="h-section">Karta materiału</h2>
-    <div class="mat-grid">${materialHtml || `<div class="mat-card"><h3>Len i jedwab</h3><p>${esc(materials.fibers.len.text)}</p></div>`}</div>
+    <div class="mat-grid">${materialHtml}</div>
   </section>
   <section class="pdp-related">
-    <div class="sec-head"><h2 class="h-section">Może Ci się spodobać</h2><a class="link-arrow" href="sklep.html">Wszystkie bransoletki</a></div>
+    <div class="sec-head"><h2 class="h-section">Może Ci się spodobać</h2><a class="link-arrow" href="sklep.html">Cała kolekcja</a></div>
     <div class="grid-cards">${related.map((r) => card(r, { named: false })).join("\n")}</div>
   </section>
 </div>
@@ -404,37 +374,28 @@ const filterChips = [`<button type="button" class="chip" data-filter="" aria-pre
   .concat(config.categories.map((c) => `<button type="button" class="chip" data-filter="${c.id}" aria-pressed="false">${c.name}</button>`))
   .join("");
 
+const TILE = "(min-width: 1100px) 19vw, (min-width: 640px) 32vw, 48vw";
 const fragments = {
-  "cards:home-a": cards(["lawica", "okruch", "rzemien", "zrab"]),
-  "cards:home-b": cards(["pasmo", "sloje", "osnowa", "watek"], { named: true }),
+  "cards:home-a": cards(["blue-amazonit", "tygrysie-oko", "pink-turmalin", "brelok-rose-quartz"]),
+  "cards:home-b": cards(["chrysocolla", "sunstone", "rubin-w-zoisycie", "akwamaryn"], { named: true }),
   "cards:all": allCards,
   "filters": filterChips,
   "table:shipping": `<div class="table-wrap"><table class="table"><thead><tr><th scope="col">Sposób dostawy</th><th scope="col">Koszt</th><th scope="col">Czas</th><th scope="col">Próg darmowej dostawy</th></tr></thead><tbody>${shippingRows}</tbody></table></div>`,
   "list:payments": `<ul class="pay-list">${paymentRows}</ul>`,
-  "img:dom-hero": sceneImg("dom-hero", "Trzy bransoletki SOLUM na jasnym kamieniu: bursztynowa, z krzemienia pasiastego i ze skóry", 1800, 1400, "(min-width: 900px) 58vw, 100vw", true),
-  "img:kamien": sceneImg("kamien", "Rozsypane koraliki z lapisu, krzemienia, nefrytu i amazonitu", 1100, 1375, "(min-width: 900px) 24vw, 48vw"),
-  "img:bursztyn": sceneImg("bursztyn", "Okruchy bursztynu w kolorze koniaku, miodu i mleka", 1100, 1375, "(min-width: 900px) 24vw, 48vw"),
-  "img:drewno": sceneImg("drewno", "Toczone koraliki z dębu bagiennego, oliwki i orzecha", 1100, 1375, "(min-width: 900px) 24vw, 48vw"),
-  "img:skora": sceneImg("skora", "Pas ze skóry garbowanej roślinnie, skórzana plecionka i cewka lnu", 1100, 1375, "(min-width: 900px) 24vw, 48vw"),
-  "img:pracownia": sceneImg("pracownia", "Bransoletka w trakcie nawlekania: cewka lnu, nić z koralikami z krzemienia i rozsypane kamienie", 1800, 1100, "100vw"),
-  "img:zapiecie": productImg(bySlug("lawica"), bySlug("lawica").variants[0], "detail", { sizes: "(min-width: 900px) 40vw, 100vw", alt: "Przesuwny węzeł z jedwabnej nici w bransoletce Ławica" }),
-  "img:kolek": productImg(bySlug("rzemien"), bySlug("rzemien").variants[0], "detail", { sizes: "(min-width: 900px) 40vw, 100vw", alt: "Kołek z drewna oliwnego i lniane szwy w bransoletce Rzemień" }),
+  "img:dom-hero": sceneImg("dom-hero", "Bransoletka z amazonitu, bransoletka z tygrysiego oka i brelok z kwarcu różowego na jasnym kamieniu", 1800, 1400, "(min-width: 900px) 58vw, 100vw", true),
+  "img:fasetowane": sceneImg("fasetowane", "Fasetowane koraliki z amazonitu, turmalinu i kamienia słonecznego ze złotymi kuleczkami", 1100, 1375, TILE),
+  "img:drobne": sceneImg("drobne", "Drobne fasetowane koraliki z tygrysiego oka, chryzokoli i turmalinu", 1100, 1375, TILE),
+  "img:kostki": sceneImg("kostki", "Koraliki w kształcie ściętych kostek z kalcytu, ametystu i akwamarynu", 1100, 1375, TILE),
+  "img:zawieszki": sceneImg("zawieszki", "Bransoletka z rubinu w zoisycie ze złotą zawieszką", 1100, 1375, TILE),
+  "img:breloki": sceneImg("breloki", "Trzy breloki z koralików i otoczaków z kamieni naturalnych", 1100, 1375, TILE),
+  "img:pracownia": sceneImg("pracownia", "Bransoletka w trakcie nawlekania: koraliki z amazonitu i złote kuleczki", 1800, 1100, "100vw"),
+  "img:zapiecie": productImg(bySlug("blue-amazonit"), bySlug("blue-amazonit").variants[0], "detail", { sizes: "(min-width: 900px) 40vw, 100vw", alt: "Karabińczyk i łańcuszek w bransoletce Blue Amazonit" }),
+  "img:kolek": productImg(bySlug("rubin-w-zoisycie"), bySlug("rubin-w-zoisycie").variants[0], "detail", { sizes: "(min-width: 900px) 40vw, 100vw", alt: "Złota zawieszka w kształcie kwiatu w bransoletce Rubin w zoisycie" }),
 };
 
-function stoneCards() {
-  const m = materials;
-  const stone = Object.values(m.stones)
-    .map(
-      (x) => `<article class="mat-card"><h3>${esc(x.name)}</h3><p class="muted">${esc(x.origin)}</p><p>${esc(x.text)}</p>${mohsScale(x)}<p class="form-note">${esc(x.mohsNote)}</p></article>`,
-    )
-    .join("");
-  const list = (o) => Object.values(o).map((x) => `<article class="mat-card"><h3>${esc(x.name)}</h3><p class="muted">${esc(x.origin)}</p><p>${esc(x.text)}</p></article>`).join("");
-  return { stone, wood: list(m.woods), fiber: list(m.fibers) };
-}
-const sc = stoneCards();
-fragments["mat:stones"] = sc.stone;
-fragments["mat:woods"] = sc.wood;
-fragments["mat:fibers"] = sc.fiber;
+const stoneCard = (x) =>
+  `<article class="mat-card"><h3>${esc(x.name)}</h3><p class="muted">${esc(x.origin)}</p><p>${esc(x.text)}</p>${mohsScale(x)}<p class="form-note">${esc(x.mohsNote)}</p></article>`;
+fragments["mat:stones"] = Object.values(materials.stones).map(stoneCard).join("");
 
 function render(text) {
   return text

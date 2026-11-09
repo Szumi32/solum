@@ -1,273 +1,1031 @@
 [
   {
-    "slug": "lawica",
-    "name": "Ławica",
-    "category": "kamien",
-    "price": 420,
+    "slug": "blue-amazonit",
+    "name": "Blue Amazonit",
+    "category": "fasetowane",
+    "price": 89,
     "featured": 1,
-    "tagline": "Krzemień pasiasty z Gór Świętokrzyskich",
-    "lead": "Każdy koralik ma własny układ pasm, bo krzemień pasiasty nie powtarza wzoru. Występuje tylko w Polsce, a my nawlekamy go na grafitowy jedwab.",
+    "tagline": "Seria fasetowana, złote przekładki",
+    "lead": "Niebiesko-zielony skaleń z delikatnymi jaśniejszymi smugami. Po oszlifowaniu ma matowy, miękki połysk.",
     "story": [
-      "Krzemień pasiasty wydobywa się w okolicach Ożarowa i Sandomierza. Pasma szarości, grafitu i kości słoniowej układały się w nim przez miliony lat.",
-      "Dobieramy koraliki ręcznie, tak żeby jasne i ciemne pasma rozkładały się równo na całym obwodzie. Dwie bransoletki Ławica nigdy nie będą takie same."
+      "Koraliki około 9 mm są szlifowane fasetowo, a między każdymi dwoma leży mała złota kuleczka. Łańcuszek przy zapięciu pozwala dopasować obwód.",
+      "Kamień jest naturalny, więc rysunek i odcień różnią się między sztukami. Obraz na stronie pokazuje typowy wygląd tej bransoletki."
     ],
-    "materials": [["Koraliki", "krzemień pasiasty, polerowany"], ["Nić", "jedwab, grafitowy"], ["Zapięcie", "przesuwny węzeł z tej samej nici"]],
-    "stone": "krzemien",
-    "closure": "knot",
-    "weight": "ok. 16 g",
-    "variantLabel": "Średnica koralika",
+    "materials": [
+      [
+        "Koraliki",
+        "amazonit, szlif fasetowy, ok. 9 mm"
+      ],
+      [
+        "Przekładki",
+        "złote kuleczki"
+      ],
+      [
+        "Zapięcie",
+        "karabińczyk i łańcuszek przedłużający w złotym kolorze"
+      ]
+    ],
+    "stone": "amazonit",
+    "sizes": "chain",
+    "weight": "ok. 18 g",
+    "variantLabel": "Kamień",
     "variants": [
-      {"id": "8mm", "label": "8 mm", "swatchText": "8", "model": {"type": "beads", "mats": ["krzemien"], "d": 0.8, "cord": "silk_grafit"}},
-      {"id": "6mm", "label": "6 mm", "swatchText": "6", "priceDelta": -60, "model": {"type": "beads", "mats": ["krzemien"], "d": 0.6, "cord": "silk_grafit"}},
-      {"id": "10mm", "label": "10 mm", "swatchText": "10", "priceDelta": 90, "model": {"type": "beads", "mats": ["krzemien"], "d": 1.0, "cord": "silk_grafit"}}
+      {
+        "id": "standard",
+        "label": "Seria fasetowana",
+        "model": {
+          "type": "rondel",
+          "mat": "amazonit_nieb"
+        }
+      }
     ]
   },
   {
-    "slug": "pasmo",
-    "name": "Pasmo",
-    "category": "kamien",
-    "price": 340,
+    "slug": "pink-turmalin",
+    "name": "Pink Turmalin",
+    "category": "fasetowane",
+    "price": 89,
     "featured": 2,
-    "tagline": "Jeden kamień na całym obwodzie",
-    "lead": "Najprostsza bransoletka w kolekcji: koraliki 8 mm z jednego kamienia, jedwabna nić i przesuwny węzeł. Wybierz kamień, który lubisz nosić.",
+    "tagline": "Seria fasetowana, złote przekładki",
+    "lead": "Kamień o przygaszonych odcieniach, od perłowej szarości po śliwkowy róż. Każdy koralik ma trochę inny kolor.",
     "story": [
-      "Pasmo powstało do codziennego noszenia. Nie ma w nim metalowych elementów, więc nie dzwoni o klawiaturę i nie drapie zegarka.",
-      "Kamienie kupujemy jako surowe, niebarwione partie i sortujemy je ręcznie pod kątem koloru. Naturalne różnice między koralikami zostają, bo to one odróżniają kamień od szkła."
+      "Koraliki około 9 mm są szlifowane fasetowo, a między każdymi dwoma leży mała złota kuleczka. Łańcuszek przy zapięciu pozwala dopasować obwód.",
+      "Kamień jest naturalny, więc rysunek i odcień różnią się między sztukami. Obraz na stronie pokazuje typowy wygląd tej bransoletki."
     ],
-    "materials": [["Koraliki", "wybrany kamień naturalny, polerowany"], ["Nić", "jedwab"], ["Zapięcie", "przesuwny węzeł z tej samej nici"]],
-    "closure": "knot",
-    "weight": "ok. 15 g",
+    "materials": [
+      [
+        "Koraliki",
+        "turmalin różowy, szlif fasetowy, ok. 9 mm"
+      ],
+      [
+        "Przekładki",
+        "złote kuleczki"
+      ],
+      [
+        "Zapięcie",
+        "karabińczyk i łańcuszek przedłużający w złotym kolorze"
+      ]
+    ],
+    "stone": "turmalin_rozowy",
+    "sizes": "chain",
+    "weight": "ok. 18 g",
     "variantLabel": "Kamień",
     "variants": [
-      {"id": "lapis", "label": "Lapis lazuli", "stone": "lapis", "model": {"type": "beads", "mats": ["lapis"], "d": 0.8, "cord": "silk_grafit"}},
-      {"id": "nefryt", "label": "Nefryt", "stone": "nefryt", "model": {"type": "beads", "mats": ["nefryt"], "d": 0.8, "cord": "silk_mech"}},
-      {"id": "obsydian", "label": "Obsydian", "stone": "obsydian", "model": {"type": "beads", "mats": ["obsydian"], "d": 0.8, "cord": "silk_grafit"}},
-      {"id": "tygrysie-oko", "label": "Tygrysie oko", "stone": "tygrysie_oko", "model": {"type": "beads", "mats": ["tygrysie_oko"], "d": 0.8, "cord": "silk_glina"}},
-      {"id": "kwarc", "label": "Kwarc różowy", "stone": "kwarc", "model": {"type": "beads", "mats": ["kwarc"], "d": 0.8, "cord": "silk_piasek"}},
-      {"id": "amazonit", "label": "Amazonit", "stone": "amazonit", "model": {"type": "beads", "mats": ["amazonit"], "d": 0.8, "cord": "silk_piasek"}}
+      {
+        "id": "standard",
+        "label": "Seria fasetowana",
+        "model": {
+          "type": "rondel",
+          "mat": "turmalin_rozowy"
+        }
+      }
     ]
   },
   {
-    "slug": "okruch",
-    "name": "Okruch",
-    "category": "bursztyn",
-    "price": 590,
+    "slug": "sunstone",
+    "name": "Sunstone",
+    "category": "fasetowane",
+    "price": 89,
     "featured": 3,
-    "tagline": "Bursztyn bałtycki w nieregularnych okruchach",
-    "lead": "Okruchy bursztynu zachowują kształt, jaki nadało im morze. Szlifujemy je tylko tyle, żeby były gładkie w dotyku, i nawlekamy na jedwab.",
+    "tagline": "Seria fasetowana, złote przekładki",
+    "lead": "Brzoskwiniowy skaleń z drobinami, które połyskują w świetle jak miedź.",
     "story": [
-      "Bursztyn jest ciepły i lekki, więc bransoletka prawie nie waży. Pod światło widać w nim chmurki i drobne wrostki, które świadczą o naturalnym pochodzeniu.",
-      "Nie podgrzewamy i nie prasujemy surowca. Kolor koniaku, miodu i mleka pochodzi z samej żywicy."
+      "Koraliki około 9 mm są szlifowane fasetowo, a między każdymi dwoma leży mała złota kuleczka. Łańcuszek przy zapięciu pozwala dopasować obwód.",
+      "Kamień jest naturalny, więc rysunek i odcień różnią się między sztukami. Obraz na stronie pokazuje typowy wygląd tej bransoletki."
     ],
-    "materials": [["Okruchy", "bursztyn bałtycki, szlifowany ręcznie"], ["Nić", "jedwab, piaskowy"], ["Zapięcie", "przesuwny węzeł z tej samej nici"]],
-    "stone": "bursztyn",
-    "closure": "knot",
-    "weight": "ok. 8 g",
-    "variantLabel": "Kolor bursztynu",
+    "materials": [
+      [
+        "Koraliki",
+        "kamień słoneczny, szlif fasetowy, ok. 9 mm"
+      ],
+      [
+        "Przekładki",
+        "złote kuleczki"
+      ],
+      [
+        "Zapięcie",
+        "karabińczyk i łańcuszek przedłużający w złotym kolorze"
+      ]
+    ],
+    "stone": "sloneczny",
+    "sizes": "chain",
+    "weight": "ok. 18 g",
+    "variantLabel": "Kamień",
     "variants": [
-      {"id": "koniak", "label": "Koniak", "model": {"type": "beads", "mats": ["bursztyn_koniak"], "d": 1.05, "shape": "nugget", "cord": "silk_piasek"}},
-      {"id": "miod", "label": "Miód", "model": {"type": "beads", "mats": ["bursztyn_miod"], "d": 1.05, "shape": "nugget", "cord": "silk_piasek"}},
-      {"id": "krolewski", "label": "Mleczny", "priceDelta": 80, "model": {"type": "beads", "mats": ["bursztyn_krolewski"], "d": 1.05, "shape": "nugget", "cord": "silk_piasek"}}
+      {
+        "id": "standard",
+        "label": "Seria fasetowana",
+        "model": {
+          "type": "rondel",
+          "mat": "sloneczny"
+        }
+      }
     ]
   },
   {
-    "slug": "sloje",
-    "name": "Słoje",
-    "category": "drewno",
-    "price": 290,
+    "slug": "lapis",
+    "name": "Lapis lazuli",
+    "category": "fasetowane",
+    "price": 89,
     "featured": 4,
-    "tagline": "Toczone koraliki z litego drewna",
-    "lead": "Koraliki 10 mm toczone z jednego kawałka drewna i wykańczane olejem lnianym. Lekkie, ciepłe w dotyku i z czasem coraz ładniejsze.",
+    "tagline": "Seria fasetowana, złote przekładki",
+    "lead": "Głęboki błękit z drobinami pirytu, które błyszczą jak złoto. Jaśniejsze plamki to naturalny kalcyt.",
     "story": [
-      "Dąb bagienny przeleżał w ziemi setki lat i naturalnie ściemniał. Oliwka ma żywe, ciemne żyłki, a orzech równy, czekoladowy rysunek słojów.",
-      "Drewno nie jest lakierowane. Olej wnika w pory, więc bransoletka nabiera głębszego koloru wraz z noszeniem."
+      "Koraliki około 9 mm są szlifowane fasetowo, a między każdymi dwoma leży mała złota kuleczka. Łańcuszek przy zapięciu pozwala dopasować obwód.",
+      "Kamień jest naturalny, więc rysunek i odcień różnią się między sztukami. Obraz na stronie pokazuje typowy wygląd tej bransoletki."
     ],
-    "materials": [["Koraliki", "lite drewno, olej lniany"], ["Nić", "len naturalny, woskowany woskiem pszczelim"], ["Zapięcie", "przesuwny węzeł z tej samej nici"]],
-    "closure": "knot",
-    "wood": true,
-    "weight": "ok. 7 g",
-    "variantLabel": "Drewno",
+    "materials": [
+      [
+        "Koraliki",
+        "Lapis lazuli, szlif fasetowy, ok. 9 mm"
+      ],
+      [
+        "Przekładki",
+        "złote kuleczki"
+      ],
+      [
+        "Zapięcie",
+        "karabińczyk i łańcuszek przedłużający w złotym kolorze"
+      ]
+    ],
+    "stone": "lapis",
+    "sizes": "chain",
+    "weight": "ok. 18 g",
+    "variantLabel": "Kamień",
     "variants": [
-      {"id": "dab-bagienny", "label": "Dąb bagienny", "priceDelta": 70, "woodType": "dab_bagienny", "model": {"type": "beads", "mats": ["dab_bagienny"], "d": 1.0, "cord": "linen"}},
-      {"id": "oliwka", "label": "Oliwka", "woodType": "oliwka", "model": {"type": "beads", "mats": ["oliwka"], "d": 1.0, "cord": "linen"}},
-      {"id": "orzech", "label": "Orzech", "woodType": "orzech", "model": {"type": "beads", "mats": ["orzech"], "d": 1.0, "cord": "linen"}}
+      {
+        "id": "standard",
+        "label": "Seria fasetowana",
+        "model": {
+          "type": "rondel",
+          "mat": "lapis"
+        }
+      }
     ]
   },
   {
-    "slug": "poklad",
-    "name": "Pokład",
-    "category": "kamien",
-    "price": 360,
+    "slug": "tygrysie-oko",
+    "name": "Tygrysie oko",
+    "category": "drobne",
+    "price": 39,
     "featured": 5,
-    "tagline": "Drewno i kamień w równym rytmie",
-    "lead": "Trzy koraliki drewna, jeden kamienia. Powtarzalny układ daje bransoletce spokojny rytm, a połączenie dwóch materiałów dobrze wygląda obok zegarka.",
+    "tagline": "Seria drobna, koraliki 5 mm",
+    "lead": "Kwarc z włóknistą strukturą, przez którą złote pasma zmieniają jasność wraz z ruchem ręki.",
     "story": [
-      "Pokład to warstwa skały w złożu. W tej bransoletce warstwy tworzą koraliki: matowe drewno przerywane polerowanym kamieniem.",
-      "Pary materiałów dobieramy tak, żeby się uzupełniały: ciemny dąb z krzemieniem, jasna oliwka z amazonitem, orzech z tygrysim okiem."
+      "Najdrobniejsza seria: fasetowane koraliki około 5 mm, a co kilka z nich cienka złota przekładka. Dobrze wygląda sama i w zestawie z innymi.",
+      "Kamień jest naturalny, więc rysunek i odcień różnią się między sztukami. Obraz na stronie pokazuje typowy wygląd tej bransoletki."
     ],
-    "materials": [["Koraliki", "lite drewno i kamień naturalny"], ["Nić", "len naturalny, woskowany"], ["Zapięcie", "przesuwny węzeł z tej samej nici"]],
-    "closure": "knot",
-    "weight": "ok. 11 g",
-    "variantLabel": "Zestawienie",
-    "variants": [
-      {"id": "dab-krzemien", "label": "Dąb bagienny i krzemień", "stone": "krzemien", "woodType": "dab_bagienny", "model": {"type": "beads", "mats": ["dab_bagienny", "dab_bagienny", "dab_bagienny", "krzemien"], "d": 0.8, "cord": "linen"}},
-      {"id": "oliwka-amazonit", "label": "Oliwka i amazonit", "stone": "amazonit", "woodType": "oliwka", "model": {"type": "beads", "mats": ["oliwka", "oliwka", "oliwka", "amazonit"], "d": 0.8, "cord": "linen"}},
-      {"id": "orzech-tygrys", "label": "Orzech i tygrysie oko", "stone": "tygrysie_oko", "woodType": "orzech", "model": {"type": "beads", "mats": ["orzech", "orzech", "orzech", "tygrysie_oko"], "d": 0.8, "cord": "linen"}}
-    ]
-  },
-  {
-    "slug": "morena",
-    "name": "Morena",
-    "category": "kamien",
-    "price": 480,
-    "featured": 6,
-    "tagline": "Duże otoczaki, każdy inny",
-    "lead": "Kamienie o nieregularnym kształcie, obtaczane w bębnie przez kilka tygodni. Najbardziej wyrazista bransoletka w kolekcji, ale wciąż lekka na nadgarstku.",
-    "story": [
-      "Morena to materiał niesiony przez lodowiec i odkładany w przypadkowym porządku. Tak właśnie układamy otoczaki: od największych po mniejsze, bez symetrii.",
-      "Kamienie nie są cięte. Kształt nadaje im obróbka w bębnie, a my wiercimy otwór i dobieramy kolejność."
+    "materials": [
+      [
+        "Koraliki",
+        "tygrysie oko, szlif fasetowy, ok. 5 mm"
+      ],
+      [
+        "Przekładki",
+        "złote krążki"
+      ],
+      [
+        "Zapięcie",
+        "brak, bransoletka rozciągliwa"
+      ]
     ],
-    "materials": [["Otoczaki", "kamień naturalny, 12 do 16 mm"], ["Nić", "gruby len, woskowany"], ["Zapięcie", "przesuwny węzeł z tej samej nici"]],
-    "closure": "knot",
-    "weight": "ok. 28 g",
-    "variantLabel": "Kamień",
-    "variants": [
-      {"id": "krzemien", "label": "Krzemień pasiasty", "stone": "krzemien", "model": {"type": "beads", "mats": ["krzemien"], "d": 1.4, "shape": "pebble", "cord": "linen"}},
-      {"id": "obsydian", "label": "Obsydian", "stone": "obsydian", "model": {"type": "beads", "mats": ["obsydian"], "d": 1.4, "shape": "pebble", "cord": "linen"}},
-      {"id": "amazonit", "label": "Amazonit", "stone": "amazonit", "model": {"type": "beads", "mats": ["amazonit"], "d": 1.4, "shape": "pebble", "cord": "linen"}}
-    ]
-  },
-  {
-    "slug": "uskok",
-    "name": "Uskok",
-    "category": "kamien",
-    "price": 390,
-    "featured": 7,
-    "tagline": "Połowa kamień, połowa pleciony len",
-    "lead": "Bransoletka przełamana w połowie obwodu: z jednej strony rząd koralików, z drugiej ręcznie pleciony len. Dobrze wygląda z każdej strony nadgarstka.",
-    "story": [
-      "Uskok to miejsce, w którym warstwy skały przesuwają się względem siebie. Tutaj przejście następuje między kamieniem a plecionką.",
-      "Plecionkę wykonujemy trójsplotem z woskowanego lnu. Z czasem mięknie i dopasowuje się do ręki."
-    ],
-    "materials": [["Koraliki", "kamień naturalny, polerowany"], ["Plecionka", "len naturalny, woskowany"], ["Zapięcie", "przesuwny węzeł lniany"]],
-    "closure": "knot",
-    "weight": "ok. 10 g",
-    "variantLabel": "Kamień",
-    "variants": [
-      {"id": "tygrysie-oko", "label": "Tygrysie oko", "stone": "tygrysie_oko", "model": {"type": "half", "mats": ["tygrysie_oko"], "d": 0.7, "cord": "linen"}},
-      {"id": "obsydian", "label": "Obsydian", "stone": "obsydian", "model": {"type": "half", "mats": ["obsydian"], "d": 0.7, "cord": "linen"}},
-      {"id": "kwarc", "label": "Kwarc różowy", "stone": "kwarc", "model": {"type": "half", "mats": ["kwarc"], "d": 0.7, "cord": "linen"}}
-    ]
-  },
-  {
-    "slug": "watek",
-    "name": "Wątek",
-    "category": "wlokno",
-    "price": 189,
-    "featured": 8,
-    "tagline": "Cienki jedwab i drobne kamienie",
-    "lead": "Najdelikatniejsza bransoletka SOLUM: jedwabna nić barwiona roślinnie i pięć kamieni o średnicy 4 mm. Noś ją osobno albo w zestawie z innymi.",
-    "story": [
-      "Jedwab barwimy korą, łupinami orzecha i liśćmi, dlatego odcienie są stonowane i każda partia różni się minimalnie.",
-      "Pięć drobnych kamieni rozkładamy nierówno, żeby wyglądały jak wątki przeplatające osnowę. Waży tyle, że łatwo zapomnieć o jej noszeniu."
-    ],
-    "materials": [["Nić", "jedwab barwiony roślinnie"], ["Kamienie", "kamień naturalny, 4 mm"], ["Zapięcie", "przesuwny węzeł z tej samej nici"]],
-    "closure": "knot",
-    "weight": "ok. 2 g",
-    "variantLabel": "Kolor nici",
-    "variants": [
-      {"id": "glina", "label": "Glina z bursztynem", "stone": "bursztyn", "model": {"type": "strand", "mats": ["bursztyn_miod"], "d": 0.42, "cord": "silk_glina_thick", "count": 5}},
-      {"id": "mech", "label": "Mech z nefrytem", "stone": "nefryt", "model": {"type": "strand", "mats": ["nefryt"], "d": 0.42, "cord": "silk_mech_thick", "count": 5}},
-      {"id": "grafit", "label": "Grafit z krzemieniem", "stone": "krzemien", "model": {"type": "strand", "mats": ["krzemien"], "d": 0.42, "cord": "silk_grafit_thick", "count": 5}}
-    ]
-  },
-  {
-    "slug": "osnowa",
-    "name": "Osnowa",
-    "category": "wlokno",
-    "price": 249,
-    "featured": 9,
-    "tagline": "Lniana plecionka z jednym kamieniem",
-    "lead": "Ręcznie pleciony len z pojedynczym kamieniem 12 mm. Prosta forma, w której najwięcej mówi sam materiał.",
-    "story": [
-      "Plecionka powstaje z trzech pasm woskowanego lnu. Wosk pszczeli chroni włókno i nadaje mu delikatny połysk.",
-      "Jeden kamień to jedna decyzja: wybierz lapis, bursztyn albo obsydian, a resztę pracy wykona len."
-    ],
-    "materials": [["Plecionka", "len naturalny, woskowany"], ["Kamień", "kamień naturalny lub bursztyn, 12 mm"], ["Zapięcie", "przesuwny węzeł lniany"]],
-    "closure": "knot",
+    "stone": "tygrysie_oko",
+    "sizes": "elastic",
     "weight": "ok. 6 g",
     "variantLabel": "Kamień",
     "variants": [
-      {"id": "lapis", "label": "Lapis lazuli", "stone": "lapis", "model": {"type": "braid_stone", "mats": ["lapis"], "d": 1.2, "cord": "linen"}},
-      {"id": "bursztyn", "label": "Bursztyn", "stone": "bursztyn", "model": {"type": "braid_stone", "mats": ["bursztyn_koniak"], "d": 1.2, "cord": "linen"}},
-      {"id": "obsydian", "label": "Obsydian", "stone": "obsydian", "model": {"type": "braid_stone", "mats": ["obsydian"], "d": 1.2, "cord": "linen"}}
+      {
+        "id": "standard",
+        "label": "Seria drobna",
+        "model": {
+          "type": "drobne",
+          "mat": "tygrysie_oko"
+        }
+      }
     ]
   },
   {
-    "slug": "rzemien",
-    "name": "Rzemień",
-    "category": "skora",
-    "price": 380,
+    "slug": "chrysocolla",
+    "name": "Chrysocolla",
+    "category": "drobne",
+    "price": 39,
+    "featured": 6,
+    "tagline": "Seria drobna, koraliki 5 mm",
+    "lead": "Morski kamień związany ze złożami miedzi. Turkus miesza się w nim z ciemnym brązem i kremową bielą.",
+    "story": [
+      "Najdrobniejsza seria: fasetowane koraliki około 5 mm, a co kilka z nich cienka złota przekładka. Dobrze wygląda sama i w zestawie z innymi.",
+      "Kamień jest naturalny, więc rysunek i odcień różnią się między sztukami. Obraz na stronie pokazuje typowy wygląd tej bransoletki."
+    ],
+    "materials": [
+      [
+        "Koraliki",
+        "chryzokola, szlif fasetowy, ok. 5 mm"
+      ],
+      [
+        "Przekładki",
+        "złote krążki"
+      ],
+      [
+        "Zapięcie",
+        "brak, bransoletka rozciągliwa"
+      ]
+    ],
+    "stone": "chryzokola",
+    "sizes": "elastic",
+    "weight": "ok. 6 g",
+    "variantLabel": "Kamień",
+    "variants": [
+      {
+        "id": "standard",
+        "label": "Seria drobna",
+        "model": {
+          "type": "drobne",
+          "mat": "chryzokola"
+        }
+      }
+    ]
+  },
+  {
+    "slug": "turmalin",
+    "name": "Turmalin",
+    "category": "drobne",
+    "price": 39,
+    "featured": 7,
+    "tagline": "Seria drobna, koraliki 5 mm",
+    "lead": "Odcienie maliny, różu i ciemnego wina w jednym sznurze. Żaden koralik nie jest taki sam.",
+    "story": [
+      "Najdrobniejsza seria: fasetowane koraliki około 5 mm, a co kilka z nich cienka złota przekładka. Dobrze wygląda sama i w zestawie z innymi.",
+      "Kamień jest naturalny, więc rysunek i odcień różnią się między sztukami. Obraz na stronie pokazuje typowy wygląd tej bransoletki."
+    ],
+    "materials": [
+      [
+        "Koraliki",
+        "turmalin, szlif fasetowy, ok. 5 mm"
+      ],
+      [
+        "Przekładki",
+        "złote krążki"
+      ],
+      [
+        "Zapięcie",
+        "brak, bransoletka rozciągliwa"
+      ]
+    ],
+    "stone": "turmalin",
+    "sizes": "elastic",
+    "weight": "ok. 6 g",
+    "variantLabel": "Kamień",
+    "variants": [
+      {
+        "id": "standard",
+        "label": "Seria drobna",
+        "model": {
+          "type": "drobne",
+          "mat": "turmalin"
+        }
+      }
+    ]
+  },
+  {
+    "slug": "onyks",
+    "name": "Onyks",
+    "category": "drobne",
+    "price": 39,
+    "featured": 8,
+    "tagline": "Seria drobna, koraliki 5 mm",
+    "lead": "Głęboka czerń, która po oszlifowaniu mocno odbija światło.",
+    "story": [
+      "Najdrobniejsza seria: fasetowane koraliki około 5 mm, a co kilka z nich cienka złota przekładka. Dobrze wygląda sama i w zestawie z innymi.",
+      "Kamień jest naturalny, więc rysunek i odcień różnią się między sztukami. Obraz na stronie pokazuje typowy wygląd tej bransoletki."
+    ],
+    "materials": [
+      [
+        "Koraliki",
+        "onyks, szlif fasetowy, ok. 5 mm"
+      ],
+      [
+        "Przekładki",
+        "złote krążki"
+      ],
+      [
+        "Zapięcie",
+        "brak, bransoletka rozciągliwa"
+      ]
+    ],
+    "stone": "onyks",
+    "sizes": "elastic",
+    "weight": "ok. 6 g",
+    "variantLabel": "Kamień",
+    "variants": [
+      {
+        "id": "standard",
+        "label": "Seria drobna",
+        "model": {
+          "type": "drobne",
+          "mat": "obsydian"
+        }
+      }
+    ]
+  },
+  {
+    "slug": "kamien-ksiezycowy",
+    "name": "Kamień księżycowy",
+    "category": "drobne",
+    "price": 39,
+    "featured": 9,
+    "tagline": "Seria drobna, koraliki 5 mm",
+    "lead": "Mleczny, półprzezroczysty kamień o miękkim, chłodnym blasku.",
+    "story": [
+      "Najdrobniejsza seria: fasetowane koraliki około 5 mm, a co kilka z nich cienka złota przekładka. Dobrze wygląda sama i w zestawie z innymi.",
+      "Kamień jest naturalny, więc rysunek i odcień różnią się między sztukami. Obraz na stronie pokazuje typowy wygląd tej bransoletki."
+    ],
+    "materials": [
+      [
+        "Koraliki",
+        "kamień księżycowy, szlif fasetowy, ok. 5 mm"
+      ],
+      [
+        "Przekładki",
+        "złote krążki"
+      ],
+      [
+        "Zapięcie",
+        "brak, bransoletka rozciągliwa"
+      ]
+    ],
+    "stone": "ksiezycowy",
+    "sizes": "elastic",
+    "weight": "ok. 6 g",
+    "variantLabel": "Kamień",
+    "variants": [
+      {
+        "id": "standard",
+        "label": "Seria drobna",
+        "model": {
+          "type": "drobne",
+          "mat": "ksiezycowy"
+        }
+      }
+    ]
+  },
+  {
+    "slug": "kalcyt-miodowy",
+    "name": "Kalcyt miodowy",
+    "category": "kostki",
+    "price": 89,
     "featured": 10,
-    "tagline": "Skóra licowa garbowana roślinnie",
-    "lead": "Szeroki pas skóry garbowanej korą, szyty ręcznie lnianą nicią i zapinany na drewniany kołek. Bez nitów i bez metalu.",
+    "tagline": "Seria kostek, szlif sześcienny",
+    "lead": "Ciepły, kremowo-miodowy kamień z mlecznymi smugami. Przepuszcza światło i wygląda jak zastygły miód.",
     "story": [
-      "Skóra garbowana roślinnie jest na początku sztywna, a po kilku tygodniach układa się na nadgarstku. Ciemnieje od słońca i dotyku, więc każda sztuka starzeje się inaczej.",
-      "Szyjemy ściegiem siodlarskim, dwiema igłami naraz. Jeśli jedna nić kiedyś pęknie, szew się nie rozejdzie."
+      "Koraliki około 7 mm mają kształt ściętych kostek, więc każda ścianka inaczej odbija światło. Bez przekładek, sam kamień na całym obwodzie.",
+      "Kamień jest naturalny, więc rysunek i odcień różnią się między sztukami. Obraz na stronie pokazuje typowy wygląd tej bransoletki."
     ],
-    "materials": [["Pas", "skóra licowa garbowana roślinnie, 12 mm"], ["Szew", "len woskowany, ścieg siodlarski"], ["Zapięcie", "kołek z drewna oliwnego"]],
-    "closure": "toggle",
-    "weight": "ok. 12 g",
-    "variantLabel": "Kolor skóry",
+    "materials": [
+      [
+        "Koraliki",
+        "kalcyt miodowy, szlif sześcienny, ok. 7 mm"
+      ],
+      [
+        "Zapięcie",
+        "brak, bransoletka rozciągliwa"
+      ]
+    ],
+    "stone": "kalcyt",
+    "sizes": "elastic",
+    "weight": "ok. 14 g",
+    "variantLabel": "Kamień",
     "variants": [
-      {"id": "naturalna", "label": "Naturalna", "swatchColor": "#c8a06f", "model": {"type": "leather_band", "tone": "#b98d58"}},
-      {"id": "koniak", "label": "Koniak", "swatchColor": "#8a4f23", "model": {"type": "leather_band", "tone": "#71451f"}},
-      {"id": "ciemna", "label": "Ciemny brąz", "swatchColor": "#3e2a1d", "model": {"type": "leather_band", "tone": "#35221a"}}
+      {
+        "id": "standard",
+        "label": "Seria kostek",
+        "model": {
+          "type": "kostki",
+          "mat": "kalcyt"
+        }
+      }
     ]
   },
   {
-    "slug": "wezel",
-    "name": "Węzeł",
-    "category": "skora",
-    "price": 340,
+    "slug": "kwarc-dymny",
+    "name": "Kwarc dymny",
+    "category": "kostki",
+    "price": 89,
     "featured": 11,
-    "tagline": "Pleciona skóra zamykana drewnem",
-    "lead": "Okrągła plecionka z trzech rzemieni, zamykana toczonym koralikiem z orzecha. Miękka od pierwszego założenia.",
+    "tagline": "Seria kostek, szlif sześcienny",
+    "lead": "Przezroczysty kwarc w kolorze mocnej herbaty, prawie czarny przy grubszych ściankach.",
     "story": [
-      "Rzemienie tniemy z tej samej skóry garbowanej roślinnie co pasy Rzemień, ale cieńszej i bardziej elastycznej.",
-      "Plecionka nie ma kleju. Jej końce trzyma ściśle zawiązany węzeł, który można poprawić samodzielnie."
+      "Koraliki około 7 mm mają kształt ściętych kostek, więc każda ścianka inaczej odbija światło. Bez przekładek, sam kamień na całym obwodzie.",
+      "Kamień jest naturalny, więc rysunek i odcień różnią się między sztukami. Obraz na stronie pokazuje typowy wygląd tej bransoletki."
     ],
-    "materials": [["Plecionka", "rzemień ze skóry garbowanej roślinnie"], ["Zapięcie", "koralik z orzecha i pętla ze skóry"]],
-    "closure": "toggle",
-    "weight": "ok. 9 g",
-    "variantLabel": "Kolor skóry",
+    "materials": [
+      [
+        "Koraliki",
+        "kwarc dymny, szlif sześcienny, ok. 7 mm"
+      ],
+      [
+        "Zapięcie",
+        "brak, bransoletka rozciągliwa"
+      ]
+    ],
+    "stone": "kwarc_dymny",
+    "sizes": "elastic",
+    "weight": "ok. 14 g",
+    "variantLabel": "Kamień",
     "variants": [
-      {"id": "koniak", "label": "Koniak", "swatchColor": "#8a4f23", "model": {"type": "leather_braid", "tone": "#71451f"}},
-      {"id": "ciemna", "label": "Ciemny brąz", "swatchColor": "#3e2a1d", "model": {"type": "leather_braid", "tone": "#35221a"}}
+      {
+        "id": "standard",
+        "label": "Seria kostek",
+        "model": {
+          "type": "kostki",
+          "mat": "kwarc_dymny"
+        }
+      }
     ]
   },
   {
-    "slug": "zrab",
-    "name": "Zrąb",
-    "category": "drewno",
-    "price": 690,
+    "slug": "ametyst",
+    "name": "Ametyst",
+    "category": "kostki",
+    "price": 89,
     "featured": 12,
-    "tagline": "Sztywna obręcz z drewna giętego parą",
-    "lead": "Obręcz z jednego pasa drewna, gięta nad parą i wykańczana ręcznie. Bez spoin widocznych na zewnątrz, bez zapięcia, zakładana przez dłoń.",
+    "tagline": "Seria kostek, szlif sześcienny",
+    "lead": "Odmiana kwarcu w odcieniach fioletu i liliowego różu.",
     "story": [
-      "Pas drewna moczymy i gniemy nad parą, a potem suszymy na formie przez dwa tygodnie. Dzięki temu rysunek słojów biegnie wzdłuż całego obwodu.",
-      "Obręcz szlifujemy ręcznie do gradacji 2000 i olejujemy pięciokrotnie. W dotyku przypomina polerowany kamień, ale jest kilka razy lżejsza."
+      "Koraliki około 7 mm mają kształt ściętych kostek, więc każda ścianka inaczej odbija światło. Bez przekładek, sam kamień na całym obwodzie.",
+      "Kamień jest naturalny, więc rysunek i odcień różnią się między sztukami. Obraz na stronie pokazuje typowy wygląd tej bransoletki."
     ],
-    "materials": [["Obręcz", "lite drewno gięte parą"], ["Wykończenie", "olej lniany i wosk pszczeli"], ["Zapięcie", "brak, obręcz zakładana przez dłoń"]],
-    "closure": "none",
-    "wood": true,
-    "sizes": "bangle",
-    "weight": "ok. 22 g",
-    "variantLabel": "Drewno",
+    "materials": [
+      [
+        "Koraliki",
+        "ametyst, szlif sześcienny, ok. 7 mm"
+      ],
+      [
+        "Zapięcie",
+        "brak, bransoletka rozciągliwa"
+      ]
+    ],
+    "stone": "ametyst",
+    "sizes": "elastic",
+    "weight": "ok. 14 g",
+    "variantLabel": "Kamień",
     "variants": [
-      {"id": "orzech", "label": "Orzech", "woodType": "orzech", "model": {"type": "bangle", "mat": "giety_orzech"}},
-      {"id": "oliwka", "label": "Oliwka", "woodType": "oliwka", "priceDelta": 90, "model": {"type": "bangle", "mat": "giety_oliwka"}},
-      {"id": "dab", "label": "Dąb", "woodType": "dab", "model": {"type": "bangle", "mat": "giety_dab"}}
+      {
+        "id": "standard",
+        "label": "Seria kostek",
+        "model": {
+          "type": "kostki",
+          "mat": "ametyst_jasny"
+        }
+      }
+    ]
+  },
+  {
+    "slug": "akwamaryn",
+    "name": "Akwamaryn",
+    "category": "kostki",
+    "price": 89,
+    "featured": 13,
+    "tagline": "Seria kostek, szlif sześcienny",
+    "lead": "Błękit czystej wody z naturalnymi spękaniami widocznymi w środku kamienia.",
+    "story": [
+      "Koraliki około 7 mm mają kształt ściętych kostek, więc każda ścianka inaczej odbija światło. Bez przekładek, sam kamień na całym obwodzie.",
+      "Kamień jest naturalny, więc rysunek i odcień różnią się między sztukami. Obraz na stronie pokazuje typowy wygląd tej bransoletki."
+    ],
+    "materials": [
+      [
+        "Koraliki",
+        "akwamaryn, szlif sześcienny, ok. 7 mm"
+      ],
+      [
+        "Zapięcie",
+        "brak, bransoletka rozciągliwa"
+      ]
+    ],
+    "stone": "akwamaryn",
+    "sizes": "elastic",
+    "weight": "ok. 14 g",
+    "variantLabel": "Kamień",
+    "variants": [
+      {
+        "id": "standard",
+        "label": "Seria kostek",
+        "model": {
+          "type": "kostki",
+          "mat": "akwamaryn"
+        }
+      }
+    ]
+  },
+  {
+    "slug": "labradoryt",
+    "name": "Labradoryt",
+    "category": "kostki",
+    "price": 89,
+    "featured": 14,
+    "tagline": "Seria kostek, szlif sześcienny",
+    "lead": "Szary, półprzezroczysty skaleń, który pod odpowiednim kątem odbija chłodny błysk.",
+    "story": [
+      "Koraliki około 7 mm mają kształt ściętych kostek, więc każda ścianka inaczej odbija światło. Bez przekładek, sam kamień na całym obwodzie.",
+      "Kamień jest naturalny, więc rysunek i odcień różnią się między sztukami. Obraz na stronie pokazuje typowy wygląd tej bransoletki."
+    ],
+    "materials": [
+      [
+        "Koraliki",
+        "labradoryt, szlif sześcienny, ok. 7 mm"
+      ],
+      [
+        "Zapięcie",
+        "brak, bransoletka rozciągliwa"
+      ]
+    ],
+    "stone": "labradoryt",
+    "sizes": "elastic",
+    "weight": "ok. 14 g",
+    "variantLabel": "Kamień",
+    "variants": [
+      {
+        "id": "standard",
+        "label": "Seria kostek",
+        "model": {
+          "type": "kostki",
+          "mat": "labradoryt"
+        }
+      }
+    ]
+  },
+  {
+    "slug": "rubin-w-zoisycie",
+    "name": "Rubin w zoisycie",
+    "category": "zawieszki",
+    "price": 89,
+    "featured": 15,
+    "tagline": "Seria z zawieszką, złote detale",
+    "lead": "Zielony zoisyt z czarnymi żyłkami i fioletowo-różowymi plamami rubinu.",
+    "story": [
+      "Drobne koraliki około 6 mm, złoty łańcuszek przy zapięciu i zawieszka, która porusza się razem z ręką.",
+      "Kamień jest naturalny, więc rysunek i odcień różnią się między sztukami. Obraz na stronie pokazuje typowy wygląd tej bransoletki."
+    ],
+    "materials": [
+      [
+        "Koraliki",
+        "rubin w zoisycie, szlif fasetowy, ok. 6 mm"
+      ],
+      [
+        "Zawieszka",
+        "kwiat z kryształkami, w złotym kolorze"
+      ],
+      [
+        "Zapięcie",
+        "karabińczyk i łańcuszek przedłużający w złotym kolorze"
+      ]
+    ],
+    "stone": "rubin_zoisyt",
+    "sizes": "chain",
+    "weight": "ok. 12 g",
+    "variantLabel": "Kamień",
+    "variants": [
+      {
+        "id": "standard",
+        "label": "Seria z zawieszką",
+        "model": {
+          "type": "zawieszka",
+          "mat": "rubin_zoisyt",
+          "charm": "kwiat"
+        }
+      }
+    ]
+  },
+  {
+    "slug": "onyks-hamsa",
+    "name": "Onyks z Hamsą",
+    "category": "zawieszki",
+    "price": 89,
+    "featured": 16,
+    "tagline": "Seria z zawieszką, złote detale",
+    "lead": "Głęboka czerń, która po oszlifowaniu mocno odbija światło.",
+    "story": [
+      "Drobne koraliki około 6 mm, złoty łańcuszek przy zapięciu i zawieszka, która porusza się razem z ręką.",
+      "Kamień jest naturalny, więc rysunek i odcień różnią się między sztukami. Obraz na stronie pokazuje typowy wygląd tej bransoletki."
+    ],
+    "materials": [
+      [
+        "Koraliki",
+        "onyks, szlif fasetowy, ok. 6 mm"
+      ],
+      [
+        "Zawieszka",
+        "dłoń Hamsa, w złotym kolorze"
+      ],
+      [
+        "Zapięcie",
+        "karabińczyk i łańcuszek przedłużający w złotym kolorze"
+      ]
+    ],
+    "stone": "onyks",
+    "sizes": "chain",
+    "weight": "ok. 12 g",
+    "variantLabel": "Kamień",
+    "variants": [
+      {
+        "id": "standard",
+        "label": "Seria z zawieszką",
+        "model": {
+          "type": "zawieszka",
+          "mat": "obsydian",
+          "charm": "hamsa"
+        }
+      }
+    ]
+  },
+  {
+    "slug": "sunstone-hamsa",
+    "name": "Sunstone z Hamsą",
+    "category": "zawieszki",
+    "price": 89,
+    "featured": 17,
+    "tagline": "Seria z zawieszką, złote detale",
+    "lead": "Brzoskwiniowy skaleń z drobinami, które połyskują w świetle jak miedź.",
+    "story": [
+      "Drobne koraliki około 6 mm, złoty łańcuszek przy zapięciu i zawieszka, która porusza się razem z ręką.",
+      "Kamień jest naturalny, więc rysunek i odcień różnią się między sztukami. Obraz na stronie pokazuje typowy wygląd tej bransoletki."
+    ],
+    "materials": [
+      [
+        "Koraliki",
+        "kamień słoneczny, szlif fasetowy, ok. 6 mm"
+      ],
+      [
+        "Zawieszka",
+        "dłoń Hamsa, w złotym kolorze"
+      ],
+      [
+        "Zapięcie",
+        "karabińczyk i łańcuszek przedłużający w złotym kolorze"
+      ]
+    ],
+    "stone": "sloneczny",
+    "sizes": "chain",
+    "weight": "ok. 12 g",
+    "variantLabel": "Kamień",
+    "variants": [
+      {
+        "id": "standard",
+        "label": "Seria z zawieszką",
+        "model": {
+          "type": "zawieszka",
+          "mat": "sloneczny",
+          "charm": "hamsa"
+        }
+      }
+    ]
+  },
+  {
+    "slug": "brelok-rose-quartz",
+    "name": "Brelok Rose Quartz",
+    "category": "breloki",
+    "price": 25,
+    "featured": 18,
+    "tagline": "Brelok z kamieniem naturalnym",
+    "lead": "Mleczny, delikatnie różowy kwarc. Lekkie zamglenie jest jego naturalną cechą.",
+    "story": [
+      "Sznur koralików z kamienia zakończony wygładzonym otoczakiem. Metalowy karabińczyk z krętlikiem łatwo przypiąć do kluczy albo torebki.",
+      "Kamień jest naturalny, więc rysunek i odcień różnią się między sztukami. Obraz na stronie pokazuje typowy wygląd tego breloka."
+    ],
+    "materials": [
+      [
+        "Koraliki",
+        "kwarc różowy, ok. 8 mm"
+      ],
+      [
+        "Zawieszka",
+        "otoczak: kwarc różowy"
+      ],
+      [
+        "Mocowanie",
+        "metalowy karabińczyk z krętlikiem"
+      ]
+    ],
+    "stone": "kwarc",
+    "sizes": "keychain",
+    "weight": "ok. 30 g",
+    "variantLabel": "Brelok",
+    "variants": [
+      {
+        "id": "standard",
+        "label": "Brelok",
+        "model": {
+          "type": "brelok",
+          "beads": [
+            "krysztal",
+            "krysztal",
+            "kwarc"
+          ],
+          "pendant": "kwarc"
+        }
+      }
+    ]
+  },
+  {
+    "slug": "brelok-ametyst",
+    "name": "Brelok Ametyst",
+    "category": "breloki",
+    "price": 25,
+    "featured": 19,
+    "tagline": "Brelok z kamieniem naturalnym",
+    "lead": "Odmiana kwarcu w odcieniach fioletu i liliowego różu.",
+    "story": [
+      "Sznur koralików z kamienia zakończony wygładzonym otoczakiem. Metalowy karabińczyk z krętlikiem łatwo przypiąć do kluczy albo torebki.",
+      "Kamień jest naturalny, więc rysunek i odcień różnią się między sztukami. Obraz na stronie pokazuje typowy wygląd tego breloka."
+    ],
+    "materials": [
+      [
+        "Koraliki",
+        "ametyst, ok. 8 mm"
+      ],
+      [
+        "Zawieszka",
+        "otoczak: ametyst"
+      ],
+      [
+        "Mocowanie",
+        "metalowy karabińczyk z krętlikiem"
+      ]
+    ],
+    "stone": "ametyst",
+    "sizes": "keychain",
+    "weight": "ok. 30 g",
+    "variantLabel": "Brelok",
+    "variants": [
+      {
+        "id": "standard",
+        "label": "Brelok",
+        "model": {
+          "type": "brelok",
+          "beads": [
+            "ametyst_ciemny",
+            "ametyst_jasny"
+          ],
+          "pendant": "ametyst_ciemny"
+        }
+      }
+    ]
+  },
+  {
+    "slug": "brelok-tygrysie-oko",
+    "name": "Brelok Tygrysie oko",
+    "category": "breloki",
+    "price": 25,
+    "featured": 20,
+    "tagline": "Brelok z kamieniem naturalnym",
+    "lead": "Kwarc z włóknistą strukturą, przez którą złote pasma zmieniają jasność wraz z ruchem ręki.",
+    "story": [
+      "Sznur koralików z kamienia zakończony wygładzonym otoczakiem. Metalowy karabińczyk z krętlikiem łatwo przypiąć do kluczy albo torebki.",
+      "Kamień jest naturalny, więc rysunek i odcień różnią się między sztukami. Obraz na stronie pokazuje typowy wygląd tego breloka."
+    ],
+    "materials": [
+      [
+        "Koraliki",
+        "tygrysie oko, ok. 8 mm"
+      ],
+      [
+        "Zawieszka",
+        "otoczak: tygrysie oko"
+      ],
+      [
+        "Mocowanie",
+        "metalowy karabińczyk z krętlikiem"
+      ]
+    ],
+    "stone": "tygrysie_oko",
+    "sizes": "keychain",
+    "weight": "ok. 30 g",
+    "variantLabel": "Brelok",
+    "variants": [
+      {
+        "id": "standard",
+        "label": "Brelok",
+        "model": {
+          "type": "brelok",
+          "beads": [
+            "tygrysie_oko"
+          ],
+          "pendant": "tygrysie_oko"
+        }
+      }
+    ]
+  },
+  {
+    "slug": "brelok-jaspis",
+    "name": "Brelok Jaspis",
+    "category": "breloki",
+    "price": 25,
+    "featured": 21,
+    "tagline": "Brelok z kamieniem naturalnym",
+    "lead": "Kremowy kamień w czarne i brązowe cętki, przypominający sierść dalmatyńczyka.",
+    "story": [
+      "Sznur koralików z kamienia zakończony wygładzonym otoczakiem. Metalowy karabińczyk z krętlikiem łatwo przypiąć do kluczy albo torebki.",
+      "Kamień jest naturalny, więc rysunek i odcień różnią się między sztukami. Obraz na stronie pokazuje typowy wygląd tego breloka."
+    ],
+    "materials": [
+      [
+        "Koraliki",
+        "jaspis dalmatyński, ok. 8 mm"
+      ],
+      [
+        "Zawieszka",
+        "otoczak: jaspis dalmatyński"
+      ],
+      [
+        "Mocowanie",
+        "metalowy karabińczyk z krętlikiem"
+      ]
+    ],
+    "stone": "jaspis",
+    "sizes": "keychain",
+    "weight": "ok. 30 g",
+    "variantLabel": "Brelok",
+    "variants": [
+      {
+        "id": "standard",
+        "label": "Brelok",
+        "model": {
+          "type": "brelok",
+          "beads": [
+            "jaspis"
+          ],
+          "pendant": "jaspis"
+        }
+      }
+    ]
+  },
+  {
+    "slug": "brelok-agat",
+    "name": "Brelok Agat",
+    "category": "breloki",
+    "price": 25,
+    "featured": 22,
+    "tagline": "Brelok z kamieniem naturalnym",
+    "lead": "Odmiana chalcedonu z ułożonymi warstwami pasmami w kolorach ziemi.",
+    "story": [
+      "Sznur koralików z kamienia zakończony wygładzonym otoczakiem. Metalowy karabińczyk z krętlikiem łatwo przypiąć do kluczy albo torebki.",
+      "Kamień jest naturalny, więc rysunek i odcień różnią się między sztukami. Obraz na stronie pokazuje typowy wygląd tego breloka."
+    ],
+    "materials": [
+      [
+        "Koraliki",
+        "agat, ok. 8 mm"
+      ],
+      [
+        "Zawieszka",
+        "otoczak: agat"
+      ],
+      [
+        "Mocowanie",
+        "metalowy karabińczyk z krętlikiem"
+      ]
+    ],
+    "stone": "agat",
+    "sizes": "keychain",
+    "weight": "ok. 30 g",
+    "variantLabel": "Brelok",
+    "variants": [
+      {
+        "id": "standard",
+        "label": "Brelok",
+        "model": {
+          "type": "brelok",
+          "beads": [
+            "agat"
+          ],
+          "pendant": "agat"
+        }
+      }
+    ]
+  },
+  {
+    "slug": "brelok-serpentyn",
+    "name": "Brelok Serpentyn",
+    "category": "breloki",
+    "price": 25,
+    "featured": 23,
+    "tagline": "Brelok z kamieniem naturalnym",
+    "lead": "Jasnozielony kamień o gładkim, woskowym dotyku.",
+    "story": [
+      "Sznur koralików z kamienia zakończony wygładzonym otoczakiem. Metalowy karabińczyk z krętlikiem łatwo przypiąć do kluczy albo torebki.",
+      "Kamień jest naturalny, więc rysunek i odcień różnią się między sztukami. Obraz na stronie pokazuje typowy wygląd tego breloka."
+    ],
+    "materials": [
+      [
+        "Koraliki",
+        "serpentyn, ok. 8 mm"
+      ],
+      [
+        "Zawieszka",
+        "otoczak: serpentyn"
+      ],
+      [
+        "Mocowanie",
+        "metalowy karabińczyk z krętlikiem"
+      ]
+    ],
+    "stone": "serpentyn",
+    "sizes": "keychain",
+    "weight": "ok. 30 g",
+    "variantLabel": "Brelok",
+    "variants": [
+      {
+        "id": "standard",
+        "label": "Brelok",
+        "model": {
+          "type": "brelok",
+          "beads": [
+            "serpentyn"
+          ],
+          "pendant": "serpentyn"
+        }
+      }
+    ]
+  },
+  {
+    "slug": "brelok-koraliki-zielony",
+    "name": "Koralikowy zielony",
+    "category": "breloki",
+    "price": 19,
+    "featured": 24,
+    "tagline": "Brelok z samych koralików",
+    "lead": "Jasnozielony kamień o gładkim, woskowym dotyku.",
+    "story": [
+      "Lżejszy brelok z samych koralików, bez dużej zawieszki. Metalowy karabińczyk z krętlikiem łatwo przypiąć do kluczy albo torebki.",
+      "Kamień jest naturalny, więc rysunek i odcień różnią się między sztukami. Obraz na stronie pokazuje typowy wygląd tego breloka."
+    ],
+    "materials": [
+      [
+        "Koraliki",
+        "serpentyn, ok. 8 mm"
+      ],
+      [
+        "Mocowanie",
+        "metalowy karabińczyk z krętlikiem"
+      ]
+    ],
+    "stone": "serpentyn",
+    "sizes": "keychain",
+    "weight": "ok. 20 g",
+    "variantLabel": "Brelok",
+    "variants": [
+      {
+        "id": "standard",
+        "label": "Brelok",
+        "model": {
+          "type": "brelok_koraliki",
+          "beads": [
+            "rubin_zoisyt",
+            "serpentyn",
+            "obsydian"
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "slug": "brelok-koraliki-liliowy",
+    "name": "Koralikowy liliowy",
+    "category": "breloki",
+    "price": 19,
+    "featured": 25,
+    "tagline": "Brelok z samych koralików",
+    "lead": "Odmiana kwarcu w odcieniach fioletu i liliowego różu.",
+    "story": [
+      "Lżejszy brelok z samych koralików, bez dużej zawieszki. Metalowy karabińczyk z krętlikiem łatwo przypiąć do kluczy albo torebki.",
+      "Kamień jest naturalny, więc rysunek i odcień różnią się między sztukami. Obraz na stronie pokazuje typowy wygląd tego breloka."
+    ],
+    "materials": [
+      [
+        "Koraliki",
+        "ametyst, ok. 8 mm"
+      ],
+      [
+        "Mocowanie",
+        "metalowy karabińczyk z krętlikiem"
+      ]
+    ],
+    "stone": "ametyst",
+    "sizes": "keychain",
+    "weight": "ok. 20 g",
+    "variantLabel": "Brelok",
+    "variants": [
+      {
+        "id": "standard",
+        "label": "Brelok",
+        "model": {
+          "type": "brelok_koraliki",
+          "beads": [
+            "ametyst_jasny",
+            "krysztal",
+            "ametyst_ciemny"
+          ]
+        }
+      }
     ]
   }
 ]

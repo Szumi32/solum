@@ -269,8 +269,13 @@ button, input, select, textarea { font: inherit; color: inherit; }
 .card-count { color: var(--popiol); }
 
 /* Kafelki materialow */
-.mat-tiles { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: clamp(12px, 1.5vw, 24px); }
-@media (max-width: 900px) { .mat-tiles { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+.mat-tiles { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: clamp(12px, 1.5vw, 24px); }
+@media (max-width: 1100px) { .mat-tiles { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+@media (max-width: 640px) {
+  .mat-tiles { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .mat-tile:last-child { grid-column: 1 / -1; }
+  .mat-tile:last-child figure { aspect-ratio: 16 / 9; }
+}
 .mat-tile { display: grid; gap: 12px; text-decoration: none; align-content: start; }
 .mat-tile:hover { color: inherit; }
 .mat-tile figure { overflow: hidden; background: var(--plyta); aspect-ratio: 4 / 5; }
@@ -371,6 +376,10 @@ button, input, select, textarea { font: inherit; color: inherit; }
 .variant-name { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
 .swatch { display: grid; place-items: center; width: 48px; height: 48px; border-radius: 50%; overflow: hidden; background: var(--plyta); box-shadow: 0 0 0 1px var(--linia); transition: box-shadow 0.2s; font-size: var(--t-s); font-weight: 500; }
 .swatch img { width: 100%; height: 100%; object-fit: cover; }
+a.variant-opt { display: block; text-decoration: none; }
+.opt-label { font-size: var(--t-s); color: var(--popiol); }
+.opt-label strong { color: var(--atrament); font-weight: 500; }
+.variant-opt[aria-current="page"] .swatch { box-shadow: 0 0 0 2px var(--wapien), 0 0 0 3.5px var(--atrament); }
 .variant-opt:hover .swatch { box-shadow: 0 0 0 1px var(--atrament); }
 .variant-opt input:checked + .swatch { box-shadow: 0 0 0 2px var(--wapien), 0 0 0 3.5px var(--atrament); }
 .variant-opt input:focus-visible + .swatch { outline: 2px solid var(--glina); outline-offset: 5px; }

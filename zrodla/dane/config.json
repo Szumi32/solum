@@ -19,42 +19,129 @@
   "dispatchDays": 3,
   "returnDays": 30,
   "repairYears": 2,
-  "freeShippingFrom": 400,
+  "freeShippingFrom": 150,
   "shipping": [
-    {"id": "paczkomat", "name": "InPost Paczkomat 24/7", "price": 14, "eta": "1–2 dni robocze od nadania", "free": true, "locker": true},
-    {"id": "kurier-inpost", "name": "Kurier InPost", "price": 18, "eta": "1–2 dni robocze od nadania", "free": true},
-    {"id": "orlen", "name": "Orlen Paczka", "price": 11, "eta": "2–3 dni robocze od nadania", "free": true, "locker": true, "lockerLabel": "Kod punktu Orlen Paczka"},
-    {"id": "kurier-dpd", "name": "Kurier DPD, przesyłka ubezpieczona", "price": 24, "eta": "1–2 dni robocze od nadania", "free": false},
-    {"id": "odbior", "name": "Odbiór osobisty w pracowni", "price": 0, "eta": "po potwierdzeniu e-mailem", "free": false, "pickup": true}
+    {
+      "id": "paczkomat",
+      "name": "InPost Paczkomat 24/7",
+      "price": 14,
+      "eta": "1–2 dni robocze od nadania",
+      "free": true,
+      "locker": true
+    },
+    {
+      "id": "kurier-inpost",
+      "name": "Kurier InPost",
+      "price": 18,
+      "eta": "1–2 dni robocze od nadania",
+      "free": true
+    },
+    {
+      "id": "orlen",
+      "name": "Orlen Paczka",
+      "price": 11,
+      "eta": "2–3 dni robocze od nadania",
+      "free": true,
+      "locker": true,
+      "lockerLabel": "Kod punktu Orlen Paczka"
+    },
+    {
+      "id": "kurier-dpd",
+      "name": "Kurier DPD, przesyłka ubezpieczona",
+      "price": 24,
+      "eta": "1–2 dni robocze od nadania",
+      "free": false
+    },
+    {
+      "id": "odbior",
+      "name": "Odbiór osobisty w pracowni",
+      "price": 0,
+      "eta": "po potwierdzeniu e-mailem",
+      "free": false,
+      "pickup": true
+    }
   ],
   "payments": [
-    {"id": "blik", "name": "BLIK", "note": "Kod z aplikacji banku"},
-    {"id": "p24", "name": "Przelewy24", "note": "Szybki przelew online"},
-    {"id": "karta", "name": "Karta płatnicza", "note": "Visa, Mastercard"},
-    {"id": "portfel", "name": "Apple Pay lub Google Pay", "note": "Płatność portfelem w telefonie"},
-    {"id": "przelew", "name": "Przelew tradycyjny", "note": "Wysyłka po zaksięgowaniu wpłaty", "manual": true}
+    {
+      "id": "blik",
+      "name": "BLIK",
+      "note": "Kod z aplikacji banku"
+    },
+    {
+      "id": "p24",
+      "name": "Przelewy24",
+      "note": "Szybki przelew online"
+    },
+    {
+      "id": "karta",
+      "name": "Karta płatnicza",
+      "note": "Visa, Mastercard"
+    },
+    {
+      "id": "portfel",
+      "name": "Apple Pay lub Google Pay",
+      "note": "Płatność portfelem w telefonie"
+    },
+    {
+      "id": "przelew",
+      "name": "Przelew tradycyjny",
+      "note": "Wysyłka po zaksięgowaniu wpłaty",
+      "manual": true
+    }
   ],
-  "giftWrap": {"price": 25, "name": "Pudełko z drewna i bawełniany woreczek"},
-  "codes": {"WITAJ10": {"percent": 10, "label": "10% na pierwsze zamówienie"}},
+  "giftWrap": {
+    "price": 9,
+    "name": "Bawełniany woreczek na prezent"
+  },
+  "codes": {
+    "WITAJ10": {
+      "percent": 10,
+      "label": "10% na pierwsze zamówienie"
+    }
+  },
   "sizes": {
-    "adjustable": [
-      {"id": "S", "label": "S", "note": "nadgarstek 14,5–16 cm", "min": 14.5, "max": 16},
-      {"id": "M", "label": "M", "note": "nadgarstek 16–17,5 cm", "min": 16, "max": 17.5},
-      {"id": "L", "label": "L", "note": "nadgarstek 17,5–19 cm", "min": 17.5, "max": 19},
-      {"id": "XL", "label": "XL", "note": "nadgarstek 19–20,5 cm", "min": 19, "max": 20.5}
+    "chain": [
+      {
+        "id": "regulowana",
+        "label": "regulowana",
+        "note": "obwód około 16–21 cm dzięki łańcuszkowi"
+      }
     ],
-    "bangle": [
-      {"id": "58", "label": "58 mm", "note": "obwód dłoni do 19 cm", "min": 14, "max": 19, "measure": "hand"},
-      {"id": "62", "label": "62 mm", "note": "obwód dłoni 19–20,5 cm", "min": 19, "max": 20.5, "measure": "hand"},
-      {"id": "66", "label": "66 mm", "note": "obwód dłoni 20,5–22 cm", "min": 20.5, "max": 22, "measure": "hand"},
-      {"id": "70", "label": "70 mm", "note": "obwód dłoni 22–24 cm", "min": 22, "max": 24, "measure": "hand"}
+    "elastic": [
+      {
+        "id": "rozciagliwa",
+        "label": "rozciągliwa",
+        "note": "pasuje na nadgarstek około 15–19 cm"
+      }
+    ],
+    "keychain": [
+      {
+        "id": "uniwersalny",
+        "label": "uniwersalny",
+        "note": "długość około 13 cm"
+      }
     ]
   },
   "categories": [
-    {"id": "kamien", "name": "Kamień"},
-    {"id": "bursztyn", "name": "Bursztyn"},
-    {"id": "drewno", "name": "Drewno"},
-    {"id": "skora", "name": "Skóra"},
-    {"id": "wlokno", "name": "Len i jedwab"}
+    {
+      "id": "fasetowane",
+      "name": "Fasetowane"
+    },
+    {
+      "id": "drobne",
+      "name": "Drobne"
+    },
+    {
+      "id": "kostki",
+      "name": "Kostki"
+    },
+    {
+      "id": "zawieszki",
+      "name": "Z zawieszką"
+    },
+    {
+      "id": "breloki",
+      "name": "Breloki"
+    }
   ]
 }

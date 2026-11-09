@@ -1,71 +1,142 @@
 {
   "stones": {
-    "krzemien": {
-      "name": "Krzemień pasiasty",
-      "origin": "Góry Świętokrzyskie, Polska",
-      "mohs": 7,
+    "amazonit": {
+      "name": "Amazonit",
+      "origin": "Główne złoża: Peru, Madagaskar",
+      "mohs": 6.5,
+      "mohsNote": "Średnio twardy, unikaj uderzeń",
+      "text": "Niebiesko-zielony skaleń z delikatnymi jaśniejszymi smugami. Po oszlifowaniu ma matowy, miękki połysk."
+    },
+    "turmalin_rozowy": {
+      "name": "Turmalin różowy",
+      "origin": "Główne złoża: Brazylia, Afganistan",
+      "mohs": 7.5,
       "mohsNote": "Twardy, odporny na zarysowania",
-      "text": "Polski kamień, który nie występuje nigdzie indziej na świecie w takiej postaci. Powstawał w jurajskim morzu, a ludzie wydobywali go już w neolicie."
+      "text": "Kamień o przygaszonych odcieniach, od perłowej szarości po śliwkowy róż. Każdy koralik ma trochę inny kolor."
+    },
+    "sloneczny": {
+      "name": "Kamień słoneczny",
+      "origin": "Główne złoża: Indie, Norwegia",
+      "mohs": 6.5,
+      "mohsNote": "Średnio twardy, unikaj uderzeń",
+      "text": "Brzoskwiniowy skaleń z drobinami, które połyskują w świetle jak miedź."
     },
     "lapis": {
       "name": "Lapis lazuli",
       "origin": "Główne złoża: Afganistan",
       "mohs": 5.5,
       "mohsNote": "Średnio twardy, unikaj uderzeń",
-      "text": "Głęboki błękit z drobinami pirytu, które błyszczą jak złoto. Naturalne jasne przebarwienia to kalcyt i świadczą o tym, że kamień nie był barwiony."
-    },
-    "nefryt": {
-      "name": "Nefryt",
-      "origin": "Główne złoża: Kanada, Syberia",
-      "mohs": 6.5,
-      "mohsNote": "Bardzo wytrzymały na pęknięcia",
-      "text": "Jedna z dwóch odmian jadeitu w szerokim znaczeniu. Splątane włókna mineralne sprawiają, że trudno go rozłupać, a polerowany ma woskowy połysk."
-    },
-    "obsydian": {
-      "name": "Obsydian",
-      "origin": "Główne złoża: Meksyk, Armenia",
-      "mohs": 5.5,
-      "mohsNote": "Średnio twardy, kruchy przy uderzeniu",
-      "text": "Szkło wulkaniczne, które powstaje podczas gwałtownego stygnięcia lawy. Mocno odbija światło i po wypolerowaniu wygląda jak czarne lustro."
+      "text": "Głęboki błękit z drobinami pirytu, które błyszczą jak złoto. Jaśniejsze plamki to naturalny kalcyt."
     },
     "tygrysie_oko": {
       "name": "Tygrysie oko",
       "origin": "Główne złoża: RPA, Australia",
       "mohs": 7,
       "mohsNote": "Twardy, odporny na zarysowania",
-      "text": "Kwarc z włóknistą strukturą, przez którą złote pasma zmieniają jasność wraz z ruchem ręki. Ten efekt nazywa się szatoyancją."
+      "text": "Kwarc z włóknistą strukturą, przez którą złote pasma zmieniają jasność wraz z ruchem ręki."
+    },
+    "chryzokola": {
+      "name": "Chryzokola",
+      "origin": "Główne złoża: Peru, Demokratyczna Republika Konga",
+      "mohs": 3.5,
+      "mohsNote": "Miękka, chroń przed uderzeniami",
+      "text": "Morski kamień związany ze złożami miedzi. Turkus miesza się w nim z ciemnym brązem i kremową bielą."
+    },
+    "turmalin": {
+      "name": "Turmalin",
+      "origin": "Główne złoża: Brazylia, Afganistan",
+      "mohs": 7.5,
+      "mohsNote": "Twardy, odporny na zarysowania",
+      "text": "Odcienie maliny, różu i ciemnego wina w jednym sznurze. Żaden koralik nie jest taki sam."
+    },
+    "onyks": {
+      "name": "Onyks",
+      "origin": "Główne złoża: Brazylia, Indie",
+      "mohs": 7,
+      "mohsNote": "Twardy, odporny na zarysowania",
+      "text": "Głęboka czerń, która po oszlifowaniu mocno odbija światło."
+    },
+    "ksiezycowy": {
+      "name": "Kamień księżycowy",
+      "origin": "Główne złoża: Sri Lanka, Indie",
+      "mohs": 6.5,
+      "mohsNote": "Średnio twardy, unikaj uderzeń",
+      "text": "Mleczny, półprzezroczysty kamień o miękkim, chłodnym blasku."
+    },
+    "kalcyt": {
+      "name": "Kalcyt miodowy",
+      "origin": "Główne złoża: Meksyk, Pakistan",
+      "mohs": 3,
+      "mohsNote": "Miękki, chroń przed zarysowaniami",
+      "text": "Ciepły, kremowo-miodowy kamień z mlecznymi smugami. Przepuszcza światło i wygląda jak zastygły miód."
+    },
+    "kwarc_dymny": {
+      "name": "Kwarc dymny",
+      "origin": "Główne złoża: Brazylia, Szkocja",
+      "mohs": 7,
+      "mohsNote": "Twardy, odporny na zarysowania",
+      "text": "Przezroczysty kwarc w kolorze mocnej herbaty, prawie czarny przy grubszych ściankach."
+    },
+    "ametyst": {
+      "name": "Ametyst",
+      "origin": "Główne złoża: Brazylia, Urugwaj",
+      "mohs": 7,
+      "mohsNote": "Twardy, kolor może blaknąć na silnym słońcu",
+      "text": "Odmiana kwarcu w odcieniach fioletu i liliowego różu."
+    },
+    "akwamaryn": {
+      "name": "Akwamaryn",
+      "origin": "Główne złoża: Brazylia, Madagaskar",
+      "mohs": 7.5,
+      "mohsNote": "Twardy, odporny na zarysowania",
+      "text": "Błękit czystej wody z naturalnymi spękaniami widocznymi w środku kamienia."
+    },
+    "labradoryt": {
+      "name": "Labradoryt",
+      "origin": "Główne złoża: Kanada, Madagaskar",
+      "mohs": 6.5,
+      "mohsNote": "Średnio twardy, unikaj uderzeń",
+      "text": "Szary, półprzezroczysty skaleń, który pod odpowiednim kątem odbija chłodny błysk."
+    },
+    "rubin_zoisyt": {
+      "name": "Rubin w zoisycie",
+      "origin": "Główne złoża: Tanzania",
+      "mohs": 6.5,
+      "mohsNote": "Średnio twardy, unikaj uderzeń",
+      "text": "Zielony zoisyt z czarnymi żyłkami i fioletowo-różowymi plamami rubinu."
     },
     "kwarc": {
       "name": "Kwarc różowy",
       "origin": "Główne złoża: Madagaskar, Brazylia",
       "mohs": 7,
       "mohsNote": "Twardy, kolor może blaknąć na silnym słońcu",
-      "text": "Mleczny, delikatnie różowy kwarc. Lekkie zamglenie jest jego naturalną cechą, a kolor bywa inny w każdym koraliku."
+      "text": "Mleczny, delikatnie różowy kwarc. Lekkie zamglenie jest jego naturalną cechą."
     },
-    "amazonit": {
-      "name": "Amazonit",
-      "origin": "Główne złoża: Peru, Madagaskar",
+    "jaspis": {
+      "name": "Jaspis dalmatyński",
+      "origin": "Główne złoża: Meksyk",
       "mohs": 6.5,
       "mohsNote": "Średnio twardy, unikaj uderzeń",
-      "text": "Zielono-błękitny skaleń z jasnymi smugami. Wzór układa się w równoległe pasma, co widać przy bliższym oglądaniu."
+      "text": "Kremowy kamień w czarne i brązowe cętki, przypominający sierść dalmatyńczyka."
     },
-    "bursztyn": {
-      "name": "Bursztyn bałtycki",
-      "origin": "Wybrzeże Morza Bałtyckiego",
-      "mohs": 2.5,
-      "mohsNote": "Miękki i lekki, chroń przed zarysowaniami",
-      "text": "Skamieniała żywica sprzed około 40 milionów lat. Jest ciepła w dotyku i tak lekka, że unosi się w słonej wodzie."
+    "agat": {
+      "name": "Agat",
+      "origin": "Główne złoża: Brazylia, Indie",
+      "mohs": 7,
+      "mohsNote": "Twardy, odporny na zarysowania",
+      "text": "Odmiana chalcedonu z ułożonymi warstwami pasmami w kolorach ziemi."
+    },
+    "serpentyn": {
+      "name": "Serpentyn",
+      "origin": "Główne złoża: Chiny, Afganistan",
+      "mohs": 4.5,
+      "mohsNote": "Miękki, chroń przed uderzeniami",
+      "text": "Jasnozielony kamień o gładkim, woskowym dotyku."
     }
   },
-  "woods": {
-    "dab_bagienny": {"name": "Dąb bagienny", "origin": "Doliny polskich rzek", "text": "Pnie dębów, które setki lat leżały w mule i naturalnie ściemniały bez żadnej chemii."},
-    "oliwka": {"name": "Drewno oliwne", "origin": "Basen Morza Śródziemnego", "text": "Gęste i tłuste drewno z charakterystycznymi ciemnymi żyłkami. Pozyskiwane z drzew, które już nie owocują."},
-    "orzech": {"name": "Orzech włoski", "origin": "Europa", "text": "Równy, czekoladowy rysunek słojów. Twarde drewno, które pięknie przyjmuje olej."},
-    "dab": {"name": "Dąb", "origin": "Polska", "text": "Jasne, miodowe drewno z wyraźnym rysunkiem. Dobrze znosi gięcie w parze i ciemnieje z czasem."}
-  },
-  "fibers": {
-    "len": {"name": "Len", "origin": "Europa", "text": "Mocne włókno roślinne, które woskujemy woskiem pszczelim. Z noszeniem mięknie i nabiera połysku."},
-    "jedwab": {"name": "Jedwab", "origin": "Naturalny, barwiony roślinnie", "text": "Cienka i wyjątkowo wytrzymała nić. Barwimy ją korą, łupinami orzecha i liśćmi."},
-    "skora": {"name": "Skóra garbowana roślinnie", "origin": "Garbarnie europejskie", "text": "Garbowana korą drzew, bez soli chromu. Na początku sztywna, z czasem układa się na ręce i ciemnieje."}
+  "metal": {
+    "name": "Złote elementy",
+    "origin": "Przekładki, łańcuszki, zapięcia i zawieszki",
+    "text": "Złoty kolor podkreśla barwę kamienia. Żeby zachować połysk, zdejmuj bransoletkę do kąpieli i nie pryskaj jej perfumami."
   }
 }

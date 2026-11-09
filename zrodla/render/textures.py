@@ -12,7 +12,6 @@ from pathlib import Path
 import numpy as np
 from PIL import Image
 from scipy.ndimage import gaussian_filter, map_coordinates
-from scipy.spatial import cKDTree
 
 W, H = 1536, 768
 VARIANTS = 3
@@ -139,43 +138,6 @@ def layer_axis(seed):
     return v / np.linalg.norm(v)
 
 
-def krzemien(seed):
-    """Krzemien pasiasty: gesto ulozone, lekko faliste pasma szarosci, grafitu i kosci."""
-    rng = np.random.default_rng(seed)
-    p = sphere_points()
-    a = layer_axis(seed)
-    q = warp(p, 1.3, 0.13, seed, 3)
-    q = warp(q, 5.0, 0.018, seed + 40, 2)
-    t = np.tensordot(q, a, axes=1) * 0.2 + 0.5 + rng.random()
-    table = band_table(rng, ["#e6e0d2", "#d3ccbc", "#a29c8f", "#6b665c", "#35312c", "#c4bdae", "#ece7db"],
-                       count=64, thin=(0.2, 0.8), thick=(0.9, 2.6), thick_p=0.3)
-    col = bands(t, table, softness=0.0032)
-    tone = fbm(p, 6.5, seed + 7, 3)
-    col = to_srgb(to_linear(col) * (1 + 0.1 * tone[..., None]))
-    col = grain(col, p, seed, 0.07)
-    rough = 0.17 + 0.05 * smooth(-1, 1.5, fbm(p, 16, seed + 9, 3))
-    return dict(color=col, rough=rough)
-
-
-def bursztyn(seed, tone="koniak"):
-    p = sphere_points()
-    q = warp(p, 1.2, 0.3, seed, 3)
-    n = fbm(q, 1.9, seed + 1, 5) * 0.5 + 0.5
-    n = smooth(0.12, 0.88, n)
-    stops = {
-        "koniak": [(0.0, "#a7500f"), (0.5, "#c26c17"), (1.0, "#dc8f26")],
-        "miod": [(0.0, "#cf8519"), (0.5, "#e3a02a"), (1.0, "#f2c04d")],
-        "krolewski": [(0.0, "#dcaa56"), (0.5, "#ebc885"), (1.0, "#f6e4bd")],
-    }[tone]
-    col = ramp(n, stops)
-    veil = smooth(0.5, 1.5, fbm(q, 3.2, seed + 4, 5))
-    col = mix(col, np.broadcast_to(hex3("#f5dca2"), col.shape), veil * (0.55 if tone == "krolewski" else 0.22))
-    flecks = smooth(2.5, 2.8, fbm(p, 80, seed + 8, 2))
-    col = mix(col, np.broadcast_to(hex3("#3a1c06"), col.shape), flecks * 0.5)
-    rough = 0.07 + 0.04 * smooth(-1, 1.5, fbm(p, 12, seed + 2, 3))
-    return dict(color=col, rough=rough, cloud=veil)
-
-
 def tygrysie_oko(seed):
     rng = np.random.default_rng(seed)
     p = sphere_points()
@@ -185,14 +147,14 @@ def tygrysie_oko(seed):
     c = np.cross(a, b)
     q = warp(p, 1.0, 0.14, seed, 3)
     t = np.tensordot(q, a, axes=1) * 0.085 + 0.5 + rng.random()
-    table = band_table(rng, ["#a06c26", "#5e3911", "#c48d34", "#3f250c", "#83551b", "#b07a2a"], count=48,
+    table = band_table(rng, ["#8a5a1f", "#3d220c", "#b37e2c", "#26150a", "#6b4415", "#9c6c24"], count=48,
                        thin=(0.5, 1.1), thick=(1.4, 3.4), thick_p=0.42)
     col = bands(t, table, softness=0.022)
     fp = np.stack([np.tensordot(q, a, axes=1) * 130, np.tensordot(q, b, axes=1) * 4.0,
                    np.tensordot(q, c, axes=1) * 4.0], axis=-1)
     fibers = noise(fp, 1.0, seed + 2) * 0.55 + noise(fp, 2.4, seed + 3) * 0.45
     sheen = smooth(-0.6, 0.9, fbm(q, 2.4, seed + 4, 3))
-    col = mix(col, np.broadcast_to(hex3("#e6b655"), col.shape), sheen * 0.42)
+    col = mix(col, np.broadcast_to(hex3("#d9a548"), col.shape), sheen * 0.14)
     col = to_srgb(to_linear(col) * (1 + 0.2 * np.clip(fibers, -1.4, 1.4)[..., None]))
     rough = 0.19 + 0.03 * fibers
     return dict(color=col, rough=np.clip(rough, 0.12, 0.35))
@@ -212,20 +174,6 @@ def lapis(seed):
     col = grain(col, p, seed, 0.06, 70)
     rough = 0.2 + 0.05 * smooth(-1, 1.5, fbm(p, 18, seed + 8, 2)) + 0.05 * patch
     return dict(color=col, rough=rough, metal=np.clip(pyr, 0, 1))
-
-
-def nefryt(seed):
-    p = sphere_points()
-    q = warp(p, 1.6, 0.22, seed, 3)
-    n = fbm(q, 8.0, seed + 1, 6) * 0.5 + 0.5
-    col = ramp(smooth(0.2, 0.8, n), [(0, "#17301f"), (0.5, "#234733"), (1, "#3c6a4d")])
-    fl = smooth(1.85, 2.3, fbm(p, 34, seed + 3, 3))
-    col = mix(col, np.broadcast_to(hex3("#0b120e"), col.shape), fl * 0.8)
-    cl = smooth(1.3, 2.0, fbm(q, 9, seed + 4, 3))
-    col = mix(col, np.broadcast_to(hex3("#86a783"), col.shape), cl * 0.16)
-    col = grain(col, p, seed, 0.06, 50)
-    rough = 0.24 + 0.05 * smooth(-1, 1.5, fbm(p, 12, seed + 5, 3))
-    return dict(color=col, rough=rough)
 
 
 def obsydian(seed):
@@ -250,144 +198,169 @@ def kwarc(seed):
     return dict(color=col, rough=rough, cloud=cl)
 
 
-def amazonit(seed):
+# ---------------------------------------------------------------- kamienie ze zdjec sklepu
+
+
+def tone(seed, palettes):
+    """Kazdy z trzech wariantow tekstury dostaje inny odcien, wiec koraliki w sznurze sie roznia."""
+    return palettes[seed % len(palettes)]
+
+
+def broad(col, h):
+    return np.broadcast_to(hex3(h), col.shape)
+
+
+def stops3(c):
+    return [(0, c[0]), (0.5, c[1]), (1, c[2])]
+
+
+def cloudy(seed, colors, freq=4.5, warp_amp=0.22, veil=None, veil_amt=0.0, rough0=0.3, grain_amt=0.05):
+    p = sphere_points()
+    q = warp(p, 1.5, warp_amp, seed, 3)
+    n = fbm(q, freq, seed + 1, 5) * 0.5 + 0.5
+    col = ramp(smooth(0.2, 0.8, n), stops3(colors))
+    out = {}
+    if veil:
+        v = smooth(0.6, 1.7, fbm(q, freq * 1.7, seed + 3, 4))
+        col = mix(col, broad(col, veil), v * veil_amt)
+        out["cloud"] = v
+    col = grain(col, p, seed, grain_amt, 55)
+    rough = rough0 + 0.05 * smooth(-1, 1.5, fbm(p, 14, seed + 5, 3))
+    out.update(color=col, rough=rough, p=p, q=q)
+    return out
+
+
+def done(d):
+    d.pop("p", None)
+    d.pop("q", None)
+    return d
+
+
+def amazonit_nieb(seed):
     p = sphere_points()
     a, b, c = basis(seed)
     q = warp(p, 1.2, 0.09, seed, 2)
-    fp = np.stack([np.tensordot(q, a, axes=1) * 2.2, np.tensordot(q, b, axes=1) * 20,
-                   np.tensordot(q, c, axes=1) * 20], axis=-1)
+    fp = np.stack([np.tensordot(q, a, axes=1) * 2.2, np.tensordot(q, b, axes=1) * 18,
+                   np.tensordot(q, c, axes=1) * 18], axis=-1)
     st = fbm(fp, 1.0, seed + 1, 4) * 0.5 + 0.5
-    col = ramp(st, [(0, "#468f86"), (0.42, "#62ab9f"), (0.72, "#84c4b6"), (1, "#b4dccf")])
-    w = smooth(1.15, 1.6, fbm(fp, 1.3, seed + 3, 3))
-    col = mix(col, np.broadcast_to(hex3("#efeadf"), col.shape), w * 0.75)
-    col = grain(col, p, seed, 0.05, 50)
-    rough = 0.26 + 0.07 * smooth(-1, 1.5, fbm(p, 16, seed + 5, 3))
-    return dict(color=col, rough=rough)
+    col = ramp(st, [(0, "#4a9a9b"), (0.5, "#5cadab"), (1, "#86c9c0")])
+    w = smooth(1.2, 1.7, fbm(fp, 1.3, seed + 3, 3))
+    col = mix(col, broad(col, "#bfe4dc"), w * 0.16)
+    col = grain(col, p, seed, 0.06, 60)
+    return dict(color=col, rough=0.44 + 0.06 * smooth(-1, 1.5, fbm(p, 16, seed + 5, 3)))
 
 
-# ---------------------------------------------------------------- drewno lite
+def turmalin_rozowy(seed):
+    c = tone(seed, [("#a69b94", "#bdb3ab", "#d4ccc4"), ("#7c6377", "#94798d", "#ad95a6"), ("#5b4453", "#735866", "#8d7080")])
+    return done(cloudy(seed, c, freq=5, veil="#d8cfd0", veil_amt=0.3, rough0=0.45, grain_amt=0.08))
 
 
-def wood_solid(seed, stops, pore, rough0, ring_freq=16.0, warp_amp=0.06, pore_amt=0.7, streak=None):
-    """Drewno jako bryla: prawie rownolegle sloje oraz podluzne pory wzdluz wlokien."""
+def sloneczny(seed):
+    c = tone(seed, [("#a86c4e", "#bd8565", "#cf9f80"), ("#9a5f45", "#b07757", "#c48f70"), ("#b8805f", "#c99878", "#dab195")])
+    d = cloudy(seed, c, freq=5.5, rough0=0.36, grain_amt=0.07)
+    spark = smooth(1.75, 2.15, fbm(d["p"], 125, seed + 6, 2))
+    d["color"] = mix(d["color"], broad(d["color"], "#f2c78e"), spark)
+    d["metal"] = np.clip(spark, 0, 1)
+    return done(d)
+
+
+def chryzokola(seed):
+    kind = seed % 3
+    c = [("#15130f", "#241f1a", "#3a3229"), ("#1f6f6b", "#3a958c", "#6fbcae"), ("#8f9484", "#b3b5a2", "#d3d2bf")][kind]
+    d = cloudy(seed, c, freq=6, warp_amp=0.3, rough0=0.18, grain_amt=0.06)
+    vein = smooth(0.9, 0.99, 1 - np.abs(fbm(d["q"], 4.0, seed + 7, 4)))
+    d["color"] = mix(d["color"], broad(d["color"], ["#3a958c", "#14211f", "#3a958c"][kind]), vein * 0.75)
+    return done(d)
+
+
+def turmalin(seed):
+    c = tone(seed, [("#7f2238", "#a23a52", "#c25f74"), ("#b4586f", "#cf8595", "#e3aeb7"), ("#3f1622", "#5c2232", "#7a3346")])
+    return done(cloudy(seed, c, freq=4, rough0=0.14))
+
+
+def ksiezycowy(seed):
+    return done(cloudy(seed, ("#dfe2e3", "#eceeee", "#f7f7f5"), freq=3.5, veil="#cfdbe6", veil_amt=0.35, rough0=0.2, grain_amt=0.02))
+
+
+def kalcyt(seed):
+    c = tone(seed, [("#e8cf97", "#f0dcae", "#f8edd0"), ("#e2c07e", "#ecd096", "#f4e2b8"), ("#f1e6c8", "#f7eed8", "#fff9ea")])
+    return done(cloudy(seed, c, freq=3.5, veil="#fffdf4", veil_amt=0.45, rough0=0.3, grain_amt=0.03))
+
+
+def kwarc_dymny(seed):
+    c = tone(seed, [("#33271e", "#4a3a2d", "#63503f"), ("#281f18", "#3b2f25", "#524335"), ("#3d2f24", "#574636", "#725d4a")])
+    return done(cloudy(seed, c, freq=3, rough0=0.15, grain_amt=0.03))
+
+
+def ametyst_jasny(seed):
+    c = tone(seed, [("#9a8390", "#ae97a3", "#c4b1b9"), ("#ad949b", "#bfa9ae", "#d4c4c7"), ("#7c6577", "#927b8b", "#aa95a2")])
+    return done(cloudy(seed, c, freq=4, veil="#e0d4dc", veil_amt=0.2, rough0=0.18, grain_amt=0.04))
+
+
+def ametyst_ciemny(seed):
+    c = tone(seed, [("#2e1e55", "#463079", "#654a9c"), ("#3a2768", "#553b8a", "#7a5bab"), ("#241745", "#372660", "#503a80")])
+    return done(cloudy(seed, c, freq=3.5, veil="#b7a3d6", veil_amt=0.3, rough0=0.1, grain_amt=0.03))
+
+
+def fractures(d, seed, amount, color="#ffffff"):
+    r = 1 - np.abs(fbm(d["q"], 3.4, seed + 9, 4))
+    f = smooth(0.91, 0.995, r) * smooth(-0.3, 0.8, fbm(d["p"], 2.6, seed + 11, 2))
+    d["color"] = mix(d["color"], broad(d["color"], color), f * amount)
+    return d
+
+
+def akwamaryn(seed):
+    c = tone(seed, [("#86d0e2", "#a4dfec", "#c6ecf4"), ("#74c6dc", "#94d6e6", "#b8e6f0"), ("#9ad9e8", "#b8e6f0", "#d6f2f7")])
+    return done(fractures(cloudy(seed, c, freq=3.2, rough0=0.05, grain_amt=0.02), seed, 0.7))
+
+
+def labradoryt(seed):
+    c = tone(seed, [("#9aa09f", "#aab0af", "#bcc1c0"), ("#7f8584", "#919796", "#a5abaa"), ("#b2b7b5", "#c0c5c3", "#d0d4d2")])
+    return done(cloudy(seed, c, freq=3.5, rough0=0.16, grain_amt=0.03))
+
+
+def rubin_zoisyt(seed):
+    kind = seed % 3
+    c = [("#214f38", "#2f6b4c", "#4b8a66"), ("#101a15", "#1b2b22", "#2e4435"), ("#2c5a42", "#3b7355", "#568f6e")][kind]
+    d = cloudy(seed, c, freq=6, warp_amp=0.28, rough0=0.16, grain_amt=0.06)
+    fl = smooth(1.3, 1.9, fbm(d["p"], 20, seed + 3, 3))
+    d["color"] = mix(d["color"], broad(d["color"], "#0a0f0c"), fl * 0.8)
+    if kind == 2:
+        m = smooth(0.55, 1.05, fbm(d["q"], 2.6, seed + 8, 4))
+        d["color"] = mix(d["color"], broad(d["color"], "#7a2a54"), m * 0.9)
+    return done(d)
+
+
+def jaspis(seed):
+    d = cloudy(seed, ("#d6ccb5", "#e2d9c5", "#ece5d5"), freq=4, rough0=0.3, grain_amt=0.05)
+    spots = smooth(1.15, 1.45, fbm(d["q"], 13, seed + 4, 2))
+    d["color"] = mix(d["color"], broad(d["color"], "#1e1a17"), spots * 0.95)
+    brown = smooth(1.2, 1.5, fbm(d["q"], 9, seed + 6, 2))
+    d["color"] = mix(d["color"], broad(d["color"], "#7a4a2a"), brown * 0.7)
+    return done(d)
+
+
+def agat(seed):
+    rng = np.random.default_rng(seed)
     p = sphere_points()
-    a, b, c = basis(seed)
-    q = warp(p, 1.1, warp_amp, seed, 3)
-    u = np.tensordot(q, b, axes=1) + 2.3
-    v = np.tensordot(q, c, axes=1) + 1.2
-    w = np.tensordot(q, a, axes=1)
-    r = np.sqrt(u * u + v * v)
-    r = r + 0.012 * fbm(np.stack([u * 4, v * 4, w * 1.1], -1), 1.0, seed + 2, 3)
-    rings = (r * ring_freq) % 1.0
-    rings = rings ** 1.7 + 0.14 * fbm(np.stack([u * 9, v * 9, w * 1.2], -1), 1.0, seed + 3, 3)
-    col = ramp(rings, stops)
-    fp = np.stack([u * 70, v * 70, w * 3.0], -1)
-    pores = smooth(0.75, 1.6, fbm(fp, 1.0, seed + 4, 3))
-    col = mix(col, np.broadcast_to(hex3(pore), col.shape), pores * pore_amt)
-    if streak is not None:
-        lines = np.abs(np.sin((r * ring_freq * 1.35) * np.pi))
-        group = smooth(0.1, 1.0, fbm(np.stack([u * 2.6, v * 2.6, w * 0.7], -1), 1.0, seed + 8, 3))
-        col = mix(col, np.broadcast_to(hex3(streak), col.shape), smooth(0.8, 0.99, lines) * group * 0.72)
-    fine = fbm(np.stack([u * 150, v * 150, w * 6], -1), 1.0, seed + 5, 2)
-    col = to_srgb(to_linear(col) * (1 + 0.12 * fine[..., None]))
-    height = 1 - pores * 0.9
-    rough = rough0 + 0.1 * pores
-    return dict(color=col, rough=rough, height=height, normal_strength=0.32)
+    a = layer_axis(seed)
+    q = warp(p, 1.3, 0.13, seed, 3)
+    q = warp(q, 5.0, 0.018, seed + 40, 2)
+    t = np.tensordot(q, a, axes=1) * 0.2 + 0.5 + rng.random()
+    table = band_table(rng, ["#7b4a2a", "#a8744a", "#d8b98f", "#efe1c6", "#5a3522", "#c49a6c"],
+                       count=64, thin=(0.2, 0.8), thick=(0.9, 2.6), thick_p=0.3)
+    col = grain(bands(t, table, softness=0.0032), p, seed, 0.06)
+    return dict(color=col, rough=0.16 + 0.05 * smooth(-1, 1.5, fbm(p, 16, seed + 9, 3)))
 
 
-def dab_bagienny(seed):
-    return wood_solid(seed, [(0, "#3a2e25"), (0.5, "#2a211b"), (1, "#17120f")], "#4f4338", 0.42,
-                      ring_freq=20, pore_amt=0.5)
+def serpentyn(seed):
+    c = tone(seed, [("#a5b170", "#bcc68a", "#d6dcae"), ("#98a564", "#afba7e", "#cbd3a2"), ("#b2bc80", "#c7d09a", "#dfe5bc")])
+    return done(cloudy(seed, c, freq=3.8, veil="#e9edc9", veil_amt=0.3, rough0=0.26, grain_amt=0.04))
 
 
-def oliwka(seed):
-    return wood_solid(seed, [(0, "#d6ba85"), (0.5, "#cdaf78"), (1, "#bb9a62")], "#8d6b42", 0.36,
-                      ring_freq=8, warp_amp=0.075, pore_amt=0.16, streak="#4d351e")
-
-
-def orzech(seed):
-    return wood_solid(seed, [(0, "#8a6242"), (0.5, "#6b4830"), (1, "#42291a")], "#2c1b10", 0.4,
-                      ring_freq=15, pore_amt=0.55)
-
-
-def wood_tile(seed, stops, pore, streak=None, size=(3072, 512)):
-    """Pasek drewna gietego: uslojenie biegnie wzdluz obwodu, tekstura zamknieta w poziomie."""
-    w, h = size
-    u = (np.arange(w) + 0.5) / w * 2 * np.pi
-    v = (np.arange(h) + 0.5) / h
-    u, v = np.meshgrid(u, v)
-    R = 1.7
-    p = np.stack([np.cos(u) * R, np.sin(u) * R, v * 2.2], -1)
-    wob = fbm(p, 0.55, seed, 3)
-    t = v * 24 + wob * 1.05
-    a = t % 1.0
-    rings = smooth(0.0, 0.72, a) * (1 - smooth(0.82, 1.0, a))
-    rings = rings * 0.62 + 0.38 * (fbm(p, 2.2, seed + 1, 4) * 0.5 + 0.5)
-    col = ramp(rings, stops)
-    fp = np.stack([np.cos(u) * 5.5, np.sin(u) * 5.5, v * 150], -1)
-    pores = smooth(0.7, 1.6, fbm(fp, 1.0, seed + 3, 3))
-    col = mix(col, np.broadcast_to(hex3(pore), col.shape), pores * 0.5)
-    if streak is not None:
-        lines = np.abs(np.sin((v * 4.4 + wob * 1.3) * np.pi))
-        group = smooth(-0.1, 0.8, fbm(p, 1.3, seed + 6, 2))
-        col = mix(col, np.broadcast_to(hex3(streak), col.shape), smooth(0.9, 0.995, lines) * group * 0.8)
-    fine = fbm(np.stack([np.cos(u) * 14, np.sin(u) * 14, v * 320], -1), 1.0, seed + 5, 2)
-    col = to_srgb(to_linear(col) * (1 + 0.1 * fine[..., None]))
-    return dict(color=col, rough=0.32 + 0.1 * pores, height=1 - pores * 0.9, normal_strength=0.7)
-
-
-def giety_orzech(seed):
-    return wood_tile(seed, [(0, "#7c563a"), (0.5, "#64432c"), (1, "#452c1b")], "#2c1b10")
-
-
-def giety_oliwka(seed):
-    return wood_tile(seed, [(0, "#d9bd87"), (0.5, "#c9aa72"), (1, "#a98651")], "#8c6a41", streak="#402a16")
-
-
-def giety_dab(seed):
-    return wood_tile(seed, [(0, "#d5b488"), (0.5, "#c19c6b"), (1, "#a07c4e")], "#7a5a36")
-
-
-# ---------------------------------------------------------------- skora i wlokna
-
-
-def worley_edges(size, cells, seed):
-    rng = np.random.default_rng(seed)
-    pts = rng.random((cells, 2))
-    tile = np.concatenate([pts + np.array([i, j]) for i in (-1, 0, 1) for j in (-1, 0, 1)])
-    tree = cKDTree(tile)
-    g = (np.arange(size) + 0.5) / size
-    gx, gy = np.meshgrid(g, g)
-    d, _ = tree.query(np.stack([gx.ravel(), gy.ravel()], -1), k=2, workers=-1)
-    return (d[:, 1] - d[:, 0]).reshape(size, size) * np.sqrt(cells)
-
-
-def skora(seed, size=1024):
-    e = worley_edges(size, 5200, seed)
-    e2 = worley_edges(size, 1400, seed + 1)
-    height = smooth(0.02, 0.32, e) * 0.72 + smooth(0.02, 0.28, e2) * 0.28
-    height = gaussian_filter(height, 0.7, mode="wrap")
-    # kolor to odcien szarosci mnozony przez barwe w materiale
-    rng = np.random.default_rng(seed + 2)
-    tone = gaussian_filter(rng.normal(size=(size, size)), 26, mode="wrap")
-    tone = tone / tone.std()
-    shade = 0.9 + 0.022 * tone + 0.09 * (height - 0.5)
-    col = np.stack([shade] * 3, -1)
-    rough = 0.38 + 0.2 * (1 - height)
-    return dict(color=np.clip(col, 0, 1), rough=rough, height=height)
-
-
-def wlokno(seed, size=512):
-    """Drobne skosne wlokna do sznurkow, tekstura powtarzalna."""
-    rng = np.random.default_rng(seed)
-    n = rng.normal(size=(size, size))
-    a = gaussian_filter(n, (0.7, 7.0), mode="wrap")
-    a /= a.std()
-    b = gaussian_filter(rng.normal(size=(size, size)), (0.5, 3.0), mode="wrap")
-    b /= b.std()
-    height = np.clip(0.5 + 0.2 * a + 0.1 * b, 0, 1)
-    shade = np.clip(0.82 + 0.12 * a + 0.06 * b, 0, 1)
-    return dict(color=np.stack([shade] * 3, -1), rough=0.65 + 0.2 * (1 - height), height=height)
+def krysztal(seed):
+    d = cloudy(seed, ("#eeeeea", "#f6f6f2", "#ffffff"), freq=3, rough0=0.05, grain_amt=0.01)
+    return done(fractures(d, seed, 0.9))
 
 
 # ---------------------------------------------------------------- zapis
@@ -418,27 +391,29 @@ def save(name, data, out):
 
 
 SOLID = {
-    "krzemien": krzemien,
-    "bursztyn_koniak": lambda s: bursztyn(s, "koniak"),
-    "bursztyn_miod": lambda s: bursztyn(s, "miod"),
-    "bursztyn_krolewski": lambda s: bursztyn(s, "krolewski"),
     "tygrysie_oko": tygrysie_oko,
     "lapis": lapis,
-    "nefryt": nefryt,
     "obsydian": obsydian,
     "kwarc": kwarc,
-    "amazonit": amazonit,
-    "dab_bagienny": dab_bagienny,
-    "oliwka": oliwka,
-    "orzech": orzech,
+    "amazonit_nieb": amazonit_nieb,
+    "turmalin_rozowy": turmalin_rozowy,
+    "sloneczny": sloneczny,
+    "chryzokola": chryzokola,
+    "turmalin": turmalin,
+    "ksiezycowy": ksiezycowy,
+    "kalcyt": kalcyt,
+    "kwarc_dymny": kwarc_dymny,
+    "ametyst_jasny": ametyst_jasny,
+    "ametyst_ciemny": ametyst_ciemny,
+    "akwamaryn": akwamaryn,
+    "labradoryt": labradoryt,
+    "rubin_zoisyt": rubin_zoisyt,
+    "jaspis": jaspis,
+    "agat": agat,
+    "serpentyn": serpentyn,
+    "krysztal": krysztal,
 }
-SINGLE = {
-    "giety_orzech": giety_orzech,
-    "giety_oliwka": giety_oliwka,
-    "giety_dab": giety_dab,
-    "skora": skora,
-    "wlokno": wlokno,
-}
+SINGLE = {}
 
 
 def job(args):

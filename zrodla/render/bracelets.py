@@ -21,18 +21,6 @@ HERE = Path(__file__).resolve().parent
 TEX = HERE / "tex"
 DATA = HERE.parent / "dane" / "products.json"
 
-CORD_COLORS = {
-    "silk_grafit": ("#34312f", 0.045),
-    "silk_mech": ("#46523a", 0.045),
-    "silk_glina": ("#8e5e3f", 0.045),
-    "silk_piasek": ("#b5a385", 0.045),
-    "silk_grafit_thick": ("#2f2d2c", 0.055),
-    "silk_mech_thick": ("#4b5a3c", 0.055),
-    "silk_glina_thick": ("#99623f", 0.055),
-    "linen": ("#bdab8c", 0.05),
-}
-
-
 def srgb(h):
     h = h.lstrip("#")
     out = []
@@ -94,19 +82,27 @@ def attach_maps(nt, bsdf, base, normal=False, normal_strength=1.0):
 
 
 STONE = {
-    "krzemien": dict(),
+    "amazonit_nieb": dict(frost=True, sss=0.25, radius=(0.05, 0.1, 0.1)),
+    "turmalin_rozowy": dict(frost=True, sss=0.2, radius=(0.1, 0.08, 0.1)),
+    "sloneczny": dict(frost=True),
     "lapis": dict(),
-    "tygrysie_oko": dict(aniso=0.75, spec=0.6),
-    "obsydian": dict(spec=0.6),
-    "amazonit": dict(sss=0.35, radius=(0.05, 0.08, 0.07)),
-    "nefryt": dict(sss=0.75, radius=(0.05, 0.12, 0.07), spec=0.5),
-    "kwarc": dict(trans=0.45, ior=1.54, absorb=None, sss=0.5, radius=(0.15, 0.08, 0.09)),
-    "bursztyn_koniak": dict(trans=0.86, ior=1.54, absorb="#c2640f", absorb_d=0.9),
-    "bursztyn_miod": dict(trans=0.86, ior=1.54, absorb="#e6a02a", absorb_d=0.6),
-    "bursztyn_krolewski": dict(trans=0.3, ior=1.54, sss=0.7, radius=(0.2, 0.12, 0.05)),
-    "dab_bagienny": dict(wood=True),
-    "oliwka": dict(wood=True),
-    "orzech": dict(wood=True),
+    "tygrysie_oko": dict(aniso=0.75),
+    "chryzokola": dict(),
+    "turmalin": dict(trans=0.25, ior=1.62),
+    "obsydian": dict(),
+    "ksiezycowy": dict(sss=0.8, radius=(0.2, 0.2, 0.25)),
+    "kalcyt": dict(trans=0.15, sss=0.6, radius=(0.25, 0.18, 0.08)),
+    "kwarc_dymny": dict(trans=0.75, ior=1.54, absorb="#4a3626", absorb_d=1.4),
+    "ametyst_jasny": dict(trans=0.2, sss=0.4, radius=(0.14, 0.12, 0.14)),
+    "ametyst_ciemny": dict(trans=0.35, ior=1.54, absorb="#5a3a90", absorb_d=0.8),
+    "akwamaryn": dict(trans=0.8, ior=1.57, absorb="#9adcec", absorb_d=0.18),
+    "labradoryt": dict(trans=0.45, ior=1.56),
+    "rubin_zoisyt": dict(),
+    "kwarc": dict(trans=0.45, ior=1.54, sss=0.5, radius=(0.15, 0.08, 0.09)),
+    "jaspis": dict(),
+    "agat": dict(),
+    "serpentyn": dict(sss=0.35, radius=(0.12, 0.15, 0.06)),
+    "krysztal": dict(trans=0.85, ior=1.54),
 }
 
 
@@ -116,8 +112,7 @@ def stone_mat(name, tex_i):
     if nt is None:
         return m
     spec = STONE[name]
-    wood = spec.get("wood", False)
-    attach_maps(nt, bsdf, mname, normal=wood, normal_strength=0.5)
+    attach_maps(nt, bsdf, mname)
     bsdf.inputs["IOR"].default_value = spec.get("ior", 1.55)
     if spec.get("trans"):
         bsdf.inputs["Transmission Weight"].default_value = spec["trans"]
@@ -132,72 +127,9 @@ def stone_mat(name, tex_i):
         vol.inputs["Color"].default_value = srgb(spec["absorb"])
         vol.inputs["Density"].default_value = spec.get("absorb_d", 0.5)
         nt.links.new(vol.outputs[0], nt.nodes["Material Output"].inputs["Volume"])
-    if not wood and not spec.get("trans"):
+    if not spec.get("trans") and not spec.get("frost"):
         bsdf.inputs["Coat Weight"].default_value = 0.35
         bsdf.inputs["Coat Roughness"].default_value = 0.06
-    return m
-
-
-def cord_mat(key):
-    color, _ = CORD_COLORS[key]
-    return fiber_mat(key, color, sheen="silk" in key)
-
-
-def fiber_mat(name, color, sheen=False):
-    m, nt, bsdf = new_mat(f"cord_{name}")
-    if nt is None:
-        return m
-    # kolor nici razy jasnosc wlokna z tekstury
-    tex = img_node(nt, "wlokno_color", "sRGB", (-700, 300))
-    mul = nt.nodes.new("ShaderNodeMix")
-    mul.data_type = "RGBA"
-    mul.blend_type = "MULTIPLY"
-    mul.inputs[0].default_value = 1.0
-    mul.inputs[6].default_value = srgb(color)
-    nt.links.new(tex.outputs["Color"], mul.inputs[7])
-    nt.links.new(mul.outputs[2], bsdf.inputs["Base Color"])
-    nm = img_node(nt, "wlokno_normal", "Non-Color", (-700, -300))
-    n = nt.nodes.new("ShaderNodeNormalMap")
-    n.inputs["Strength"].default_value = 0.8
-    nt.links.new(nm.outputs["Color"], n.inputs["Color"])
-    nt.links.new(n.outputs["Normal"], bsdf.inputs["Normal"])
-    bsdf.inputs["Roughness"].default_value = 0.42 if sheen else 0.72
-    bsdf.inputs["Sheen Weight"].default_value = 0.6 if sheen else 0.25
-    return m
-
-
-def leather_mat(tone):
-    key = tone.lstrip("#")
-    m, nt, bsdf = new_mat(f"skora_{key}")
-    if nt is None:
-        return m
-    tex = img_node(nt, "skora_color", "sRGB", (-700, 300))
-    mul = nt.nodes.new("ShaderNodeMix")
-    mul.data_type = "RGBA"
-    mul.blend_type = "MULTIPLY"
-    mul.inputs[0].default_value = 1.0
-    mul.inputs[6].default_value = srgb(tone)
-    nt.links.new(tex.outputs["Color"], mul.inputs[7])
-    nt.links.new(mul.outputs[2], bsdf.inputs["Base Color"])
-    orm = img_node(nt, "skora_orm", "Non-Color", (-700, 0))
-    sep = nt.nodes.new("ShaderNodeSeparateColor")
-    nt.links.new(orm.outputs["Color"], sep.inputs[0])
-    nt.links.new(sep.outputs[1], bsdf.inputs["Roughness"])
-    nm = img_node(nt, "skora_normal", "Non-Color", (-700, -300))
-    n = nt.nodes.new("ShaderNodeNormalMap")
-    n.inputs["Strength"].default_value = 0.34
-    nt.links.new(nm.outputs["Color"], n.inputs["Color"])
-    nt.links.new(n.outputs["Normal"], bsdf.inputs["Normal"])
-    return m
-
-
-def tile_wood_mat(name):
-    m, nt, bsdf = new_mat(name)
-    if nt is None:
-        return m
-    attach_maps(nt, bsdf, name, normal=False)
-    bsdf.inputs["Coat Weight"].default_value = 0.2
-    bsdf.inputs["Coat Roughness"].default_value = 0.25
     return m
 
 
@@ -229,20 +161,16 @@ def bead_mesh(shape, variant, seg=48, rings=32):
     me = bpy.data.meshes.new(f"bead_{shape}_{variant}")
     bm = bmesh.new()
     bm.loops.layers.uv.new("UVMap")
-    if shape in ("nugget", "pebble"):
+    if shape == "pebble":
         seg, rings = 96, 64
     bmesh.ops.create_uvsphere(bm, u_segments=seg, v_segments=rings, radius=1.0, calc_uvs=True)
     offs = Vector((variant * 7.1 + 3.3, variant * 3.7 + 1.1, variant * 5.3))
     for v in bm.verts:
         p = v.co.copy()
-        if shape == "rondelle":
-            p.z *= 0.72
-        elif shape == "nugget":
-            n1 = mnoise.noise(p * 0.75 + offs)
-            n2 = mnoise.noise(p * 1.7 + offs * 1.7)
-            s = 1 + 0.26 * n1 + 0.045 * n2
-            p = Vector((p.x * s * (1.02 + 0.1 * math.sin(variant * 2.3)),
-                        p.y * s * (0.9 + 0.1 * math.cos(variant * 1.3)), p.z * s * 0.84))
+        if shape == "drop":
+            # kropla: waska u gory, zaokraglona u dolu
+            k = 1 - 0.8 * max(0.0, p.z) ** 1.4
+            p = Vector((p.x * k, p.y * k, p.z * 1.7))
         elif shape == "pebble":
             n1 = mnoise.noise(p * 0.8 + offs)
             s = 1 + 0.24 * n1
@@ -357,7 +285,7 @@ def t_at(table, s):
     return a[1] + (b[1] - a[1]) * k
 
 
-LAYERED = {"krzemien", "tygrysie_oko"}
+LAYERED = {"tygrysie_oko", "agat"}
 
 
 def layered_rot(rng):
@@ -386,434 +314,462 @@ def aligned(pos, tangent, scale, spin, rng, free=False, tilt=0.0, layered=False)
     return Matrix.Translation(pos) @ rot @ s
 
 
-def knot(coll, center, direction, cord_key, wrap_r, turns=6, length=0.95):
-    """Przesuwny wezel makramy: naprzemienne petle tworza zwarta, plaska beczulke."""
-    _, r = CORD_COLORS[cord_key]
-    d = direction.normalized()
-    up = Vector((0, 0, 1))
-    side = d.cross(up).normalized()
-    mat = cord_mat(cord_key)
-    n = turns * 2
-    step = length / n
-    rw = max(wrap_r, r * 3.1)
-    for i in range(n):
-        k = (i + 0.5) / n
-        c = center + d * ((k - 0.5) * length)
-        taper = 0.82 + 0.18 * math.sin(k * math.pi)
-        sgn = 1 if i % 2 == 0 else -1
+# ------------------------------------------------------------------ metal i koraliki fasetowane
+
+
+def metal_mat(name, color, rough):
+    m, nt, bsdf = new_mat(name)
+    if nt is None:
+        return m
+    bsdf.inputs["Base Color"].default_value = srgb(color)
+    bsdf.inputs["Metallic"].default_value = 1.0
+    bsdf.inputs["Roughness"].default_value = rough
+    return m
+
+
+def gold():
+    return metal_mat("zloto", "#d9b56c", 0.24)
+
+
+def steel():
+    return metal_mat("stal", "#b6b0a4", 0.3)
+
+
+def spherical_uv(bm):
+    """Mapowanie kuliste liczone dla kazdej scianki osobno, bez smug na szwie tekstury."""
+    uv = bm.loops.layers.uv.active or bm.loops.layers.uv.new("UVMap")
+    for f in bm.faces:
+        us = []
+        for l in f.loops:
+            n = l.vert.co.normalized()
+            u = (math.atan2(n.y, n.x) / (2 * math.pi)) % 1.0
+            v = math.acos(max(-1.0, min(1.0, n.z))) / math.pi
+            us.append(u)
+            l[uv].uv = (u, 1.0 - v)
+        if max(us) - min(us) > 0.5:
+            for l in f.loops:
+                if l[uv].uv.x < 0.5:
+                    l[uv].uv.x += 1.0
+
+
+FACET_RINGS = {
+    # (promien, wysokosc) kolejnych rzedow scianek; rondel jest spłaszczony wzdluz osi otworu
+    "rondel": (14, [(0.46, 0.66), (0.88, 0.38), (1.0, 0.0), (0.88, -0.38), (0.46, -0.66)]),
+    "kulka": (12, [(0.5, 0.86), (0.93, 0.36), (0.93, -0.36), (0.5, -0.86)]),
+}
+
+
+def facet_mesh(shape, variant):
+    """Koralik szlifowany: scianki przesuniete co rzad i plaskie cieniowanie, jak na zdjeciach produktow."""
+    key = ("facet", shape, variant)
+    if key in _BEADS:
+        return _BEADS[key]
+    rng = random.Random(variant * 97 + len(shape))
+    me = bpy.data.meshes.new(f"facet_{shape}_{variant}")
+    bm = bmesh.new()
+    bm.loops.layers.uv.new("UVMap")
+    if shape == "kostka":
+        c = 0.68
         pts = []
-        N = 26
-        for j in range(N):
-            a = j / N * 2 * math.pi
-            w = rw * 1.34 * taper
-            h = rw * 0.9 * taper
-            lean = sgn * 0.42 * step * math.cos(a)
-            pts.append(c + d * lean + side * (w * math.cos(a) + sgn * rw * 0.1) + up * (h * math.sin(a)))
-        obj_from_mesh(tube_mesh("wezel", pts, r * 1.02, sides=6, uv_scale=2.0, closed=True), coll, mat)
-
-
-def tail(coll, start, direction, cord_key, length, seed, end_bead_mat=None, end_d=0.32, z0=None):
-    """Wolna koncowka nici z drobnym koralikiem lub wezelkiem."""
-    rng = random.Random(seed)
-    _, r = CORD_COLORS[cord_key]
-    pts = []
-    N = 26
-    d = direction.normalized()
-    side = Vector((-d.y, d.x, 0))
-    bend = rng.uniform(-0.6, 0.6)
-    curl = rng.uniform(0.3, 0.8) * (1 if rng.random() < 0.5 else -1)
-    p = start.copy()
-    for i in range(N + 1):
-        k = i / N
-        pts.append(p + d * (k * length) + side * (bend * k * k * length * 0.45 + curl * math.sin(k * 2.2) * 0.12))
-        pts[-1].z = max(r, (z0 if z0 is not None else start.z) * (1 - k) ** 2 + r)
-    me = tube_mesh("koncowka", pts, r, sides=6, uv_scale=2.0)
-    obj_from_mesh(me, coll, cord_mat(cord_key))
-    end = pts[-1]
-    tang = (pts[-1] - pts[-2]).normalized()
-    if end_bead_mat is not None:
-        rad = end_d / 2
-        pos = end + tang * rad * 0.7
-        pos.z = rad
-        obj_from_mesh(bead_mesh("round", 0), coll, end_bead_mat, aligned(pos, tang, rad, rng.uniform(0, 6.28), rng))
+        for sx in (-1, 1):
+            for sy in (-1, 1):
+                for sz in (-1, 1):
+                    pts += [(sx, sy, sz * c), (sx, sy * c, sz), (sx * c, sy, sz)]
+        verts = [bm.verts.new([q + rng.uniform(-0.055, 0.055) for q in p]) for p in pts]
+        bmesh.ops.convex_hull(bm, input=verts)
+        bmesh.ops.dissolve_limit(bm, angle_limit=0.02, verts=bm.verts[:], edges=bm.edges[:])
     else:
-        rad = r * 2.2
-        pos = end + tang * rad * 0.2
-        pos.z = rad
-        obj_from_mesh(bead_mesh("round", 0), coll, cord_mat(cord_key), aligned(pos, tang, rad, 0, rng))
+        seg, profile = FACET_RINGS[shape]
+        rings = []
+        for i, (r, z) in enumerate(profile):
+            ring = []
+            for j in range(seg):
+                a = (j + 0.5 * (i % 2)) / seg * 2 * math.pi
+                rr = r * (1 + rng.uniform(-0.018, 0.018))
+                ring.append(bm.verts.new((rr * math.cos(a), rr * math.sin(a), z + rng.uniform(-0.012, 0.012))))
+            rings.append(ring)
+        for i in range(len(rings) - 1):
+            a, b = rings[i], rings[i + 1]
+            for j in range(seg):
+                j2 = (j + 1) % seg
+                if i % 2 == 0:
+                    bm.faces.new((a[j], a[j2], b[j]))
+                    bm.faces.new((b[j], a[j2], b[j2]))
+                else:
+                    bm.faces.new((b[j], b[j2], a[j]))
+                    bm.faces.new((a[j], b[j2], a[j2]))
+        bm.faces.new(rings[0])
+        bm.faces.new(rings[-1])
+    bmesh.ops.recalc_face_normals(bm, faces=bm.faces[:])
+    for f in bm.faces:
+        f.smooth = False
+    spherical_uv(bm)
+    bm.to_mesh(me)
+    bm.free()
+    _BEADS[key] = me
+    return me
 
 
-def threaded_ring(coll, seed, ring_r=2.85):
-    return close_curve(ring_r, seed * 0.77)
-
-
-def build_beads(coll, spec, seed, ring_r=2.85):
-    rng = random.Random(seed)
-    d = spec["d"]
-    shape = spec.get("shape", "round")
-    mats = spec["mats"]
-    cord = spec["cord"]
-    fn = threaded_ring(coll, seed, ring_r)
-    table, total = arc_table(fn)
-    knot_gap = 1.5
-    usable = total - knot_gap
-    beads = []
-    s = 0.0
-    idx = 0
-    variable = shape in ("nugget", "pebble")
-    while True:
-        if variable:
-            # od najwiekszych do mniejszych, potem z powrotem: kamienie ulozone jak na nitce
-            k = abs((s / usable) * 2 - 1)
-            dia = d * (1.22 - 0.42 * k) * rng.uniform(0.9, 1.1)
-            gap = 0.03
-        else:
-            dia = d
-            gap = 0.012
-        if s + dia > usable:
-            break
-        beads.append((s + dia / 2, dia, idx))
-        s += dia + gap
-        idx += 1
-    # rozciagnij rownomiernie, zeby nie zostawic luki
-    if beads:
-        slack = usable - s
-        beads = [(b[0] + slack * (b[2] + 0.5) / len(beads), b[1], b[2]) for b in beads]
-    thread_r = CORD_COLORS[cord][1]
-    start_s = knot_gap / 2
-    thread_pts = []
-    for i in range(0, 220):
-        ss = start_s + usable * i / 219
-        t = t_at(table, ss)
-        p2 = fn(t)
-        thread_pts.append(Vector((p2.x, p2.y, d * 0.46)))
-    obj_from_mesh(tube_mesh("nic", thread_pts, thread_r, sides=6, uv_scale=2.0), coll, cord_mat(cord))
-    for s_i, dia, i in beads:
-        ss = start_s + s_i
-        t = t_at(table, ss)
-        p2 = fn(t)
-        p2b = fn(t + 0.01)
-        tang = Vector((p2b.x - p2.x, p2b.y - p2.y, 0))
-        stone = mats[i % len(mats)]
-        mat = stone_mat(stone, rng.randrange(3))
-        rad = dia / 2
-        if shape == "round":
-            # kuliste koraliki moga byc obrocone dowolnie, wiec kazdy ma inny wzor
-            m = aligned(Vector((p2.x, p2.y, rad)), tang, rad, rng.uniform(0, 6.28), rng, free=True, layered=stone in LAYERED)
-            mesh = bead_mesh("round", i % 3)
-        else:
-            mesh = bead_mesh(shape, i % 5)
-            spin = rng.uniform(0, 6.28)
-            sc = rad * 1.02
-            z_lift = sc * 0.82
-            m = Matrix.Translation(Vector((p2.x, p2.y, z_lift))) @ tang.normalized().to_track_quat("Y", "Z").to_matrix().to_4x4() @ Matrix.Rotation(spin * 0.15, 4, "Y") @ Matrix.Scale(sc, 4)
-        obj_from_mesh(mesh, coll, mat, m)
-    add_knot_section(coll, fn, table, total, d, cord, rng, spec)
-    return {"radius": ring_r, "height": d, "bead": d}
-
-
-def add_knot_section(coll, fn, table, total, d, cord, rng, spec, z=None):
-    """Odcinek z przesuwnym wezlem w miejscu zamkniecia obwodu."""
-    z = z if z is not None else max(d * 0.46, CORD_COLORS[cord][1] * 2)
-    _, r = CORD_COLORS[cord]
-    a = fn(t_at(table, total - 0.72))
-    b = fn(t_at(table, 0.72))
-    c = fn(0.0)
-    cv = Vector((c.x, c.y, 0))
-    pa = Vector((a.x, a.y, z))
-    pb = Vector((b.x, b.y, z))
-    # dwie zyly przechodzace przez wezel, kazda wychodzi w swoja strone
-    outward = Vector((1, 0, 0))
-    direction = Vector((0, 1, 0))
-    kn_center = Vector((cv.x + 0.02, cv.y, max(z, r * 3.6)))
-    lo = r * 3
-    for sgn, start in ((1, pa), (-1, pb)):
-        pts = []
-        for i in range(24):
-            k = i / 23
-            q = start.lerp(kn_center + direction * (-sgn * -0.05) + outward * sgn * 0.035, k)
-            q.z = z + (kn_center.z - z) * k
-            pts.append(q)
-        obj_from_mesh(tube_mesh("zyla", pts, r, sides=6, uv_scale=2.0), coll, cord_mat(cord))
-    knot(coll, kn_center, direction, cord, wrap_r=r * 2.6)
-    endmat = None
-    mats = spec.get("mats")
-    if mats:
-        endmat = stone_mat(mats[-1], 0) if d < 1.0 else None
-    tail(coll, kn_center + direction * 0.5, Vector((0.62, 0.72, 0)), cord, 1.25, rng.randrange(9999), endmat, z0=kn_center.z)
-    tail(coll, kn_center - direction * 0.5, Vector((0.72, -0.62, 0)), cord, 1.45, rng.randrange(9999), endmat, z0=kn_center.z)
-
-
-def braid_paths(center_fn, s0, s1, table, r_lat, r_up, pitch, z0, strands=3, step=0.035):
-    """Tor pasm warkocza wokol srodkowej krzywej."""
-    length = s1 - s0
-    n = max(int(length / step), 8)
-    out = [[] for _ in range(strands)]
-    for i in range(n + 1):
-        s = s0 + length * i / n
-        t = t_at(table, s % table[-1][0])
-        p = center_fn(t)
-        q = center_fn(t + 0.005)
-        tang = Vector((q.x - p.x, q.y - p.y, 0)).normalized()
-        side = Vector((-tang.y, tang.x, 0))
-        for k in range(strands):
-            a = 2 * math.pi * (s / pitch + k / strands)
-            lat = math.sin(a) * r_lat
-            up = math.sin(2 * a) * r_up
-            out[k].append(Vector((p.x, p.y, z0)) + side * lat + Vector((0, 0, up)))
-    return out
-
-
-def build_half(coll, spec, seed, ring_r=2.85):
-    rng = random.Random(seed)
-    d = spec["d"]
-    cord = spec["cord"]
-    fn = threaded_ring(coll, seed, ring_r)
-    table, total = arc_table(fn)
-    gap = 1.5
-    usable = total - gap
-    half = usable * 0.52
-    # koraliki
-    n = int(half / (d + 0.012))
-    z = d * 0.46
-    s0 = gap / 2
-    thread = []
-    for i in range(80):
-        ss = s0 + half * i / 79
-        p = fn(t_at(table, ss))
-        thread.append(Vector((p.x, p.y, z)))
-    obj_from_mesh(tube_mesh("nic", thread, CORD_COLORS[cord][1], sides=6, uv_scale=2.0), coll, cord_mat(cord))
-    for i in range(n):
-        ss = s0 + (i + 0.5) * half / n
-        t = t_at(table, ss)
-        p = fn(t)
-        q = fn(t + 0.01)
-        tang = Vector((q.x - p.x, q.y - p.y, 0))
-        m = aligned(Vector((p.x, p.y, d / 2)), tang, d / 2, 0, rng, free=True, layered=spec["mats"][0] in LAYERED)
-        obj_from_mesh(bead_mesh("round", i % 3), coll, stone_mat(spec["mats"][0], rng.randrange(3)), m)
-    # plecionka
-    braid_s0 = s0 + half
-    braid_s1 = s0 + usable
-    for k, path in enumerate(braid_paths(fn, braid_s0, braid_s1, table, 0.1, 0.05, 0.62, 0.16)):
-        obj_from_mesh(tube_mesh("warkocz", path, 0.062, sides=8, uv_scale=1.6), coll, cord_mat(cord))
-    add_knot_section(coll, fn, table, total, d * 0.7, cord, rng, spec)
-    return {"radius": ring_r, "height": d}
-
-
-def build_strand(coll, spec, seed, ring_r=2.85):
-    rng = random.Random(seed)
-    cord = spec["cord"]
-    d = spec["d"]
-    fn = close_curve(ring_r, seed * 0.77, loose=3.2)
-    table, total = arc_table(fn)
-    gap = 1.5
-    usable = total - gap
-    r = CORD_COLORS[cord][1]
-    z = max(r, d * 0.46)
-    s0 = gap / 2
+def link_mesh(L, W, r):
+    key = ("link", L, W, r)
+    if key in _BEADS:
+        return _BEADS[key]
+    s = (L - W) / 2
+    R = W / 2
     pts = []
-    for i in range(240):
-        ss = s0 + usable * i / 239
-        p = fn(t_at(table, ss))
-        pts.append(Vector((p.x, p.y, z)))
-    obj_from_mesh(tube_mesh("nic", pts, r, sides=8, uv_scale=2.0, twist=4.0), coll, cord_mat(cord))
-    count = spec.get("count", 5)
-    places = [0.14, 0.29, 0.5, 0.71, 0.86][:count]
-    for i, k in enumerate(places):
-        ss = s0 + usable * k
-        t = t_at(table, ss)
-        p = fn(t)
-        q = fn(t + 0.01)
-        tang = Vector((q.x - p.x, q.y - p.y, 0))
-        m = aligned(Vector((p.x, p.y, d / 2)), tang, d / 2, 0, rng, free=True, layered=spec["mats"][0] in LAYERED)
-        obj_from_mesh(bead_mesh("round", i % 3), coll, stone_mat(spec["mats"][0], rng.randrange(3)), m)
-    add_knot_section(coll, fn, table, total, d, cord, rng, spec, z=z)
-    return {"radius": ring_r, "height": d}
+    for i in range(10):
+        a = math.pi * i / 9
+        pts.append((R * math.cos(a), 0, s + R * math.sin(a)))
+    for i in range(10):
+        a = math.pi + math.pi * i / 9
+        pts.append((R * math.cos(a), 0, -s + R * math.sin(a)))
+    me = tube_mesh("ogniwo", pts, r, sides=6, closed=True)
+    _BEADS[key] = me
+    return me
 
 
-def build_braid_stone(coll, spec, seed, ring_r=2.85):
-    rng = random.Random(seed)
-    cord = spec["cord"]
-    d = spec["d"]
-    fn = threaded_ring(coll, seed, ring_r)
-    table, total = arc_table(fn)
-    gap = 1.5
-    usable = total - gap
-    s0 = gap / 2
-    mid = s0 + usable / 2
-    # plecionka po obu stronach kamienia
-    for a, b in ((s0, mid - d * 0.42), (mid + d * 0.42, s0 + usable)):
-        for path in braid_paths(fn, a, b, table, 0.13, 0.065, 0.74, 0.2):
-            obj_from_mesh(tube_mesh("warkocz", path, 0.08, sides=8, uv_scale=1.6), coll, cord_mat(cord))
-    t = t_at(table, mid)
+def chain(coll, path, mat, L=0.27, W=0.18, r=0.024):
+    """Lancuszek po krzywej: co drugie ogniwo lezy, co drugie stoi. Wszystkie dziela jedna siatke."""
+    pts = [Vector(p) for p in path]
+    acc = [0.0]
+    for a, b in zip(pts, pts[1:]):
+        acc.append(acc[-1] + (b - a).length)
+    step = L * 0.72
+    me = link_mesh(L, W, r)
+    i = 0
+    for k in range(int(acc[-1] / step)):
+        target = (k + 0.5) * step
+        while acc[i + 1] < target:
+            i += 1
+        f = (target - acc[i]) / max(acc[i + 1] - acc[i], 1e-9)
+        pos = pts[i].lerp(pts[i + 1], f)
+        tang = (pts[i + 1] - pts[i]).normalized()
+        standing = k % 2 == 1
+        z = max(pos.z, (W / 2 + r) if standing else r)
+        rot = tang.to_track_quat("Z", "Y").to_matrix().to_4x4() @ Matrix.Rotation(math.pi / 2 if standing else 0, 4, "Z")
+        obj_from_mesh(me, coll, mat, Matrix.Translation((pos.x, pos.y, z)) @ rot)
+    return pts[-1], (pts[-1] - pts[-2]).normalized()
+
+
+def ring_at(coll, pos, mat, R=0.14, wire=0.03):
+    pts = [(pos.x + R * math.cos(i / 24 * 6.2832), pos.y + R * math.sin(i / 24 * 6.2832), max(pos.z, wire)) for i in range(24)]
+    return obj_from_mesh(tube_mesh("kolko", pts, wire, sides=6, closed=True), coll, mat)
+
+
+def arc_path(p0, d0, length, bend, z0, z1=0.03, n=44):
+    pts = []
+    a0 = math.atan2(d0.y, d0.x)
+    p = Vector((p0.x, p0.y, 0))
+    ds = length / n
+    for i in range(n + 1):
+        k = i / n
+        z = z1 + (z0 - z1) * max(0.0, 1 - k * 5) ** 2
+        pts.append((p.x, p.y, z))
+        a = a0 + bend * k + 0.12 * math.sin(k * 7)
+        p = p + Vector((math.cos(a), math.sin(a), 0)) * ds
+    return pts
+
+
+def lobster(coll, pos, d, mat):
+    """Karabinczyk: wydluzona petla, dzwigienka i kolko."""
+    side = Vector((-d.y, d.x, 0))
+    a, b = 0.31, 0.185
+    z = 0.06
+    pts = []
+    for i in range(48):
+        t = i / 48 * 6.2832
+        u = a * math.cos(t)
+        v = b * math.sin(t) * (1 - 0.3 * math.cos(t))
+        q = pos + d * u + side * v
+        pts.append((q.x, q.y, z))
+    obj_from_mesh(tube_mesh("karabinczyk", pts, 0.05, sides=8, closed=True, profile=(0.04, 0.056)), coll, mat)
+    lever = pos - d * 0.04 + side * 0.23
+    m = Matrix.Translation((lever.x, lever.y, z)) @ d.to_track_quat("Z", "Y").to_matrix().to_4x4() @ Matrix.Diagonal((0.035, 0.035, 0.1, 1))
+    obj_from_mesh(bead_mesh("peg", 0), coll, mat, m)
+    ring_at(coll, Vector((pos.x, pos.y, 0)) - d * (a + 0.1) + Vector((0, 0, 0.03)), mat, R=0.1, wire=0.024)
+
+
+def at(fn, table, s):
+    t = t_at(table, s % table[-1][0])
     p = fn(t)
     q = fn(t + 0.01)
-    tang = Vector((q.x - p.x, q.y - p.y, 0))
-    m = aligned(Vector((p.x, p.y, d / 2)), tang, d / 2, 0, rng, free=True)
-    obj_from_mesh(bead_mesh("round", 1), coll, stone_mat(spec["mats"][0], rng.randrange(3)), m)
-    add_knot_section(coll, fn, table, total, 0.5, cord, rng, {"mats": None})
-    return {"radius": ring_r, "height": d}
+    return Vector((p.x, p.y, 0)), Vector((q.x - p.x, q.y - p.y, 0)).normalized()
 
 
-def build_leather_band(coll, spec, seed, ring_r=3.0):
-    """Pas skory stojacy na krawedzi, z zakladka, szwem i drewnianym kolkiem."""
+def closure(coll, fn, table, total, s0, z, mat, length=3.6, bend=-1.4):
+    """Zapiecie jak na zdjeciach: karabinczyk z jednej strony, lancuszek z kropla z drugiej."""
+    a, ta = at(fn, table, s0)
+    b, tb = at(fn, table, total - s0)
+    out = Vector((1, 0, 0))
+    da = (out * 0.9 + ta * 0.35).normalized()
+    db = (out * 0.9 - tb * 0.35).normalized()
+    ring_at(coll, a + da * 0.12 + Vector((0, 0, min(z, 0.2))), mat, R=0.12)
+    lobster(coll, a + da * 0.56, da, mat)
+    ring_at(coll, b + db * 0.12 + Vector((0, 0, min(z, 0.2))), mat, R=0.12)
+    end, tang = chain(coll, arc_path(b + db * 0.2, db, length, bend, min(z, 0.2)), mat)
+    m = Matrix.Translation((end.x + tang.x * 0.18, end.y + tang.y * 0.18, 0.09)) @ tang.to_track_quat("Z", "Y").to_matrix().to_4x4() @ Matrix.Scale(0.075, 4)
+    obj_from_mesh(bead_mesh("drop", 0), coll, mat, m)
+    return a + da, b + db
+
+
+def build_rondel(coll, spec, seed, ring_r=2.85):
     rng = random.Random(seed)
-    leather = leather_mat(spec["tone"])
-    width = 1.2
-    thick = 0.26
-    total_angle = 2 * math.pi + 0.95
-    steps = 260
-    verts, faces, uvs = [], [], []
-    prof = 16  # punkty przekroju
-    length = 0.0
-    prev = None
-    centers = []
-    for i in range(steps + 1):
-        k = i / steps
-        a = k * total_angle - 0.45
-        rr = ring_r + thick * 1.05 * max(0, (a - (2 * math.pi - 0.45)) / 0.95) ** 0.6 if a > 2 * math.pi - 0.45 else ring_r
-        rr *= 1 + 0.012 * math.sin(2 * a + seed)
-        p = Vector((rr * math.cos(a), rr * math.sin(a), 0))
-        if prev is not None:
-            length += (p - prev).length
-        prev = p
-        rad = Vector((math.cos(a), math.sin(a), 0))
-        # czubki pasa sa zaokraglone
-        tip = min(k * total_angle * ring_r / 0.75, (1 - k) * total_angle * ring_r / 0.75, 1.0)
-        w = width * (0.42 + 0.58 * math.sin(tip * math.pi / 2)) if tip < 1 else width
-        centers.append((p, rad, w, length))
-        for j in range(prof):
-            b = j / prof * 2 * math.pi
-            # zaokraglony prostokat (superelipsa)
-            cb, sb = math.cos(b), math.sin(b)
-            ex = 0.42
-            x = math.copysign(abs(cb) ** ex, cb) * thick / 2
-            z = math.copysign(abs(sb) ** ex, sb) * w / 2
-            verts.append(tuple(p + rad * x + Vector((0, 0, z + width / 2))))
-            uvs.append((j / prof * 1.25, length * 0.42))
-    for i in range(steps):
-        for j in range(prof):
-            j2 = (j + 1) % prof
-            faces.append((i * prof + j, i * prof + j2, (i + 1) * prof + j2, (i + 1) * prof + j))
-    me = bpy.data.meshes.new("pas_skory")
-    me.from_pydata(verts, [], faces)
-    uvl = me.uv_layers.new(name="UVMap")
-    for poly in me.polygons:
-        poly.use_smooth = True
-        for li in poly.loop_indices:
-            uvl.data[li].uv = uvs[me.loops[li].vertex_index]
-    me.update()
-    obj_from_mesh(me, coll, leather)
-    # sciegi na zewnetrznej scianie, wzdluz obu krawedzi
-    thread_mesh = bead_mesh("round", 0)
-    linen = cord_mat("linen")
-    stitch_len = 0.26
-    s = 0.6
-    i = 0
-    end_len = centers[-1][3]
-    while s < end_len - 0.6:
-        # znajdz punkt po dlugosci
-        c = min(centers, key=lambda q: abs(q[3] - s))
-        p, rad, w, _ = c
-        tang = Vector((-rad.y, rad.x, 0))
-        for z in (width / 2 - w / 2 + 0.11, width / 2 + w / 2 - 0.11):
-            pos = p + rad * (thick / 2 + 0.002) + Vector((0, 0, z))
-            m = Matrix.Translation(pos) @ tang.to_track_quat("Z", "Y").to_matrix().to_4x4() @ Matrix.Diagonal((0.034, 0.034, stitch_len / 2 * 0.86, 1))
-            obj_from_mesh(thread_mesh, coll, linen, m)
-        s += stitch_len
-        i += 1
-    # kolek z drewna oliwnego i petelka
-    a = 2 * math.pi - 0.45 + 0.3
-    c = Vector((math.cos(a), math.sin(a), 0))
-    pos = c * (ring_r + thick * 1.55) + Vector((0, 0, width / 2))
-    toggle = bead_mesh("peg", 1)
-    m = Matrix.Translation(pos) @ Matrix.Diagonal((0.2, 0.2, 0.92, 1))
-    obj_from_mesh(toggle, coll, stone_mat("oliwka", 0), m)
-    tang = Vector((-c.y, c.x, 0))
-    loop = []
-    for i in range(41):
-        k = i / 40
-        ang = k * 2 * math.pi
-        loop.append(pos + c * (0.28 * math.cos(ang) - 0.02) + tang * (0.28 * math.sin(ang)))
-    obj_from_mesh(tube_mesh("petla", loop, 0.05, sides=6, uv_scale=2.0, closed=True), coll, linen)
-    return {"radius": ring_r + thick, "height": width, "standing": True}
-
-
-def build_leather_braid(coll, spec, seed, ring_r=2.85):
-    rng = random.Random(seed)
-    leather = leather_mat(spec["tone"])
-    fn = threaded_ring(coll, seed, ring_r)
+    w = spec.get("w", 0.82)
+    t = w * 0.66
+    ball = 0.125
+    fn = close_curve(ring_r, seed * 0.77)
     table, total = arc_table(fn)
-    gap = 1.0
-    s0, s1 = gap / 2, total - gap / 2
-    for path in braid_paths(fn, s0, s1, table, 0.2, 0.09, 1.25, 0.3, step=0.03):
-        me = tube_mesh("warkocz", path, 0.1, sides=10, uv_scale=0.5, profile=(0.075, 0.14))
-        obj_from_mesh(me, coll, leather)
-    # zapiecie: koralik z orzecha i petla ze skory
-    a = fn(t_at(table, s1))
-    b = fn(t_at(table, s0))
-    bead_pos = Vector((a.x, a.y - 0.1, 0.46))
-    m = Matrix.Translation(bead_pos) @ Matrix.Scale(0.44, 4)
-    obj_from_mesh(bead_mesh("round", 2), coll, stone_mat("orzech", 1), m)
-    loop = []
-    cen = Vector((b.x, b.y - 0.62, 0.2))
-    for i in range(49):
-        ang = i / 48 * 2 * math.pi
-        loop.append(cen + Vector((0.3 * math.cos(ang), 0.58 * math.sin(ang), 0.02 * math.sin(ang * 2))))
-    obj_from_mesh(tube_mesh("petla", loop, 0.06, sides=8, uv_scale=1.0, closed=True, profile=(0.05, 0.085)), coll, leather)
-    # owijka na koncu plecionki
-    for pos in (a, b):
-        wrap = []
-        for i in range(60):
-            k = i / 59
-            ang = k * 5 * 2 * math.pi
-            wrap.append(Vector((pos.x + 0.21 * math.cos(ang), pos.y + (k - 0.5) * 0.3, 0.3 + 0.21 * math.sin(ang))))
-        obj_from_mesh(tube_mesh("owijka", wrap, 0.05, sides=6, uv_scale=1.0), coll, cord_mat("linen"))
-    return {"radius": ring_r, "height": 0.6}
+    gap = 1.7
+    usable = total - gap
+    s0 = gap / 2
+    n = int(usable / (t + 2 * ball * 0.92))
+    pitch = usable / n
+    G = gold()
+    for i in range(n):
+        s = s0 + (i + 0.5) * pitch
+        pos, tang = at(fn, table, s)
+        ww = w * rng.uniform(0.96, 1.04)
+        m = aligned(Vector((pos.x, pos.y, ww / 2)), tang, ww / 2, rng.uniform(0, 6.28), rng)
+        obj_from_mesh(facet_mesh("rondel", i % 5), coll, stone_mat(spec["mat"], rng.randrange(3)), m)
+        if i < n - 1:
+            p2, _ = at(fn, table, s + pitch / 2)
+            obj_from_mesh(bead_mesh("round", 0), coll, G, Matrix.Translation((p2.x, p2.y, w / 2)) @ Matrix.Scale(ball, 4))
+    closure(coll, fn, table, total, s0, w / 2, G)
+    return {"radius": ring_r, "height": w, "bead": w, "detail_at": (ring_r + 0.9, -0.2), "detail_k": 1.0}
 
 
-def build_bangle(coll, spec, seed, ring_r=3.2):
-    width = 1.5
-    thick = 0.42
-    steps = 256
-    prof = 28
-    verts, faces, uvs = [], [], []
-    for i in range(steps + 1):
-        a = i / steps * 2 * math.pi
-        rad = Vector((math.cos(a), math.sin(a), 0))
-        for j in range(prof + 1):
-            b = j / prof * 2 * math.pi
-            cb, sb = math.cos(b), math.sin(b)
-            # przekroj D: lekko wypukly na zewnatrz, plaski od strony reki
-            x = (0.62 * cb if cb < 0 else cb) * thick / 2
-            z = math.copysign(abs(sb) ** 0.78, sb) * width / 2
-            p = rad * (ring_r + x) + Vector((0, 0, z + width / 2))
-            verts.append(tuple(p))
-            uvs.append((i / steps, j / prof))
-    for i in range(steps):
-        for j in range(prof):
-            r = prof + 1
-            faces.append((i * r + j, (i + 1) * r + j, (i + 1) * r + j + 1, i * r + j + 1))
-    me = bpy.data.meshes.new("obrecz")
-    me.from_pydata(verts, [], faces)
-    uvl = me.uv_layers.new(name="UVMap")
-    for poly in me.polygons:
-        poly.use_smooth = True
-        for li in poly.loop_indices:
-            uvl.data[li].uv = uvs[me.loops[li].vertex_index]
-    me.update()
-    obj_from_mesh(me, coll, tile_wood_mat(spec["mat"]))
-    return {"radius": ring_r + thick / 2, "height": width, "standing": True}
+def build_drobne(coll, spec, seed, ring_r=2.75):
+    rng = random.Random(seed)
+    d = spec.get("d", 0.5)
+    fn = close_curve(ring_r, seed * 0.77)
+    table, total = arc_table(fn)
+    G = gold()
+    hr, hh = 0.2, 0.05
+    per = 7
+    d_step = d * 0.9
+    cycle = per * d_step + 2 * hh
+    cycles = int(total / cycle)
+    scale = total / (cycles * cycle)
+    s = 0.0
+    for c in range(cycles):
+        for i in range(per):
+            s += d_step * scale / 2
+            pos, tang = at(fn, table, s)
+            m = aligned(Vector((pos.x, pos.y, d / 2)), tang, d / 2, rng.uniform(0, 6.28), rng, layered=False)
+            obj_from_mesh(facet_mesh("kulka", (c * per + i) % 5), coll, stone_mat(spec["mat"], rng.randrange(3)), m)
+            s += d_step * scale / 2
+        s += hh * scale
+        pos, tang = at(fn, table, s)
+        m = aligned(Vector((pos.x, pos.y, d / 2)), tang, (hr, hr, hh), 0, rng)
+        obj_from_mesh(bead_mesh("peg", 0), coll, G, m)
+        s += hh * scale
+    p, _ = at(fn, table, total * 0.62)
+    return {"radius": ring_r, "height": d, "bead": 0.62, "detail_at": (p.x, p.y), "detail_k": 0.55}
+
+
+def build_kostki(coll, spec, seed, ring_r=2.8):
+    rng = random.Random(seed)
+    e = spec.get("s", 0.6)
+    fn = close_curve(ring_r, seed * 0.77)
+    table, total = arc_table(fn)
+    n = int(total / (e * 1.02))
+    pitch = total / n
+    for i in range(n):
+        pos, tang = at(fn, table, (i + 0.5) * pitch)
+        k = e / 2
+        sc = (k * rng.uniform(0.95, 1.06), k * rng.uniform(0.95, 1.06), k * rng.uniform(0.92, 1.0))
+        spin = rng.choice((0.0, 0.25, -0.25, 0.5)) + rng.uniform(-0.18, 0.18)
+        m = aligned(Vector((pos.x, pos.y, e * 0.56)), tang, sc, spin, rng)
+        obj_from_mesh(facet_mesh("kostka", i % 4), coll, stone_mat(spec["mat"], rng.randrange(3)), m)
+    p, _ = at(fn, table, total * 0.62)
+    return {"radius": ring_r, "height": e, "bead": e, "detail_at": (p.x, p.y), "detail_k": 0.6}
+
+
+def chaikin(pts, n=2):
+    for _ in range(n):
+        out = []
+        for i, a in enumerate(pts):
+            b = pts[(i + 1) % len(pts)]
+            out.append((a[0] * 0.75 + b[0] * 0.25, a[1] * 0.75 + b[1] * 0.25))
+            out.append((a[0] * 0.25 + b[0] * 0.75, a[1] * 0.25 + b[1] * 0.75))
+        pts = out
+    return pts
+
+
+HAMSA = [(0, -0.82), (0.26, -0.80), (0.44, -0.62), (0.50, -0.34), (0.56, -0.10), (0.70, 0.10), (0.76, 0.34), (0.70, 0.46),
+         (0.60, 0.40), (0.50, 0.18), (0.44, 0.12), (0.43, 0.52), (0.38, 0.70), (0.29, 0.72), (0.24, 0.56), (0.22, 0.20),
+         (0.18, 0.20), (0.17, 0.70), (0.11, 0.88), (0, 0.92)]
+
+
+def hamsa_mesh():
+    key = ("hamsa",)
+    if key in _BEADS:
+        return _BEADS[key]
+    half = HAMSA
+    outline = chaikin(half + [(-x, y) for x, y in reversed(half[1:-1])], 2)
+    me = bpy.data.meshes.new("hamsa")
+    bm = bmesh.new()
+    verts = [bm.verts.new((x, y, 0)) for x, y in outline]
+    face = bm.faces.new(verts)
+    res = bmesh.ops.extrude_face_region(bm, geom=[face])
+    moved = [g for g in res["geom"] if isinstance(g, bmesh.types.BMVert)]
+    bmesh.ops.translate(bm, verts=moved, vec=(0, 0, 0.07))
+    bmesh.ops.recalc_face_normals(bm, faces=bm.faces[:])
+    bm.to_mesh(me)
+    bm.free()
+    _BEADS[key] = me
+    return me
+
+
+def charm_hamsa(coll, pos, d, mat):
+    angle = math.atan2(d.y, d.x) - math.pi / 2
+    R = Matrix.Rotation(angle, 4, "Z")
+    base = Matrix.Translation((pos.x, pos.y, 0.012)) @ R @ Matrix.Scale(0.68, 4)
+    obj_from_mesh(hamsa_mesh(), coll, mat, base @ Matrix.Translation((0, 0.86, 0)))
+    centre = pos + d * 0.42
+    ring_at(coll, Vector((centre.x, centre.y, 0.07)), mat, R=0.11, wire=0.02)
+    m = Matrix.Translation((centre.x, centre.y, 0.07)) @ Matrix.Diagonal((0.07, 0.07, 0.035, 1))
+    obj_from_mesh(bead_mesh("round", 1), coll, stone_mat("lapis", 0), m)
+
+
+def charm_kwiat(coll, pos, d, mat):
+    centre = pos + d * 0.62
+    crystal = stone_mat("krysztal", 0)
+    m = Matrix.Translation((centre.x, centre.y, 0.06)) @ Matrix.Diagonal((0.2, 0.2, 0.05, 1))
+    obj_from_mesh(bead_mesh("peg", 0), coll, mat, m)
+    obj_from_mesh(bead_mesh("round", 1), coll, crystal, Matrix.Translation((centre.x, centre.y, 0.12)) @ Matrix.Diagonal((0.12, 0.12, 0.08, 1)))
+    for i in range(6):
+        a = i / 6 * 6.2832 + 0.26
+        q = centre + Vector((math.cos(a), math.sin(a), 0)) * 0.36
+        obj_from_mesh(bead_mesh("round", 2), coll, mat, Matrix.Translation((q.x, q.y, 0.05)) @ Matrix.Diagonal((0.2, 0.2, 0.05, 1)))
+        obj_from_mesh(bead_mesh("round", 1), coll, crystal, Matrix.Translation((q.x, q.y, 0.1)) @ Matrix.Diagonal((0.09, 0.09, 0.06, 1)))
+
+
+def build_zawieszka(coll, spec, seed, ring_r=2.75):
+    rng = random.Random(seed)
+    w = 0.62
+    t = w * 0.66
+    fn = close_curve(ring_r, seed * 0.77)
+    table, total = arc_table(fn)
+    gap = 1.7
+    usable = total - gap
+    s0 = gap / 2
+    n = int(usable / (t * 1.02))
+    pitch = usable / n
+    G = gold()
+    for i in range(n):
+        pos, tang = at(fn, table, s0 + (i + 0.5) * pitch)
+        ww = w * rng.uniform(0.96, 1.04)
+        m = aligned(Vector((pos.x, pos.y, ww / 2)), tang, ww / 2, rng.uniform(0, 6.28), rng)
+        obj_from_mesh(facet_mesh("rondel", i % 5), coll, stone_mat(spec["mat"], rng.randrange(3)), m)
+    closure(coll, fn, table, total, s0, w / 2, G, length=2.3, bend=-1.5)
+    b, tb = at(fn, table, total - s0)
+    d = (Vector((1, 0, 0)) + tb * 0.12).normalized()
+    start = b + d * 0.42
+    ring_at(coll, start + Vector((0, 0, 0.03)), G, R=0.12)
+    (charm_hamsa if spec.get("charm") == "hamsa" else charm_kwiat)(coll, start + d * 0.16, d, G)
+    return {"radius": ring_r, "height": w, "bead": w, "detail_at": (ring_r + 0.9, -0.3), "detail_k": 0.82}
+
+
+def keychain_head(coll, top, d, mat):
+    """Karabinczyk z krętlikiem, lezacy plasko. Idzie od punktu top w kierunku d."""
+    side = Vector((-d.y, d.x, 0))
+    wire = 0.115
+    ring_at(coll, top + d * 0.3 + Vector((0, 0, 0.06)), mat, R=0.33, wire=0.06)
+    swivel = top + d * 0.92
+    m = Matrix.Translation((swivel.x, swivel.y, 0.2)) @ d.to_track_quat("Z", "Y").to_matrix().to_4x4() @ Matrix.Diagonal((0.2, 0.2, 0.3, 1))
+    obj_from_mesh(bead_mesh("peg", 0), coll, mat, m)
+    base = top + d * 1.24
+    length, width = 2.1, 0.5
+    pts = []
+    for i in range(60):
+        t = i / 60 * 6.2832
+        u = (1 - math.cos(t)) / 2 * length
+        v = math.sin(t) * width * (1 - 0.18 * u / length)
+        q = base + d * u + side * v
+        pts.append((q.x, q.y, wire))
+    obj_from_mesh(tube_mesh("hak", pts, wire, sides=8, closed=True), coll, mat)
+    gate = base + d * (length * 0.5) - side * (width * 0.72)
+    m = Matrix.Translation((gate.x, gate.y, wire)) @ (d - side * 0.1).normalized().to_track_quat("Z", "Y").to_matrix().to_4x4() @ Matrix.Diagonal((0.05, 0.05, length * 0.42, 1))
+    obj_from_mesh(bead_mesh("peg", 1), coll, mat, m)
+    return base + d * length
+
+
+def build_brelok(coll, spec, seed, pendant=True):
+    rng = random.Random(seed)
+    tilt = math.radians(12)
+    R = Matrix.Rotation(tilt, 3, "Z")
+    d_bead = 0.72
+    y_top, y_end = 2.4, -3.2 if pendant else -4.0
+    pts = []
+    for i in range(80):
+        y = y_top + (y_end - y_top) * i / 79
+        pts.append(R @ Vector((0.42 * math.sin(y * 0.8), y, 0)))
+    acc = [0.0]
+    for a, b in zip(pts, pts[1:]):
+        acc.append(acc[-1] + (b - a).length)
+    S = steel()
+    n = int(acc[-1] / (d_bead * 1.08))
+    pitch = acc[-1] / n
+    beads = spec["beads"]
+    j = 0
+    mid = None
+    for i in range(n):
+        target = (i + 0.5) * pitch
+        while acc[j + 1] < target:
+            j += 1
+        p = pts[j]
+        tang = (pts[j + 1] - pts[j]).normalized()
+        name = beads[i % len(beads)]
+        m = aligned(Vector((p.x, p.y, d_bead / 2)), tang, d_bead / 2, 0, rng, free=True, layered=name in LAYERED)
+        obj_from_mesh(bead_mesh("round", i % 3), coll, stone_mat(name, rng.randrange(3)), m)
+        if i == n // 2:
+            mid = Vector((p.x, p.y, d_bead / 2))
+        if i % 2 == 0 and i < n - 1:
+            s2 = target + pitch / 2
+            k = j
+            while acc[k + 1] < s2:
+                k += 1
+            q = pts[k]
+            m2 = aligned(Vector((q.x, q.y, d_bead / 2)), tang, (0.2, 0.2, 0.035), 0, rng)
+            obj_from_mesh(bead_mesh("peg", 0), coll, S, m2)
+    down = (pts[-1] - pts[-2]).normalized()
+    end = pts[-1]
+    if pendant:
+        bail = end + down * 0.14
+        m = Matrix.Translation((bail.x, bail.y, 0.45)) @ down.to_track_quat("Z", "Y").to_matrix().to_4x4() @ Matrix.Diagonal((0.16, 0.16, 0.16, 1))
+        obj_from_mesh(bead_mesh("peg", 0), coll, S, m)
+        c = end + down * 1.2
+        rot = down.to_track_quat("Y", "Z").to_matrix().to_4x4()
+        name = spec["pendant"]
+        m = Matrix.Translation((c.x, c.y, 0.5)) @ rot @ Matrix.Diagonal((0.72, 1.0, 0.6, 1))
+        obj_from_mesh(bead_mesh("pebble", rng.randrange(4)), coll, stone_mat(name, rng.randrange(3)), m)
+        bottom = end + down * 2.25
+    else:
+        m = Matrix.Translation((end.x + down.x * 0.16, end.y + down.y * 0.16, 0.14)) @ (-down).to_track_quat("Z", "Y").to_matrix().to_4x4() @ Matrix.Scale(0.14, 4)
+        obj_from_mesh(bead_mesh("drop", 0), coll, S, m)
+        bottom = end + down * 0.5
+    up = (pts[0] - pts[1]).normalized()
+    start = pts[0]
+    _, _ = chain(coll, [(start.x, start.y, 0.35), tuple(start + up * 0.25 + Vector((0, 0, 0.1))), tuple(start + up * 0.6 + Vector((0, 0, 0.06)))], S, L=0.36, W=0.24, r=0.035)
+    head_top = start + up * 0.62
+    tip = keychain_head(coll, head_top, up, S)
+    centre = (tip + bottom) / 2
+    length = (tip - bottom).length
+    return {"kind": "keychain", "length": length, "center": (centre.x, centre.y), "mid": tuple(mid), "hook": tuple(head_top + up * 1.0)}
+
+
+def build_brelok_koraliki(coll, spec, seed):
+    return build_brelok(coll, spec, seed, pendant=False)
 
 
 BUILDERS = {
-    "beads": build_beads,
-    "half": build_half,
-    "strand": build_strand,
-    "braid_stone": build_braid_stone,
-    "leather_band": build_leather_band,
-    "leather_braid": build_leather_braid,
-    "bangle": build_bangle,
+    "rondel": build_rondel,
+    "drobne": build_drobne,
+    "kostki": build_kostki,
+    "zawieszka": build_zawieszka,
+    "brelok": build_brelok,
+    "brelok_koraliki": build_brelok_koraliki,
 }
 
 
@@ -976,34 +932,43 @@ def aim(cam, loc, target, lens, fstop=None, focus=None, roll=0.0):
 
 
 def shot_camera(cam, shot, info):
+    if info.get("kind") == "keychain":
+        L = info["length"]
+        c = Vector((info["center"][0], info["center"][1], 0.3))
+        if shot == "hero":
+            el, az = math.radians(50), math.radians(-80)
+            dist = L * 2.3
+            aim(cam, c + Vector((math.cos(az) * math.cos(el), math.sin(az) * math.cos(el), math.sin(el))) * dist, c, 82, fstop=11, focus=c)
+        elif shot == "top":
+            aim(cam, c + Vector((0, -0.01, L * 2.95)), c, 82)
+        elif shot == "macro":
+            p = Vector(info["mid"])
+            aim(cam, p + Vector((0.5, -4.6, 5.0)), p, 105, fstop=4.0, focus=p)
+        else:
+            p = Vector((info["hook"][0], info["hook"][1], 0.15))
+            aim(cam, p + Vector((1.6, -5.0, 7.0)) * 1.4, p, 105, fstop=5.6, focus=p)
+        return
     r = info["radius"]
     h = info["height"]
-    standing = info.get("standing", False)
     bead = info.get("bead", 0.8)
     if shot == "hero":
-        dist = r * (8.5 if not standing else 7.6)
-        el = math.radians(46 if not standing else 30)
-        az = math.radians(-74)
-        tgt = Vector((0.62 if not standing else 0.0, 0.0, h * 0.3))
+        dist = r * 8.5
+        el, az = math.radians(46), math.radians(-74)
+        tgt = Vector((0.62, 0.0, h * 0.3))
         loc = tgt + Vector((math.cos(az) * math.cos(el), math.sin(az) * math.cos(el), math.sin(el))) * dist
         aim(cam, loc, tgt, 82, fstop=8, focus=(0.2, -r * 0.5, h * 0.5))
     elif shot == "top":
-        tgt = Vector((0.6 if not standing else 0.0, 0, 0))
-        aim(cam, tgt + Vector((0, -0.01, r * 8.7)), tgt, 82, fstop=None)
+        tgt = Vector((0.6, 0, 0))
+        aim(cam, tgt + Vector((0, -0.01, r * 8.7)), tgt, 82)
     elif shot == "macro":
         ang = math.radians(-105)
         p = Vector((math.cos(ang) * r, math.sin(ang) * r, h * 0.45))
-        k = max(0.75, (bead / 0.8) ** 0.8)
-        dv = Vector((0.5, -4.6, 5.0)) * k * (1.3 if standing else 1.0)
-        aim(cam, p + dv, p, 105, fstop=4.0, focus=p + Vector((0, -h * 0.3, h * 0.2)))
-    elif shot == "detail":
-        if standing:
-            p = Vector((math.cos(-0.15) * r, math.sin(-0.15) * r, h * 0.5))
-            loc = p + Vector((8.2, -5.6, 4.6))
-        else:
-            p = Vector((r * 1.04, 0.0, 0.25))
-            loc = p + Vector((3.5, -5.8, 6.0))
-        aim(cam, loc, p, 105, fstop=4.5, focus=p)
+        k = max(0.62, (bead / 0.8) ** 0.8)
+        aim(cam, p + Vector((0.5, -4.6, 5.0)) * k, p, 105, fstop=4.0, focus=p + Vector((0, -h * 0.3, h * 0.2)))
+    else:
+        x, y = info["detail_at"]
+        p = Vector((x, y, 0.2))
+        aim(cam, p + Vector((3.5, -5.8, 6.0)) * info.get("detail_k", 1.0), p, 105, fstop=4.5, focus=p)
 
 
 def render_to(sc, path):
