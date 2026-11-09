@@ -32,8 +32,28 @@ function ringShadow(radius) {
   return mesh;
 }
 
-/* GLB nie przenosi pochlaniania swiatla wewnatrz bursztynu, wiec ustawiamy je po wczytaniu */
-const DEPTH = { koniak: 0xb0560f, miod: 0xdc9526 };
+function blobShadow(w, h) {
+  /* Miekki cien pod podluznym przedmiotem, np. brelokiem */
+  const c = document.createElement("canvas");
+  c.width = c.height = 256;
+  const g = c.getContext("2d");
+  const grad = g.createRadialGradient(128, 128, 0, 128, 128, 128);
+  grad.addColorStop(0, "rgba(60,50,40,0.22)");
+  grad.addColorStop(0.6, "rgba(60,50,40,0.1)");
+  grad.addColorStop(1, "rgba(60,50,40,0)");
+  g.fillStyle = grad;
+  g.fillRect(0, 0, 256, 256);
+  const tex = new THREE.CanvasTexture(c);
+  tex.colorSpace = THREE.SRGBColorSpace;
+  const mat = new THREE.MeshBasicMaterial({ map: tex, transparent: true, depthWrite: false, toneMapped: false });
+  const mesh = new THREE.Mesh(new THREE.PlaneGeometry(w, h), mat);
+  mesh.rotation.x = -Math.PI / 2;
+  mesh.position.y = 0.002;
+  return mesh;
+}
+
+/* GLB nie przenosi pochlaniania swiatla wewnatrz przezroczystych kamieni, wiec ustawiamy je po wczytaniu */
+const DEPTH = { akwamaryn: 0x9adcec, kwarc_dymny: 0x4a3626, ametyst_ciemny: 0x5a3a90 };
 function tuneMaterials(root) {
   root.traverse((o) => {
     if (!o.isMesh) return;
@@ -122,10 +142,16 @@ export function mountViewer(host, url, { onError } = {}) {
         const size = box.getSize(new THREE.Vector3());
         /* Obrecz lezy w srodku ukladu modelu. Srodek obrysu bylby przesuniety przez koncowki nici. */
         current.position.y -= box.min.y;
-        const radius = Math.max(-box.min.x, box.min.z < 0 ? -box.min.z : box.max.z);
+        const elongated = Math.max(size.x, size.z) / Math.min(size.x, size.z) > 1.5;
+        if (elongated) {
+          const c = box.getCenter(new THREE.Vector3());
+          current.position.x -= c.x;
+          current.position.z -= c.z;
+        }
+        const radius = elongated ? Math.max(size.x, size.z) / 2 : Math.max(-box.min.x, box.min.z < 0 ? -box.min.z : box.max.z);
         const ring = Math.min(size.x, size.z) / 2;
         if (shadow) { scene.remove(shadow); shadow.geometry.dispose(); shadow.material.map.dispose(); shadow.material.dispose(); }
-        shadow = ringShadow(ring * 0.94);
+        shadow = elongated ? blobShadow(size.x * 1.35 + 1, size.z * 1.35 + 1) : ringShadow(ring * 0.94);
         scene.add(shadow);
         controls.target.set(0, size.y * 0.3, 0);
         if (!framed) {

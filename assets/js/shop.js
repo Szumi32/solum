@@ -9,9 +9,9 @@
   var cards = Array.prototype.slice.call(grid.querySelectorAll(".card"));
 
   function odmiana(n) {
-    if (n === 1) return "bransoletka";
+    if (n === 1) return "produkt";
     var d = n % 10, t = n % 100;
-    return d >= 2 && d <= 4 && (t < 12 || t > 14) ? "bransoletki" : "bransoletek";
+    return d >= 2 && d <= 4 && (t < 12 || t > 14) ? "produkty" : "produktów";
   }
 
   function apply() {
